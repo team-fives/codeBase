@@ -1,28 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
-import { GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, SimpleGrid } from "@chakra-ui/react";
-import {
-  setKey,
-  setDefaults,
-  setLanguage,
-  setRegion,
-  fromAddress,
-  fromLatLng,
-  fromPlaceId,
-  setLocationType,
-  geocode,
-  RequestType,
-} from "react-geocode";
+
+import { GoogleMap, useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
+import { Button, FormControl, Input, SimpleGrid } from "@chakra-ui/react";
 import { googleApi, geoCode } from "../googleApi";
-import { getAllPosts } from "../adapters/post-adapter";
-import CreatePostForm from "./CreatePostForm";
-import { NavLink } from "react-router-dom";
 import PostCard from "./PostCard";
 
 const containerStyle = {
-  width: '100%',
-  height: '100%'
+  width: '400px',
+  height: '400px'
 };
 
 const center = {
@@ -31,32 +16,21 @@ const center = {
 };
 
 
+
+
 export default function Map({ posts }) {
 
   const [map, setMap] = useState(/** @type google.maps.Map */)
   const [marker, setMarker] = useState(/** @type google.maps.Marker */)
-  // const [allPostInfo, setAllPostInfo] = useState([])
   const [zoom, setZoom] = useState(10)
   const { isLoaded } = googleApi()
   geoCode()
-
-  useEffect(() => {
-    const getPostsCords = async () => {
-      setAllPostInfo(posts)
-    }
-    getPostsCords()
-  }, [map])
-
-  if (!isLoaded) {
-    return <SkeletonText />
-  }
 
   const handleSubmit = async e => {
     try {
       e.preventDefault()
       const location = document.getElementById('search').value
       const { results } = await fromAddress(location)
-      console.log('addy', results, 'event', e)
       const cord = results[0].geometry.location
       map.panTo(cord)
       setZoom(12)
@@ -72,15 +46,6 @@ export default function Map({ posts }) {
     }
   }
 
-  const visibleHandler = e => {
-    console.log('marker', e)
-  }
-
-  const markerClick = e => {
-    console.log(e.domEvent.target)
-    marker.visible = false
-  }
-
   const reset = () => {
     map.panTo(center)
     setZoom(10)
@@ -88,28 +53,7 @@ export default function Map({ posts }) {
 
   return <>
     <Flex h='100vh' w='100%' alignItems='center' justifyContent='center'>
-
-
       <Box w='30%' h='80%' background='grey' overflow='scroll'>
-        {
-          // posts.map((post, index) => {
-          //   return <Card key={index} direction={'row'}>
-          //     <Image src={post.image} alt="post image" />
-          //     <CardHeader>
-          //       <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
-          //     </CardHeader>
-          //     <CardBody >
-
-          //       <Text className="h-[60%]">{post.description}</Text>
-          //     </CardBody>
-          //     <CardFooter className="text-gray-500 flex flex-col">
-          //       <Text className="w-[6em]">Start: {post.start_time}</Text>
-          //       <Text className="w-[6em]">End: {post.end_time}</Text>
-          //     </CardFooter>
-          //   </Card>
-          // })
-
-        }
         <Box w='100%' h={'full'} overflowY={"scroll"}>
           <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))' className="p-[1rem]">
             {posts.map((post) => (
@@ -123,14 +67,20 @@ export default function Map({ posts }) {
 
 
       <Box h='80%' w='60%' position='relative'>
-        <Flex position='absolute' zIndex='1' background='grey' w='60%' justifyContent='center'>
-          <Autocomplete>
-            <FormControl>
-              <Input name='search' id='search' type="text" placeholder="Search Location" />
-            </FormControl>
-          </Autocomplete>
-          <IconButton aria-label='Search Map' icon={<SearchIcon />} onClick={handleSubmit} />
-          <IconButton aria-label='Reset Map' icon={<RepeatClockIcon />} onClick={reset} />
+        <IconButton position='absolute' aria-label='Reset Map' icon={<RepeatClockIcon />} onClick={reset} zIndex='1' />
+        <Flex position='absolute' zIndex='1' background='grey' right={0} top={0}>
+
+          <InputGroup>
+            <Autocomplete>
+              <FormControl>
+                <Input name='search' id='search' type="text" placeholder="Search Location" />
+              </FormControl>
+            </Autocomplete>
+            <InputRightElement>
+              <IconButton aria-label='Search Map' icon={<SearchIcon />} onClick={handleSubmit} />
+            </InputRightElement>
+          </InputGroup>
+
         </Flex>
         <GoogleMap
           onClick={ev => {
@@ -148,14 +98,28 @@ export default function Map({ posts }) {
             fullscreenControl: false,
           }}
           onLoad={map => setMap(map)}
+          onMouseOut={() => setMarker('')}
         >
-          <Marker onLoad={marker => console.log(marker)} position={center} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
-          {posts.map(post => post.cords).map((cord, i) => {
-            return <Marker key={i} position={cord} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
+          {posts.map(post => {
+            return <Marker key={post.id} onLoad={marker => console.log(marker)} position={post.cords} onMouseOver={() => setMarker(post)} />
           })
           }
+          {marker && (
+            <NavLink to={`/posts/${marker.id}`}>
+              <InfoWindow position={marker.cords} onCloseClick={() => setMarker('')}>
 
-
+                <Flex flexDirection="column" alignItems='center'>
+                  <Heading size='md'>{marker.title}</Heading>
+                  <Image src={marker.image} boxSize='100' />
+                  <Text>{marker.description}</Text>
+                  <Flex>
+                    <Text><b>Start:</b> {marker.start_time}</Text>
+                    <Text><b>End:</b> {marker.end_time}</Text>
+                  </Flex>
+                </Flex>
+              </InfoWindow>
+            </NavLink>
+          )}
         </GoogleMap>
       </Box>
     </Flex>
