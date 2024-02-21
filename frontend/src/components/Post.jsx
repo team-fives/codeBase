@@ -15,10 +15,12 @@ export default function Post({ id, comments, setComments }) {
     const [userLiked, setUserLiked] = useState({});
 
     const handleLike = async () => {
+        // check if user is logged in 
+        // check if user liked post already
+        // create or delete like
         // const likes_amount = 1;
         console.log(userLiked, likes)
         // try {
-
         //     await uploadLike({ post_id: userPost.id, user_id: currentUser.id, likes_amount });
         //     console.log('Like uploaded successfully!');
         //     // Optionally, you can update the UI or state to reflect the new like.
@@ -67,52 +69,52 @@ export default function Post({ id, comments, setComments }) {
     }, [userPost.user_id]);
 
     return (<>
-        <Card maxW='md' >
-            <CardHeader>
-                <Flex spacing='4'>
-                    <NavLink to={`/users/${userProfile.id}`}>
-                        <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                            <Avatar name={userProfile.username} src={userProfile.profile_image} />
-                            <Heading size='sm'>{userProfile.username}</Heading>
-                        </Flex>
-                    </NavLink>
+            <Card className='w-full h-[75%] sm:w-[50%] md:w-[40%] lg:w-[40%] mt-[2em] mb-[2em]' >
+                <CardHeader>
+                    <Flex spacing='4'>
+                        <NavLink to={`/users/${userProfile.id}`}>
+                            <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                                <Avatar name={userProfile.username} src={userProfile.profile_image} />
+                                <Heading size='sm'>{userProfile.username}</Heading>
+                            </Flex>
+                        </NavLink>
 
-                </Flex>
-            </CardHeader>
-            <CardBody>
-                <Box className="flex flex-row justify-between">
-                    <Heading size='lg'>{userPost.title}</Heading>
-                    <Box className="flex flex-row w-[5em] space-x-[1em] mr-[1.5em]">
-                        <Text>Start: {userPost.start_time}</Text>
-                        <Text>End: {userPost.end_time}</Text>
+                    </Flex>
+                </CardHeader>
+                <CardBody>
+                    <Box className="flex flex-row justify-between">
+                        <Heading size='lg'>{userPost.title}</Heading>
+                        <Box className="flex flex-row w-[5em] space-x-[1em] mr-[1.5em]">
+                            <Text>Start: {userPost.start_time}</Text>
+                            <Text>End: {userPost.end_time}</Text>
+                        </Box>
                     </Box>
-                </Box>
-                <Text className="text-gray-600">{userPost.location}</Text>
-                <Image objectFit='cover' src={userPost.image} alt='No Pic' />
-                <Box className="flex flex-row">
-                    <Text fontSize='md' className="h-[6em] w-[75%] m-[1em]">{userPost.description}</Text>
-                    <ul className="mt-[1.2em]">
-                        {
-                            userPost.tags && userPost.tags.split(",").map((tag, index) => <Text key={index}>{tag}</Text>)
-                        }
-                    </ul>
-                </Box>
-            </CardBody>
+                    <Text className="text-gray-600">{userPost.location}</Text>
+                    <Image objectFit='fill' src={userPost.image} alt='No Pic' className="h-[10em] w-[20em] sm:h-[10em] sm:w-[20em] md:h-[20em] md:w-[35em] shrink-0" />
+                    <Box className="flex flex-row">
+                        <Text fontSize='md' className="h-[6em] w-[75%] md:h-[5em] md:w-[75%]m-[1em] overflow-y-scroll">{userPost.description}</Text>
+                        {/* <ul className="mt-[1.2em]">
+                            {
+                                userPost.tags && userPost.tags.split(",").map((tag, index) => <Text key={index}>{tag}</Text>)
+                            }
+                        </ul> */}
+                    </Box>
+                </CardBody>
 
-            <CardFooter
-                justify='space-between'
-                flexWrap='wrap'
-                sx={{
-                    '& > button': {
-                        minW: '136px',
-                    },
-                }}
-            >
-                <ButtonGroup>
-                    <Button onClick={handleLike} flex='1' variant='ghost'> Like: {likes.total_likes}</Button>
-                    <EditPostForm /*post={userPost} setPost={setUserPost}*/ />
-                </ButtonGroup>
-            </CardFooter>
-        </Card>
+                <CardFooter
+                    justify='space-between'
+                    flexWrap='wrap'
+                    sx={{
+                        '& > button': {
+                            minW: '136px',
+                        },
+                    }}
+                >
+                    <ButtonGroup>
+                        <Button onClick={handleLike} flex='1' variant='ghost'> Like: {likes.total_likes}</Button>
+                        <EditPostForm /*post={userPost} setPost={setUserPost}*/ />
+                    </ButtonGroup>
+                </CardFooter>
+            </Card>
     </>)
 }

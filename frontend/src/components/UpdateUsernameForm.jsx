@@ -22,7 +22,7 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
     bio: currentUser.bio
   });
 
- 
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -31,10 +31,10 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
   };
 
   const handleSubmit = async (event) => {
+    console.log("hello handleSubmit")
     event.preventDefault();
     const formData = new FormData(event.target);
     const [user, error] = await updateUsername(Object.fromEntries(formData));
-
     if (error?.cause > 400 && error?.cause < 500) {
       setCurrentUser(null);
       return navigate('/');
@@ -58,7 +58,7 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
           <ModalHeader>Update Username</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form onSubmit={handleSubmit}>
+            <form onChange={handleChange}>
               <FormControl className="flex flex-col">
                 <label htmlFor="username">New Username</label>
                 <input
