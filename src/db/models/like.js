@@ -55,6 +55,14 @@ class Like {
     const { rows } = await knex.raw(query);
     return rows.map(like => new Like(like));
   }
+
+  static async findUserLike(post_id, user_id){
+    const query = 'SELECT * FROM likes WHERE post_id = ? AND user_id = ?';
+    const args = [post_id, user_id];
+    const { rows } = await knex.raw(query, args);
+    const like = rows[0]; 
+    return like ? new Like(like): null
+  }
 }
 
 module.exports = Like;
