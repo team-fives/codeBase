@@ -18,7 +18,7 @@ export default function LoginPage() {
     navigate(`/users/${user.id}`);
   };
 
-  if (currentUser) return <Navigate to={`/users/${user.id}`} />;
+  if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
   return <>
     <div className="h-screen w-full flex flex-col justify-center items-center bg-[#1C1E1F] text-white">
