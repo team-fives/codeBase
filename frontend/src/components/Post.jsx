@@ -18,6 +18,9 @@ export default function Post({ id, comments, setComments }) {
         // check if user is logged in 
         // check if user liked post already
         // create or delete like
+        // try {
+        //     await 
+        // }
         // const likes_amount = 1;
         console.log(userLiked, likes)
         // try {

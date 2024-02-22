@@ -1,10 +1,12 @@
 import { Checkbox, CheckboxGroup, SimpleGrid, Box, Flex, FormLabel, FormControl, Input, Center, Stack } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
+import { Autocomplete } from "@react-google-maps/api";
 import PostCard from "./PostCard";
 
-export default function CommunityPostsCard({ posts, filterClick, setBoroughs, setStartTime, setEndTime }) {
-    const handleBoroughChange = (e) => {
-        setBoroughs(e);
+export default function CommunityPostsCard({ posts, filterClick, setLocation, setStartTime, setEndTime }) {
+    const handleLocationChange = (e) => {
+        console.log(e.target.value)
+        setLocation(e.target.value);
     };
 
     const handleStartChange = (e) => {
@@ -23,17 +25,9 @@ export default function CommunityPostsCard({ posts, filterClick, setBoroughs, se
                         filterClick === "location" &&
                         (
                             <Center>
-                                <Flex direction="row" >
-                                    <CheckboxGroup colorScheme="green" onChange={handleBoroughChange}>
-                                        <Stack direction={['column', 'row']}>
-                                            <Checkbox colorScheme="green" value="bronx">Bronx</Checkbox>
-                                            <Checkbox colorScheme="green" value="brooklyn">Brooklyn</Checkbox>
-                                            <Checkbox colorScheme="green" value="manhattan">Manhattan</Checkbox>
-                                            <Checkbox colorScheme="green" value="queens">Queens</Checkbox>
-                                            <Checkbox colorScheme="green" value="statenIsland">Staten Island</Checkbox>
-                                        </Stack>
-                                    </CheckboxGroup>
-                                </Flex>
+                                <Autocomplete>
+                                    <Input name='location' id='location' type="text" placeholder="Location" className='w-full' onChange={handleLocationChange}/>
+                                </Autocomplete>
                             </Center>
                         )
                     }
@@ -44,7 +38,7 @@ export default function CommunityPostsCard({ posts, filterClick, setBoroughs, se
                                     <FormControl>
                                         <Flex direction="row" gap="4">
                                             <FormLabel htmlFor='startTime'>Start:</FormLabel>
-                                            <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' /> 
+                                            <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' />
                                             <FormLabel htmlFor='endTime'>End:</FormLabel>
                                             <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' />
                                         </Flex>

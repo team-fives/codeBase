@@ -21,5 +21,9 @@ export const getAllUserLikes = async (id) => {
     return userLikes || [];
 };
 
+// export const checkUserLike = async (post_id, user_id) => {
+//     return await 
+// }
+
 
 

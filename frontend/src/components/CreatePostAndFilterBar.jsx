@@ -29,7 +29,6 @@ export default function CreatePostAndFilterBar({ posts, setPosts, setSortClick, 
                     <Select placeholder="Filter By:" onChange={handleFilterClick}>
                         <option value="location">Location</option>
                         <option value="time">Start/End Time</option>
-                        <option value="tags">Tags</option>
                     </Select>
                 </div>
             </div>
