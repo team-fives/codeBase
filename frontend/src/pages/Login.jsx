@@ -1,7 +1,17 @@
-import { useContext, useState } from "react";
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useNavigate, Navigate, Link as RouterLink } from "react-router-dom";
 import { logUserIn } from "../adapters/auth-adapter";
 import CurrentUserContext from "../contexts/current-user-context";
+import { Grid, Paper, Box, TextField, Button, Typography, Link, createTheme, ThemeProvider } from "@mui/material";
+import background from "../imgs/backgroundCityGreen.jpg";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#45885f',
+    },
+  },
+});
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -20,21 +30,68 @@ export default function LoginPage() {
 
   if (currentUser) return <Navigate to={`/users/${user.id}`} />;
 
-  return <>
-    <div className="h-screen w-full flex flex-col justify-center items-center bg-[#1C1E1F] text-white">
-      <h1 className="text-5xl mb-10">Log In!</h1>
-      <form onSubmit={handleSubmit} aria-labelledby="login-heading" className="mt-5 flex flex-col bg-[#989A99] p-10 rounded-lg">
-        <h2 id='login-heading' className="text-3xl mb-6">Log back in!</h2>
-        <label htmlFor="username">Username</label>
-        <input type="text" autoComplete="username" id="username" name="username" className="text-black" />
-
-        <label htmlFor="password">Password</label>
-        <input type="password" autoComplete="current-password" id="password" name="password" className="text-black" />
-
-        <button className="text-2xl mt-10 p-2 border-2 border-black">Log in!</button>
-      </form>
-      {!!errorText && <p>{errorText}</p>}
-      <p className="mt-5 text-lg">Don't have an account with us? <Link to="/sign-up" className="underline">Sign Up!</Link></p>
-    </div>
-  </>;
+  return (
+    <ThemeProvider theme={theme}>
+      <Grid container component="main" sx={{
+        p: 3,
+        height: '100vh',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundImage: 'url(' + background + ')',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
+        <Grid item xs={12} sm={8} md={5} lg={4} xl={3} component={Paper} elevation={6} square sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 4 }, backgroundColor: '#fff', borderRadius: '2vh' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h5" sx={{ color: 'primary.main', mt: 3, mb: 1 }}>
+              Log In
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
+              >
+                Log In
+              </Button>
+              {errorText && (
+                <Typography color="error" sx={{ mt: 2 }}>{errorText}</Typography>
+              )}
+              <Link component={RouterLink} to="/sign-up" variant="body2" sx={{ mt: 2 }}>
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
 }
