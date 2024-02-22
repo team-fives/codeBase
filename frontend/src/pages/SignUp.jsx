@@ -1,10 +1,18 @@
-import { useContext, useState } from "react";
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useNavigate, Navigate, Link as RouterLink } from "react-router-dom";
 import CurrentUserContext from "../contexts/current-user-context";
 import { createUser } from "../adapters/user-adapter";
+import { Grid, Paper, Box, TextField, Button, Typography, Link, createTheme, ThemeProvider } from "@mui/material";
+import background from "../imgs/backgroundCityGreen.jpg";
 
-// Controlling the sign up form is a good idea because we want to add (eventually)
-// more validation and provide real time feedback to the user about usernames and passwords
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#45885f',
+    },
+  },
+});
+
 export default function SignUpPage() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -12,17 +20,14 @@ export default function SignUpPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  // We could also use a single state variable for the form data:
-  // const [formData, setFormData] = useState({ username: '', password: '' });
-  // What would be the pros and cons of that?
 
   if (currentUser) return <Navigate to="/" />;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorText('');
     if (!username || !password) return setErrorText('Missing username or password');
     if (password !== passwordCheck) return setErrorText('Passwords do not match');
-    console.log(username, password)
     const [user, error] = await createUser({ username, password });
     if (error) return setErrorText(error.message);
 
@@ -37,56 +42,85 @@ export default function SignUpPage() {
     if (name === 'passwordCheck') setPasswordCheck(value);
   };
 
-  // const checkChange = () => {
-    
-  // }
-
-  return <>
-    <div className="h-screen w-full flex flex-col justify-center items-center bg-[#1C1E1F] text-white">
-      <h1 className="text-5xl mb-10">Sign Up!</h1>
-      <form onSubmit={handleSubmit} onChange={handleChange} aria-labelledby="create-heading" className="mt-5 flex flex-col bg-[#989A99] p-10 rounded-lg">
-        <h2 id="create-heading" className="text-3xl mb-6">Create New User</h2>
-        <label htmlFor="username">Username</label>
-        <input
-          className="text-black"
-          autoComplete="off"
-          type="text"
-          id="username"
-          name="username"
-          onChange={handleChange}
-          value={username}
-        />
-
-        <label htmlFor="password">Password</label>
-        <input
-          className="text-black"
-          autoComplete="off"
-          type="password"
-          id="password"
-          name="password"
-          onChange={handleChange}
-          value={password}
-        />
-         
-         <label htmlFor="passwordCheck">Confirm Password</label>
-        <input
-          className="text-black "
-          autoComplete="off"
-          type="password"
-          id="passwordCheck"
-          name="passwordCheck"
-          onChange={handleChange}
-          value={passwordCheck}
-        />
-
-        {/* In reality, we'd want a LOT more validation on signup, so add more things if you have time
-        <input autoComplete="off" type="password" id="passwordCheck" name="passwordConfirm" />
-      */}
-
-        <button className="text-2xl mt-10 p-2 border-2 border-black">Sign Up Now</button>
-      </form>
-      {!!errorText && <p>{errorText}</p>}
-      <p className="mt-5 text-lg">Already have an account with us? <Link to="/login" className="underline">Log in!</Link></p>
-    </div>
-  </>;
+  return (
+    <ThemeProvider theme={theme}>
+      <Grid container component="main" sx={{
+        p: 3,
+        height: '100vh',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundImage: 'url(' + background + ')',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
+        <Grid item xs={12} sm={8} md={5} lg={4} xl={3} component={Paper} elevation={6} square sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 4 }, backgroundColor: '#fff', borderRadius: '2vh' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h5" sx={{ color: '#45885f', mt: 3, mb: 1 }}>
+              Sign Up
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+                onChange={handleChange}
+                value={username}
+                sx={{ borderColor: '#45885f' }}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                onChange={handleChange}
+                value={password}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="passwordCheck"
+                label="Confirm Password"
+                type="password"
+                id="passwordCheck"
+                autoComplete="new-password"
+                onChange={handleChange}
+                value={passwordCheck}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
+              >
+                Sign Up
+              </Button>
+              {errorText && (
+                <Typography color="error" sx={{ mt: 2 }}>{errorText}</Typography>
+              )}
+              <Link component={RouterLink} to="/login" variant="body2" sx={{ mt: 2 }}>
+                {"Already have an account? Log In"}
+              </Link>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
 }
