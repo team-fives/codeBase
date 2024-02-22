@@ -38,6 +38,7 @@ Router.post('/users/:user_id/posts/:post_id/likes', likesController.create);  //
 Router.delete('/users/:user_id/posts/:post_id/likes/:id', likesController.remove);   // deletes the like by the user 
 Router.get('/users/:user_id/posts/:post_id/all', likesController.listLikes); // shows all the likes created in the likes table  
 Router.get('/posts/:post_id/likes', likesController.totalPostLikes); // shows the total number of likes for a post 
+Router.get('/users/:user_id/posts/:post_id/likes', likesController.findUserLike); // to find the likes of a user on a post, to help in front-end
 Router.get('/users/:user_id/userlikes', likesController.listUserPostLikes) // shows the posts a user has liked 
 
 // These actions require authentication (only valid logged in users can do these things)
