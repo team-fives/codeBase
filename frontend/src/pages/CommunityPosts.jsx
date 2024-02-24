@@ -9,7 +9,7 @@ export default function CommunityPosts() {
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [sortClick, setSortClick] = useState("latest");
     const [filterClick, setFilterClick] = useState("");
-    const [boroughs, setBoroughs] = useState([]);
+    const [location, setLocation] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
 
@@ -31,7 +31,7 @@ export default function CommunityPosts() {
 
     useEffect(() => {
         let updatedPosts = [...posts];
-
+        console.log(location)
         if (filterClick && startTime && endTime) {
             updatedPosts = updatedPosts.filter(post => {
                 return post.start_time >= startTime && post.end_time <= endTime;
@@ -56,6 +56,7 @@ export default function CommunityPosts() {
                     filterClick={filterClick}
                     filteredPosts={filteredPosts}
                     setFilteredPosts={setFilteredPosts}
+                    setLocation={setLocation}
                     setStartTime={setStartTime}
                     setEndTime={setEndTime}
                 />

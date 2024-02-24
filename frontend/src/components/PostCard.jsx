@@ -7,7 +7,7 @@ export default function PostCard({ post }) {
         <>
             <Card key={post.id} className="h-[20em] w-[15em]">
                 <CardHeader>
-                    <Image src={post.image} />
+                    <Image src={post.image} height="7em" width="15em"/>
                 </CardHeader>
                 <CardBody>
                     <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>

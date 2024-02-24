@@ -41,6 +41,13 @@ export default function UserPage() {
     }
   };
 
+  const handleUserUpdate = (updatedUser) => {
+    if (isCurrentUserProfile) {
+      setCurrentUser(updatedUser);
+    } else {
+      setUserProfile(updatedUser);
+    }
+  }
   // Conditional rendering based on the existence of user profile or errors
   if (!userProfile && !errorText) return null;
   if (errorText) return <p>{errorText}</p>;
@@ -66,8 +73,9 @@ console.log("profileImage:", profileImage);
               bio={profileBio}
               isCurrentUserProfile={isCurrentUserProfile}
               onProfileImageUpdate={handleProfileImageUpdate}
+              onUserUpdate={handleUserUpdate}
             />
-            <UserProfileTabs username={profileUsername} id={id} bio={profileBio} isCurrentUserProfile={isCurrentUserProfile}/>
+            <UserProfileTabs username={profileUsername} id={id} bio={profileBio} isCurrentUserProfile={isCurrentUserProfile} />
           </div>
         )}
       </div>

@@ -12,39 +12,42 @@ import {
   Button,
   FormControl,
   useDisclosure,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
 export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    id: currentUser.id,
     username: currentUser.username,
     bio: currentUser.bio
+    //update to include id too??
   });
 
- 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData(prevState => ({
+      ...prevState,
       [e.target.name]: e.target.value
-    });
+    }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const [user, error] = await updateUsername(Object.fromEntries(formData));
-
-    if (error?.cause > 400 && error?.cause < 500) {
+    const [user, error] = await updateUsername(formData);
+    if (error?.cause >= 400 && error?.cause < 500) {
       setCurrentUser(null);
-      return navigate('/');
+      navigate('/');
+      return;
     }
 
     setCurrentUser(user);
+
     setFormData({
-      username: '',
-      bio: ''
+      id: user.id, 
+      username: user.username,
+      bio: user.bio
     });
+
     onClose();
   };
 
@@ -64,23 +67,23 @@ export default function UpdateUsernameForm({ currentUser, setCurrentUser }) {
                 <input
                   type="text"
                   name="username"
-                  placeholder={currentUser.username}
+                  value={formData.username}
+                  onChange={handleChange}
                   required
                 />
                 <label htmlFor="bio">New Bio</label>
                 <input
                   type="text"
                   name="bio"
-                  placeholder={currentUser.bio}
+                  value={formData.bio}
+                  onChange={handleChange}
                 />
               </FormControl>
+              <Button colorScheme='green' mr={3} type="submit" style={{ marginTop: '10px' }}>Update</Button>
             </form>
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme='green' mr={3} type="submit">Update</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
-  )
+  );
 }

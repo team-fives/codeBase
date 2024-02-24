@@ -38,7 +38,7 @@ export default function AddComment({ post_id, comments, setComments }) {
 
   return (
     <>
-      <Card className="w-1/3">
+      <Card className='w-full sm:w-[50%] md:w-[40%] lg:w-[40%] mt-[2em] mb-[2em]'>
         <CardHeader className="flex flex-col items-start">
           <Heading>Voice Your Thoughts!</Heading>
         </CardHeader>
