@@ -1,13 +1,13 @@
-import { fetchHandler, getPostOptions, getPatchOptions } from "../utils";
+import { fetchHandler, getPostOptions, getPatchOptions, deleteOptions, basicFetchOptions } from "../utils";
 
 const baseUrl = `/api/users`;
 
-export const uploadLike = async ({ post_id, user_id, likes_amount }) => {
-    return await fetchHandler(`${baseUrl}/${user_id}/posts/${post_id}/likes`, getPostOptions({ likes_amount }));
+export const uploadLike = async (post_id, user_id) => {
+    return await fetchHandler(`${baseUrl}/${user_id}/posts/${post_id}/likes`, getPostOptions());
 }
 
-export const deleteLike = async ({ post_id, user_id, like_id }) => {
-    return await fetchHandler(`${baseUrl}/${user_id}/posts/${post_id}/likes/${like_id}`, getPatchOptions({ post_id }));
+export const deleteLike = async (post_id, user_id, like_id) => {
+    return await fetchHandler(`${baseUrl}/${user_id}/posts/${post_id}/likes/${like_id}`, deleteOptions);
 }
 
 export const getAllPostLikes = async (id) => {
@@ -17,13 +17,13 @@ export const getAllPostLikes = async (id) => {
 }
 
 export const getAllUserLikes = async (id) => {
-    const [ userLikes ] = await fetchHandler(`${baseUrl}/${id}/userlikes`);
+    const [userLikes] = await fetchHandler(`${baseUrl}/${id}/userlikes`);
     return userLikes || [];
 };
 
-// export const checkUserLike = async (post_id, user_id) => {
-//     return await 
-// }
+export const findUserLike = async (post_id, user_id) => {
+    return await fetchHandler(`${baseUrl}/${user_id}/posts/${post_id}/likes`, basicFetchOptions);
+}
 
 
 
