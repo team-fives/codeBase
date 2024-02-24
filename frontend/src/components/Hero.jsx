@@ -5,6 +5,7 @@ import { FaMapLocationDot, FaPeopleGroup } from "react-icons/fa6";
 import { BsChatSquareTextFill } from "react-icons/bs";
 
 
+
 export default function Hero() {
     return <>
         <section id="hero" className="flex flex-col justify-center items-center space-x-0 bg-[#E4E4E4] h-screen">
@@ -17,7 +18,7 @@ export default function Hero() {
 
             <Card className="w-[85%] mt-[2rem]" background={'transparent'} border="0px" boxShadow="0">
                 <CardBody className="flex flex-row justify-around">
-                    <NavLink to="/maps">
+                    <NavLink to="/map">
                         <Stack>
                             <FaMapLocationDot size={50} />
                             <Heading fontSize={'xl'} fontWeight={'bold'}>Maps</Heading>

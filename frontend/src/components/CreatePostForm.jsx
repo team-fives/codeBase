@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import { createPost } from "../adapters/post-adapter";
+import { MdOutlinePostAdd } from "react-icons/md";
 import { Navigate, useNavigate } from "react-router-dom";
 import {
   Modal,
@@ -59,7 +60,7 @@ export default function CreatePostForm({ posts, setPosts }) {
     setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
     onClose()
     }
-    catch(error){
+    catch (error) {
       setTimeout(() => {
         document.getElementById('location').value = ''
       }, 1000)
@@ -83,7 +84,7 @@ export default function CreatePostForm({ posts, setPosts }) {
   }
 
   return <>
-    <Button onClick={checkUserLogin}>Create Post</Button>
+    <MdOutlinePostAdd size={50} onClick={checkUserLogin} />
 
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -92,32 +93,32 @@ export default function CreatePostForm({ posts, setPosts }) {
         <ModalCloseButton />
         <ModalBody>
           <FormControl isRequired>
-              <FormLabel>Title</FormLabel>
-              <Input onChange={handleChange} value={title} type="text" id="title" name="title"/>
+            <FormLabel>Title</FormLabel>
+            <Input onChange={handleChange} value={title} type="text" id="title" name="title" />
 
-              <FormLabel>Picture</FormLabel>
-              <Input onChange={handleChange} value={image} type="text" id="pic" name="image" placeholder="Picture URL" />
+            <FormLabel>Picture</FormLabel>
+            <Input onChange={handleChange} value={image} type="text" id="pic" name="image" placeholder="Picture URL" />
 
-              <FormLabel>Description</FormLabel>
-              <Input onChange={handleChange} value={description} type='text' id='description' name='description' placeholder="Description" />
-              </FormControl>
-              <FormLabel>Location</FormLabel>
-              {isLoaded && (
-                
-              <Autocomplete>
-                <Input name='location' id='location' type="text" onChange={handleChange} placeholder="Location"/>
-              </Autocomplete>
-              )}
-              <Box>
-                <Flex>
-                <FormLabel>Start</FormLabel>
+            <FormLabel>Description</FormLabel>
+            <Input onChange={handleChange} value={description} type='text' id='description' name='description' placeholder="Description" />
+          </FormControl>
+          <FormLabel>Location</FormLabel>
+          {isLoaded && (
+
+            <Autocomplete>
+              <Input name='location' id='location' type="text" onChange={handleChange} placeholder="Location" />
+            </Autocomplete>
+          )}
+          <Box>
+            <Flex>
+              <FormLabel>Start</FormLabel>
               <Input onChange={handleChange} value={startTime} type='time' id='startTime' name='startTime' />
               <FormLabel>End</FormLabel>
               <Input onChange={handleChange} value={endTime} type='time' id='endTime' name='endTime' />
-                </Flex>
-              </Box>
-            
-        
+            </Flex>
+          </Box>
+
+
         </ModalBody>
 
         <ModalFooter>
