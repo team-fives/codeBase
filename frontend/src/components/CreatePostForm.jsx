@@ -43,7 +43,7 @@ export default function CreatePostForm({ posts, setPosts }) {
     const user_id = currentUser.id
     const location = document.getElementById('location').value
     const { results } = await fromAddress(location)
-    console.log(startTime, endTime)
+    const cords = results[0].geometry.location
     document.getElementById('location').value = ''
     setTitle('')
     setPicture('') //resets/clears input
@@ -53,8 +53,9 @@ export default function CreatePostForm({ posts, setPosts }) {
 
 
 
-    const [post, error] = await createPost({ user_id, title, image, location, description, startTime, endTime }); //post data into db
+    const [post, error] = await createPost({ user_id, title, image, location, cords, description, startTime, endTime }); //post data into db
     if (error) return setErrorText(error.message);
+    console.log(cords)
     setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
     onClose()
     }
