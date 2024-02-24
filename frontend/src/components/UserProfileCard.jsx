@@ -7,7 +7,7 @@ import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIco
 import UpdateUsernameForm from "./UpdateUsernameForm";
 import UploadcareComponent from "./UploadCareClient";
 import { updateProfileImage } from '../adapters/user-adapter';
-const UserProfileCard = ({ username, profileimage, isCurrentUserProfile, onProfileImageUpdate }) => {
+const UserProfileCard = ({ username, bio, profileimage, isCurrentUserProfile, onProfileImageUpdate, onUsernameUpdate }) => {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { id } = useParams();
@@ -32,9 +32,9 @@ const UserProfileCard = ({ username, profileimage, isCurrentUserProfile, onProfi
       const updateResult = await updateProfileImage(currentUser.id, profile_image);
       // Assuming updateProfileImage returns a success status or the updated URL directly
       if (updateResult) {
-        const newImageUrl = profile_image; // Or extract the URL from updateResult as needed
+        const newImageUrl = profile_image; 
         setUpdatedProfileImage(newImageUrl);
-        onProfileImageUpdate(newImageUrl); // Invoke the callback to notify the parent component
+        onProfileImageUpdate(newImageUrl); 
       }
     }
   };
@@ -49,7 +49,7 @@ const UserProfileCard = ({ username, profileimage, isCurrentUserProfile, onProfi
         {isCurrentUserProfile && (
           <ButtonGroup>
             <UploadcareComponent onUploadFinish={handleProfileImageUpload} />
-            <UpdateUsernameForm {...{ currentUser, setCurrentUser }} />
+            <UpdateUsernameForm {...{ currentUser, setCurrentUser, onUsernameUpdate }} />
             <Button onClick={handleLogout} className="w-[5rem] h-[2rem] bg-[#989A99] rounded-lg z-0">Log Out</Button>
           </ButtonGroup>
         )}

@@ -28,7 +28,7 @@ export default function LoginPage() {
     navigate(`/users/${user.id}`);
   };
 
-  if (currentUser) return <Navigate to={`/users/${user.id}`} />;
+  if (currentUser) return <Navigate to={`/users/${currentUser.id}`} />;
 
   return (
     <ThemeProvider theme={theme}>

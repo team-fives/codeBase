@@ -103,7 +103,6 @@ export default function CreatePostForm({ posts, setPosts }) {
           </FormControl>
           <FormLabel>Location</FormLabel>
           {isLoaded && (
-
             <Autocomplete>
               <Input name='location' id='location' type="text" onChange={handleChange} placeholder="Location" />
             </Autocomplete>

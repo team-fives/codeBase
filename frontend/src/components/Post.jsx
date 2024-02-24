@@ -5,7 +5,7 @@ import EditPostForm from "./EditPostForm";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import { getPost } from "../adapters/post-adapter";
-import { uploadLike, getAllPostLikes, getAllUserLikes } from "../adapters/like-adapter";
+import { getAllPostLikes, getAllUserLikes, findUserLike, uploadLike, deleteLike } from "../adapters/like-adapter";
 export default function Post({ id, comments, setComments }) {
     const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
     const [userProfile, setUserProfile] = useState({});
@@ -15,18 +15,35 @@ export default function Post({ id, comments, setComments }) {
     const [userLiked, setUserLiked] = useState({});
 
     const handleLike = async () => {
-        // const likes_amount = 1;
-        console.log(userLiked, likes)
-        // try {
+        // Ensure there's a logged-in user
+        if (!currentUser) {
+            alert("Please log in to like posts.");
+            return;
+        }
 
-        //     await uploadLike({ post_id: userPost.id, user_id: currentUser.id, likes_amount });
-        //     console.log('Like uploaded successfully!');
-        //     // Optionally, you can update the UI or state to reflect the new like.
-        // } catch (error) {
-        //     console.error('Error uploading like:', error);
-        //     setErrorText(error.message);
-        // }
+        try {
+            let [ likeCheck, error ] = await findUserLike(userPost.id, currentUser.id);
+            console.log(likes);
+
+            if (likeCheck === undefined || likeCheck === null) {
+                // No like exists, create it
+                await uploadLike(userPost.id, currentUser.id);
+                setLikes(prev => ({ ...prev, total_likes: Number(prev.total_likes) + 1 }))
+                console.log('Like uploaded successfully!');
+            } else {
+                // Like exists, delete it
+                await deleteLike(userPost.id, currentUser.id, likeCheck.id); // Assuming deleteLike is a function you have
+                setLikes(prev => ({ ...prev, total_likes: Number(prev.total_likes) - 1 }));
+                console.log('Like removed successfully!');
+            }
+            // Optionally, update UI or state to reflect the new like status
+
+        } catch (error) {
+            console.error('Error handling like:', error);
+            // setErrorText(error.message); // Assuming setErrorText is a function you have for displaying errors
+        }
     }
+
 
     useEffect(() => {
         const loadPost = async () => {
@@ -67,7 +84,7 @@ export default function Post({ id, comments, setComments }) {
     }, [userPost.user_id]);
 
     return (<>
-        <Card maxW='md' >
+        <Card className='w-full h-[75%] sm:w-[50%] md:w-[40%] lg:w-[40%] mt-[2em] mb-[2em]' >
             <CardHeader>
                 <Flex spacing='4'>
                     <NavLink to={`/users/${userProfile.id}`}>
@@ -88,14 +105,14 @@ export default function Post({ id, comments, setComments }) {
                     </Box>
                 </Box>
                 <Text className="text-gray-600">{userPost.location}</Text>
-                <Image objectFit='cover' src={userPost.image} alt='No Pic' />
+                <Image objectFit='fill' src={userPost.image} alt='No Pic' className="h-[10em] w-[20em] sm:h-[10em] sm:w-[20em] md:h-[20em] md:w-[35em] shrink-0" />
                 <Box className="flex flex-row">
-                    <Text fontSize='md' className="h-[6em] w-[75%] m-[1em]">{userPost.description}</Text>
-                    <ul className="mt-[1.2em]">
-                        {
-                            userPost.tags && userPost.tags.split(",").map((tag, index) => <Text key={index}>{tag}</Text>)
-                        }
-                    </ul>
+                    <Text fontSize='md' className="h-[6em] w-[75%] md:h-[5em] md:w-[75%]m-[1em] overflow-y-scroll">{userPost.description}</Text>
+                    {/* <ul className="mt-[1.2em]">
+                            {
+                                userPost.tags && userPost.tags.split(",").map((tag, index) => <Text key={index}>{tag}</Text>)
+                            }
+                        </ul> */}
                 </Box>
             </CardBody>
 
