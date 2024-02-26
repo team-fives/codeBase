@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-
+import {SearchIcon, RepeatClockIcon} from '@chakra-ui/icons'
 import { GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
-import { Box, Button, Flex, FormControl, Input, SkeletonText } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, Icon, IconButton, Input, SkeletonText } from "@chakra-ui/react";
 import {
   setKey,
   setDefaults,
@@ -47,7 +47,7 @@ export default function Map() {
   }, [map])
 
   if (!isLoaded) {
-    return <SkeletonText/>
+    return <SkeletonText />
   }
 
   const handleSubmit = async e => {
@@ -86,14 +86,23 @@ export default function Map() {
   }
 
   return <>
-    <Flex
-      position='relative'
-      flexDirection='column'
-      alignItems='center'
-      h='100vh'
-      w='100%'
-    >
-      <Box position='absolute' left={0} top={0} h='100%' w='100%'>
+    <Flex h='100vh' w='100%' alignItems='center' justifyContent='center'>
+
+      <Box w='30%' h='80%' background='grey'>
+          
+
+      </Box>
+
+      <Box h='80%' w='60%' position='relative'>
+        <Flex position='absolute' zIndex='1' background='grey' w='60%' justifyContent='center'>
+          <Autocomplete>
+            <FormControl>
+              <Input name='search' id='search' type="text" placeholder="Search Location"/>
+            </FormControl>
+          </Autocomplete>
+          <IconButton aria-label='Search Map' icon={<SearchIcon/>} onClick={handleSubmit} />
+          <IconButton aria-label='Reset Map' icon={<RepeatClockIcon/>} onClick={reset} />
+        </Flex>
         <GoogleMap
           onClick={ev => {
             console.log(ev)
@@ -111,33 +120,26 @@ export default function Map() {
           }}
           onLoad={map => setMap(map)}
         >
-          <Marker onLoad={ marker => console.log(marker)} position={center} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
+          <Marker onLoad={marker => console.log(marker)} position={center} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
           {allPostInfo.map(post => post.cords).map((cord, i) => {
-              return <Marker key={i} position={cord} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
-            })
+            return <Marker key={i} position={cord} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
+          })
           }
 
 
         </GoogleMap>
       </Box>
-      <Box
-        p={4}
-        borderRadius='lg'
-        m={4}
-        bgColor='white'
-        shadow='base'
-        minW='container.md'
-        zIndex='1'
-      >
-      <Autocomplete>
-        <FormControl>
-          <Input name='search' id='search' type="text" placeholder="Search Location" />
-        </FormControl>
-      </Autocomplete>
-      <Button type="submit" onClick={handleSubmit}>Submit</Button>
-      <Button onClick={reset}>Reset Map</Button>
-      <CreatePostForm posts={allPostInfo} setPosts={setAllPostInfo}/>
-      </Box>
-      </Flex>
-    </>
-  }
+    </Flex>
+  </>
+}
+
+{/* <Box h='100%' w='50%'>
+              <Autocomplete>
+                <FormControl>
+                  <Input name='search' id='search' type="text" placeholder="Search Location" />
+                </FormControl>
+              </Autocomplete>
+              <Button type="submit" onClick={handleSubmit}>Submit</Button>
+              <Button onClick={reset}>Reset Map</Button>
+              <CreatePostForm posts={allPostInfo} setPosts={setAllPostInfo} />
+</Box> */}
