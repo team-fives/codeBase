@@ -47,7 +47,7 @@ export default function SiteHeadingAndNav() {
               <button onClick={() => setIsOpen(!isOpen)} className={`p-4 ${textColor}`}>
                 Services
                 {
-                  isOpen && <div style={{ backgroundColor: `rgba(68,137,96, ${calculatedOpacity})` }} className={`${textColor} absolute top-[4rem]`}>
+                  isOpen && <div style={{ backgroundColor: `rgba(68,137,96, ${calculatedOpacity})` }} className={`${textColor} absolute top-[4rem] z-50`}>
                     {
                       <ul className={`m-2 w-20`}>
                         <li><NavLink className='mb-1' to='/map'>Data Maps</NavLink></li>

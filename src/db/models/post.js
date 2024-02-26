@@ -2,7 +2,7 @@ const knex = require('../knex');
 
 class Post {
 
-  constructor({ id, user_id, title, description, location, image, start_time, end_time, date_of_event, date_created}) {
+  constructor({ id, user_id, title, description, location, image, start_time, end_time, cords, date_of_event, date_created}) {
     this.id = id;
     this.user_id = user_id;
     this.title = title;
@@ -11,6 +11,7 @@ class Post {
     this.image = image;
     this.start_time = start_time;
     this.end_time = end_time;
+    this.cords = cords;
     this.date_of_event = date_of_event;
     this.date_created = date_created;
   }
@@ -39,20 +40,20 @@ class Post {
     return posts;
   }
 
-  static async createPost(user_id, title, description, location, image, start_time, end_time, date_of_event) {
-    const query = `INSERT INTO posts (user_id, title, description, location, image, end_time, start_time, date_of_event)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING *`;
-    const args = [user_id, title, description, location, image, start_time, end_time, date_of_event];
+  static async createPost(user_id, title, description, location, image, start_time, end_time, date_of_event, cords) {
+    const query = `INSERT INTO posts (user_id, title, description, location, image, end_time, start_time, date_of_event, cords)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING *`;
+    const args = [user_id, title, description, location, image, start_time, end_time, date_of_event, cords];
     const { rows } = await knex.raw(query, args);
     const post = rows[0];
     return new Post(post);
   }
 
-  static async updatePost(title, description, location, image, id, start_time, end_time, date_of_event) {
+  static async updatePost(title, description, location, image, id, start_time, end_time, cords, date_of_event) {
     const query = `UPDATE posts
-      SET title = ?, description = ?, location = ?, image = ?, start_time = ?, end_time = ?, date_of_event = ?
+      SET title = ?, description = ?, location = ?, image = ?, start_time = ?, end_time = ?, date_of_event = ?, cords = ?,
       WHERE id = ? RETURNING *`;
-    const args = [title, description, location, image, id, start_time, end_time, date_of_event];
+    const args = [title, description, location, image, id, start_time, end_time, date_of_event, cords];
     const { rows } = await knex.raw(query, args);
     const post = rows[0];
     return new Post(post);

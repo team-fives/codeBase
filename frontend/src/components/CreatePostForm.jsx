@@ -45,26 +45,27 @@ export default function CreatePostForm({ posts, setPosts }) {
 
   // if(!currentUser) return <Navigate to='/login'/>
   const handleSubmit = async (event) => {
-    try {
-      event.preventDefault();
-      const user_id = currentUser.id
-      const location = document.getElementById('location').value
-      const { results } = await fromAddress(location)
-      console.log(startTime, endTime)
-      document.getElementById('location').value = ''
-      setTitle('')
-      setPicture('') //resets/clears input
-      setdescription('')
-      setEndTime('')
+    try{
+    event.preventDefault();
+    const user_id = currentUser.id
+    const location = document.getElementById('location').value
+    const { results } = await fromAddress(location)
+    const cords = results[0].geometry.location
+    document.getElementById('location').value = ''
+    setTitle('')
+    setPicture('') //resets/clears input
+    setdescription('')
+    setEndTime('')
       setDateOfEvent('');
-      setStartTime('')
+    setStartTime('')
 
 
 
-      const [post, error] = await createPost({ user_id, title, image, location, description, start_time: startTime, end_time: endTime,  date_of_event: dateOfEvent }); //post data into db
-      if (error) return setErrorText(error.message);
-      setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
-      onClose()
+    const [post, error] = await createPost({ user_id, title, image, location, cords, description, start_time: startTime, end_time: endTime,  date_of_event: dateOfEvent }); //post data into db
+    if (error) return setErrorText(error.message);
+    console.log(cords)
+    setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
+    onClose()
     }
     catch (error) {
       setTimeout(() => {
