@@ -2,6 +2,10 @@ import { Flex, Box, Fade } from '@chakra-ui/react'
 import InfoCard from '../components/InfoCard';
 import { useEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
+import jason from '../imgs/jason.jpg';
+import joseph from '../imgs/joseph.jpg';
+import david from '../imgs/david.jpg';
+import gonzalo from '../imgs/gonzalo.jpg';
 
 export default function AboutUsPage() {
   
@@ -78,7 +82,7 @@ export default function AboutUsPage() {
         >
           <InfoCard
             name='Gonzalo C.' 
-            imgSrc=''
+            imgSrc={gonzalo}
             imgAlt='Picture of Gonzalo'
             githubUrl='https://github.com/gonzzoh'
             linkedinUrl='https://www.linkedin.com/in/gonzalo-meza-cabrera/'
@@ -93,7 +97,7 @@ export default function AboutUsPage() {
         >
           <InfoCard 
             name='Jason M.' 
-            imgSrc=''
+            imgSrc={jason}
             imgAlt='Picture of Jason'
             githubUrl='https://github.com/MaiJGitHub'
             linkedinUrl='https://www.linkedin.com/in/jasonmailink/'
@@ -108,7 +112,7 @@ export default function AboutUsPage() {
         >
           <InfoCard 
             name='Joseph G.' 
-            imgSrc=''
+            imgSrc={joseph}
             imgAlt='Picture of Joseph'
             githubUrl='https://github.com/Joeyyyys'
             linkedinUrl='https://www.linkedin.com/in/joseph-giler-807ab2224/'
@@ -123,7 +127,7 @@ export default function AboutUsPage() {
         >
           <InfoCard 
             name='David C.' 
-            imgSrc=''
+            imgSrc={david}
             imgAlt='Picture of David'
             githubUrl='https://github.com/david-d-c'
             linkedinUrl='https://www.linkedin.com/in/david-cobos00/'

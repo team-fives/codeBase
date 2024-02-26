@@ -31,12 +31,12 @@ export default function SiteHeadingAndNav() {
 
   return (
     <header
-      style={{ backgroundColor: `rgb(68,137,96, ${calculatedOpacity})`, zIndex: '10', alignItems: "center", height: "4rem" }}
+      style={{ backgroundColor: `rgb(68,137,96, ${calculatedOpacity})`, zIndex: '10', alignItems: "center", height: "4.5rem" }}
       className={`${textColor} md:flex md:justify-between md:items-center ${position} top-0 sm:px-12 px-4 py-2 w-full height-64`}>
         <Flex align="center" className="PureLink">
           <a href="/" className="flex items-center">
             <img src={logo} className="h-10 mr-2" alt="logo" />
-            {!isHomepage && "PureLink"}
+            {!isHomepage && <span style={{ fontWeight: 500 }}>PureLink</span>}
           </a>
         </Flex>
       <nav>
@@ -44,7 +44,7 @@ export default function SiteHeadingAndNav() {
           <div className="relative flex flex-col items-center">
             {
               !isHomepage &&
-              <button onClick={() => setIsOpen(!isOpen)} className={`p-4 ${textColor}`}>
+              <button onClick={() => setIsOpen(!isOpen)} className={`p-4 ${textColor}, font-weight: 500`}>
                 Services
                 {
                   isOpen && <div style={{ backgroundColor: `rgba(68,137,96, ${calculatedOpacity})` }} className={`${textColor} absolute top-[4rem]`}>
@@ -63,12 +63,12 @@ export default function SiteHeadingAndNav() {
             }
           </div>
           {currentUser
-            ? <li><NavLink className={`p-4 ${textColor}`} to={`/users/${currentUser.id}`}>{currentUser.username}</NavLink></li>
+            ? <li><NavLink className={`p-4 ${textColor}, font-weight: 500`} to={`/users/${currentUser.id}`}>{currentUser.username}</NavLink></li>
             : <>
-              <li><NavLink className={`p-4 ${textColor}`} to='/login'>Login</NavLink></li>
+              <li><NavLink className={`p-4 ${textColor}, font-weight: 500`} to='/login'>Login</NavLink></li>
               <li><NavLink
                   style={{ backgroundColor: "#45885f", borderRadius: "10px" }}
-                  className={`p-4 ${textColor} hover:text-white`}
+                  className={`p-4 ${textColor}, font-bold`}
                   to='/sign-up'>
                   Sign Up
                 </NavLink></li>
