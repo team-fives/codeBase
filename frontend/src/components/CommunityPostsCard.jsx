@@ -1,13 +1,15 @@
-import { Checkbox, CheckboxGroup, SimpleGrid, Box, Flex, FormLabel, FormControl, Input, Center, Stack } from '@chakra-ui/react'
+import { Checkbox, CheckboxGroup, SimpleGrid, Box, Flex, FormLabel, FormControl, Input, Center, Stack, Button } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import PostCard from "./PostCard";
 
 export default function CommunityPostsCard({ posts, filterClick, setLocation, setStartTime, setEndTime }) {
-    const handleLocationChange = (e) => {
-        console.log(e.target.value)
-        setLocation(e.target.value);
-    };
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const place = document.getElementById('location').value
+        console.log(place)
+        setLocation(place);
+    }
 
     const handleStartChange = (e) => {
         setStartTime(e.target.value);
@@ -25,9 +27,12 @@ export default function CommunityPostsCard({ posts, filterClick, setLocation, se
                         filterClick === "location" &&
                         (
                             <Center>
-                                <Autocomplete>
-                                    <Input name='location' id='location' type="text" placeholder="Location" className='w-full' onChange={handleLocationChange}/>
-                                </Autocomplete>
+                                <FormControl>
+                                    <Autocomplete>
+                                        <Input name='location' id='location' type="text" placeholder="Location" className='w-full' />
+                                    </Autocomplete>
+                                </FormControl>
+                                <Button type="submit" onClick={handleSubmit}>Submit</Button>
                             </Center>
                         )
                     }

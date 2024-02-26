@@ -36,9 +36,13 @@ export default function CommunityPosts() {
             updatedPosts = updatedPosts.filter(post => {
                 return post.start_time >= startTime && post.end_time <= endTime;
             });
+        } else if (filterClick && location) {
+            updatedPosts = updatedPosts.filter(post => {
+                return post.location === location;
+            });
         }
 
-        console.log(updatedPosts)
+        console.log('filtered', updatedPosts)
         setFilteredPosts(updatedPosts);
     }, [posts, filterClick, startTime, endTime]);
 
