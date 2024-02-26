@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import {SearchIcon, RepeatClockIcon} from '@chakra-ui/icons'
+import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
 import { GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
-import { Box, Button, Flex, FormControl, Icon, IconButton, Input, SkeletonText } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText } from "@chakra-ui/react";
 import {
   setKey,
   setDefaults,
@@ -17,6 +17,7 @@ import {
 import { googleApi, geoCode } from "../googleApi";
 import { getAllPosts } from "../adapters/post-adapter";
 import CreatePostForm from "./CreatePostForm";
+import { NavLink } from "react-router-dom";
 
 const containerStyle = {
   width: '100%',
@@ -88,20 +89,38 @@ export default function Map() {
   return <>
     <Flex h='100vh' w='100%' alignItems='center' justifyContent='center'>
 
-      <Box w='30%' h='80%' background='grey'>
-          
 
+    <Box w='30%' h='80%' background='grey' overflow='scroll'>
+    {
+      allPostInfo.map((post, index) => {
+        return <Card key={index} direction={'row'}>
+          <Image src={post.image} alt="post image" />
+          <CardHeader>
+            <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
+          </CardHeader>
+          <CardBody >
+            
+            <Text className="h-[60%]">{post.description}</Text>
+          </CardBody>
+          <CardFooter className="text-gray-500 flex flex-col">
+            <Text className="w-[6em]">Start: {post.start_time}</Text>
+            <Text className="w-[6em]">End: {post.end_time}</Text>
+          </CardFooter>
+        </Card>
+      })
+        }
       </Box>
+
 
       <Box h='80%' w='60%' position='relative'>
         <Flex position='absolute' zIndex='1' background='grey' w='60%' justifyContent='center'>
           <Autocomplete>
             <FormControl>
-              <Input name='search' id='search' type="text" placeholder="Search Location"/>
+              <Input name='search' id='search' type="text" placeholder="Search Location" />
             </FormControl>
           </Autocomplete>
-          <IconButton aria-label='Search Map' icon={<SearchIcon/>} onClick={handleSubmit} />
-          <IconButton aria-label='Reset Map' icon={<RepeatClockIcon/>} onClick={reset} />
+          <IconButton aria-label='Search Map' icon={<SearchIcon />} onClick={handleSubmit} />
+          <IconButton aria-label='Reset Map' icon={<RepeatClockIcon />} onClick={reset} />
         </Flex>
         <GoogleMap
           onClick={ev => {
