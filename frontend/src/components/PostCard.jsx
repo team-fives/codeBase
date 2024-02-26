@@ -16,6 +16,7 @@ export default function PostCard({ post }) {
                     <Box className="flex flex-row w-[5em] space-x-[1em] mr-[1.5em]">
                         <Text>Start: {post.start_time}</Text>
                         <Text>End: {post.end_time}</Text>
+                        <Text>Date: {post.date_of_event}</Text>
                     </Box>
                 </CardBody>
             </Card>
