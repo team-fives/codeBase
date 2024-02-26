@@ -7,7 +7,7 @@ export default function PostCard({ post }) {
         <>
             <Card key={post.id} className="h-[20em] w-[15em]">
                 <CardHeader>
-                    <Image src={post.image} />
+                    <Image src={post.image} height="7em" width="15em"/>
                 </CardHeader>
                 <CardBody>
                     <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
@@ -16,6 +16,7 @@ export default function PostCard({ post }) {
                     <Box className="flex flex-row w-[5em] space-x-[1em] mr-[1.5em]">
                         <Text>Start: {post.start_time}</Text>
                         <Text>End: {post.end_time}</Text>
+                        <Text>Date: {post.date_of_event}</Text>
                     </Box>
                 </CardBody>
             </Card>

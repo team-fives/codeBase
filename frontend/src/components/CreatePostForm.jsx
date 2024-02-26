@@ -32,6 +32,7 @@ export default function CreatePostForm({ posts, setPosts }) {
   const [image, setPicture] = useState('')
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
+  const [dateOfEvent, setDateOfEvent] = useState(''); // Add this line to your existing state declarations
   //const [location, setLocation] = useState('')
   const [description, setdescription] = useState('') //form inputs ^
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext); //current user 
@@ -50,11 +51,12 @@ export default function CreatePostForm({ posts, setPosts }) {
     setPicture('') //resets/clears input
     setdescription('')
     setEndTime('')
+      setDateOfEvent(''); // Assuming you added a state for this
     setStartTime('')
 
 
 
-    const [post, error] = await createPost({ user_id, title, image, location, cords, description, startTime, endTime }); //post data into db
+    const [post, error] = await createPost({ user_id, title, image, location, cords, description, start_time: startTime, end_time: endTime,  date_of_event: dateOfEvent }); //post data into db
     if (error) return setErrorText(error.message);
     console.log(cords)
     setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
@@ -76,6 +78,8 @@ export default function CreatePostForm({ posts, setPosts }) {
     if (name === 'startTime') setStartTime(value);
     if (name === 'endTime') setEndTime(value)
     if (name === 'description') setdescription(value);
+    if (name === 'dateOfEvent') setDateOfEvent(value); // Add this line within your handleChange function
+
   };
 
   const checkUserLogin = () => { //checks if theres a user logged in when create post button is clicked
@@ -99,12 +103,14 @@ export default function CreatePostForm({ posts, setPosts }) {
             <FormLabel>Picture</FormLabel>
             <Input onChange={handleChange} value={image} type="text" id="pic" name="image" placeholder="Picture URL" />
 
+            <FormLabel>Date of Event</FormLabel>
+            <Input onChange={handleChange} value={dateOfEvent} type="date" name="dateOfEvent" />
+
             <FormLabel>Description</FormLabel>
             <Input onChange={handleChange} value={description} type='text' id='description' name='description' placeholder="Description" />
           </FormControl>
           <FormLabel>Location</FormLabel>
           {isLoaded && (
-
             <Autocomplete>
               <Input name='location' id='location' type="text" onChange={handleChange} placeholder="Location" />
             </Autocomplete>
