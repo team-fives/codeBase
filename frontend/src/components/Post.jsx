@@ -1,15 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardBody, CardFooter, Flex, Avatar, Box, Heading, Text, Image, Button, ButtonGroup } from '@chakra-ui/react'
 import EditPostForm from "./EditPostForm";
 import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
-import { getPost } from "../adapters/post-adapter";
+import { getPost, deletePost } from "../adapters/post-adapter";
 import { getAllPostLikes, getAllUserLikes, findUserLike, uploadLike, deleteLike } from "../adapters/like-adapter";
 export default function Post({ id, comments, setComments }) {
-    const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+    const { currentUser } = useContext(CurrentUserContext);
+    const navigate = useNavigate();
     const [userProfile, setUserProfile] = useState({});
     const [userPost, setUserPost] = useState({});
+    const isCurrentUserProfile = currentUser && currentUser.id === userPost.user_id;
     const [errorText, setErrorText] = useState(null);
     const [likes, setLikes] = useState([]);
     const [userLiked, setUserLiked] = useState({});
@@ -20,7 +22,6 @@ export default function Post({ id, comments, setComments }) {
             alert("Please log in to like posts.");
             return;
         }
-
         try {
             let [likeCheck, error] = await findUserLike(userPost.id, currentUser.id);
             console.log(likes);
@@ -37,6 +38,15 @@ export default function Post({ id, comments, setComments }) {
 
         } catch (error) {
             console.error('Error handling like:', error);
+        }
+    }
+
+    const handleDelete = async () => {
+        try {
+            await deletePost(currentUser.id, id);
+            return navigate(-1);
+        } catch (error) {
+            console.error('Error deleting post:', error);
         }
     }
 
@@ -118,7 +128,11 @@ export default function Post({ id, comments, setComments }) {
             >
                 <ButtonGroup>
                     <Button onClick={handleLike} flex='1' variant='ghost'> Like: {likes.total_likes}</Button>
-                    {/* <EditPostForm post={userPost} setPost={setUserPost} /> */}
+                    {
+                        !!isCurrentUserProfile && (
+                            <Button onClick={() => handleDelete(id)} variant='ghost' colorScheme='green'> Delete </Button>
+                        )
+                    }
                 </ButtonGroup>
             </CardFooter>
         </Card>
