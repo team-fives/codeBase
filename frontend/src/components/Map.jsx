@@ -55,7 +55,7 @@ export default function Map() {
     }
   }
 
-  const craeteCords = async (locations) => {
+  const createCoords = async (locations) => {
     const validCords = await locations.map(async location => {
       try{
         const { results } = await fromAddress(location)
@@ -73,7 +73,7 @@ export default function Map() {
       const getPostsCords = async () => {
         const allPosts = await getAllPosts()
         const locations = allPosts.map(post => post.location)
-        const allCords = await craeteCords(locations)
+        const allCords = await createCoords(locations)
         setCords(allCords)
       }
       getPostsCords()
