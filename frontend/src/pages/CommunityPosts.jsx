@@ -53,9 +53,11 @@ export default function CommunityPosts() {
                 <CreatePostAndFilterBar
                     setSortClick={setSortClick}
                     setFilterClick={setFilterClick}
+                    posts={filteredPosts}
+                    setPosts={setPosts}
                 />
                 <CommunityPostsCard
-                    posts={filteredPosts}
+                    posts={posts}
                     setPosts={setPosts}
                     filterClick={filterClick}
                     filteredPosts={filteredPosts}
