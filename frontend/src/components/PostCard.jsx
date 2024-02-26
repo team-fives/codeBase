@@ -12,7 +12,6 @@ export default function PostCard({ post }) {
                 <CardBody>
                     <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
                     <Text>{post.location}</Text>
-                    {/* <Text>{post.description}</Text> */}
                     <Box className="flex flex-row w-[5em] space-x-[1em] mr-[1.5em]">
                         <Text>Start: {post.start_time}</Text>
                         <Text>End: {post.end_time}</Text>
