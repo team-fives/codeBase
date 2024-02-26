@@ -22,6 +22,7 @@ import {
 import { Autocomplete } from "@react-google-maps/api";
 import { geoCode, googleApi } from "../googleApi";
 import { fromAddress } from "react-geocode";
+import UploadcareComponent from "./UploadCareClient";
 
 export default function CreatePostForm({ posts, setPosts }) {
   const { isLoaded } = googleApi()
@@ -29,14 +30,18 @@ export default function CreatePostForm({ posts, setPosts }) {
   const navigate = useNavigate();
   const [errorText, setErrorText] = useState(null);
   const [title, setTitle] = useState('') //form inputs 
-  const [image, setPicture] = useState('')
+  const [image, setPicture] = useState('');
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
-  const [dateOfEvent, setDateOfEvent] = useState(''); // Add this line to your existing state declarations
+  const [dateOfEvent, setDateOfEvent] = useState('');
   //const [location, setLocation] = useState('')
   const [description, setdescription] = useState('') //form inputs ^
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext); //current user 
   geoCode()
+
+  const handleUploadFinish = (cdnUrl) => {
+    setPicture(cdnUrl); // Update the image state with the URL from Uploadcare
+  };
 
   // if(!currentUser) return <Navigate to='/login'/>
   const handleSubmit = async (event) => {
@@ -51,7 +56,7 @@ export default function CreatePostForm({ posts, setPosts }) {
     setPicture('') //resets/clears input
     setdescription('')
     setEndTime('')
-      setDateOfEvent(''); // Assuming you added a state for this
+      setDateOfEvent('');
     setStartTime('')
 
 
@@ -78,8 +83,7 @@ export default function CreatePostForm({ posts, setPosts }) {
     if (name === 'startTime') setStartTime(value);
     if (name === 'endTime') setEndTime(value)
     if (name === 'description') setdescription(value);
-    if (name === 'dateOfEvent') setDateOfEvent(value); // Add this line within your handleChange function
-
+    if (name === 'dateOfEvent') setDateOfEvent(value); 
   };
 
   const checkUserLogin = () => { //checks if theres a user logged in when create post button is clicked
@@ -101,7 +105,7 @@ export default function CreatePostForm({ posts, setPosts }) {
             <Input onChange={handleChange} value={title} type="text" id="title" name="title" />
 
             <FormLabel>Picture</FormLabel>
-            <Input onChange={handleChange} value={image} type="text" id="pic" name="image" placeholder="Picture URL" />
+            <UploadcareComponent onUploadFinish={handleUploadFinish} />
 
             <FormLabel>Date of Event</FormLabel>
             <Input onChange={handleChange} value={dateOfEvent} type="date" name="dateOfEvent" />
