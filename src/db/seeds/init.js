@@ -27,15 +27,15 @@ exports.seed = async (knex) => {
   {user_id: 1, title: 'Plastic bottle hunt', description: 'Picking up plastic bottles that are laying around and putting them in our trash bags', location: 'Central Park', image: 'https://reinventsouthafrica.files.wordpress.com/2014/12/20141206_083933.jpg?w=640', start_time: '7:00', end_time: '9:00', date_of_event: '2024-07-01' },
   {user_id: 2, title: 'Community Garden Day', description: 'Helping maintain the community garden and planting new flowers.', location: 'Community Garden', image: 'https://live.staticflickr.com/8636/28251733106_198e86680c.jpg', start_time: '5:00', end_time: '6:00', date_of_event: '2024-08-01' },
   {user_id: 3, title: 'Beach Cleanup', description: 'Cleaning up litter on the beach for a cleaner environment.', location: 'Ocean Beach', image: 'https://response.restoration.noaa.gov/sites/default/files/images/%5Buid%5D/20160413_NOAA_CREP_003_0.JPG', start_time: '8:00', end_time: '8:45', date_of_event: '2024-08-01' },
-]);
+  ]);
 
-await knex.table('comments').insert([
+  await knex.table('comments').insert([
   { user_id: 2, post_id: 1, content: 'I would love to attend this workshop!'},
   { user_id: 3, post_id: 1, content: 'Count me in! Sounds like a fantastic event.'},
   { user_id: 4, post_id: 2, content: 'Wow, these outfits are incredible! Such creativity!'},
   { user_id: 4, post_id: 3, content: `Great job, everyone! Let's keep up the momentum!`},
   { user_id: 1, post_id: 4, content: 'Excited to see our community come together for this important project.'},
-]);
+  ]);
 
   await knex.table('likes').insert([
   {user_id: 2, post_id: 1, likes_amount: 1 },
