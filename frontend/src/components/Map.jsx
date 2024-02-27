@@ -40,17 +40,16 @@ export default function Map({ posts }) {
   const { isLoaded } = googleApi()
   geoCode()
 
-  // useEffect(() => {
-  //   const getPostsCords = async () => {
-  //     const allPosts = await getAllPosts()
-  //     setAllPostInfo(allPosts)
-  //   }
-  //   getPostsCords()
-  // }, [map])
+  useEffect(() => {
+    const getPostsCords = async () => {
+      setAllPostInfo(posts)
+    }
+    getPostsCords()
+  }, [map])
 
-  // if (!isLoaded) {
-  //   return <SkeletonText />
-  // }
+  if (!isLoaded) {
+    return <SkeletonText />
+  }
 
   const handleSubmit = async e => {
     try {
