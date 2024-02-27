@@ -9,6 +9,10 @@ export default function InfoCard({ imgSrc, imgAlt, name, githubUrl, linkedinUrl 
         src={imgSrc}
         alt={imgAlt}
         borderRadius='full'
+        objectFit="cover"
+        w="14rem"
+        h="20rem"
+        ml='1rem'
         />
         <Stack mt='6' spacing='3'>
         <Heading size='md' align={'center'}>{name}</Heading>

@@ -68,9 +68,6 @@ const UserProfileTabs = ({ username, id, bio, isCurrentUserProfile }) => {
                                             {!!isCurrentUserProfile &&
                                                 (
                                                     <ButtonGroup spacing='2' colorScheme='green' className="bottom-0">
-                                                        <Button onClick={() => navigate(`/posts/${post.id}`)} variant='solid' colorScheme='green'>
-                                                            Edit
-                                                        </Button>
                                                         <Button onClick={() => handleDelete(post.id)} variant='ghost' colorScheme='green'>
                                                             Delete
                                                         </Button>
