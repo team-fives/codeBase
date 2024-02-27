@@ -24,7 +24,7 @@ import { geoCode, googleApi } from "../googleApi";
 import { fromAddress } from "react-geocode";
 import UploadcareComponent from "./UploadCareClient";
 
-export default function CreatePostForm({ posts, setPosts }) {
+export default function CreatePostForm({ posts, setPosts, hovered }) {
   const { isLoaded } = googleApi()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ export default function CreatePostForm({ posts, setPosts }) {
   }
 
   return <>
-    <MdOutlinePostAdd size={50} onClick={checkUserLogin} />
+    <MdOutlinePostAdd size={50} onClick={checkUserLogin} className='cursor-pointer'/>
 
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
