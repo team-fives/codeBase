@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getAllPosts } from "../adapters/post-adapter";
-import { SimpleGrid, Card, CardHeader, Heading, CardBody, Text, CardFooter, Button } from "@chakra-ui/react";
 import CreatePostAndFilterBar from "../components/CreatePostAndFilterBar";
 import CommunityPostsCard from "../components/CommunityPostsCard";
 
@@ -10,6 +9,7 @@ export default function CommunityPosts() {
     const [sortClick, setSortClick] = useState("latest");
     const [filterClick, setFilterClick] = useState("");
     const [location, setLocation] = useState("");
+    const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
 
@@ -31,10 +31,14 @@ export default function CommunityPosts() {
 
     useEffect(() => {
         let updatedPosts = [...posts];
-        console.log(location)
+        console.log(date)
         if (filterClick && startTime && endTime) {
             updatedPosts = updatedPosts.filter(post => {
                 return post.start_time >= startTime && post.end_time <= endTime;
+            });
+        } else if (filterClick && date) {
+            updatedPosts = updatedPosts.filter(post => {
+                return post.date_of_event === date;
             });
         } else if (filterClick && location) {
             updatedPosts = updatedPosts.filter(post => {
@@ -44,7 +48,7 @@ export default function CommunityPosts() {
 
         console.log('filtered', updatedPosts)
         setFilteredPosts(updatedPosts);
-    }, [posts, filterClick, startTime, endTime]);
+    }, [posts, filterClick, startTime, endTime, date, location]);
 
 
     return (
@@ -53,16 +57,15 @@ export default function CommunityPosts() {
                 <CreatePostAndFilterBar
                     setSortClick={setSortClick}
                     setFilterClick={setFilterClick}
-                    posts={filteredPosts}
+                    posts={posts}
                     setPosts={setPosts}
                 />
                 <CommunityPostsCard
-                    posts={posts}
-                    setPosts={setPosts}
-                    filterClick={filterClick}
                     filteredPosts={filteredPosts}
+                    filterClick={filterClick}
                     setFilteredPosts={setFilteredPosts}
                     setLocation={setLocation}
+                    setDate={setDate}
                     setStartTime={setStartTime}
                     setEndTime={setEndTime}
                 />

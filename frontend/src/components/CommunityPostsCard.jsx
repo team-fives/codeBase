@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import PostCard from "./PostCard";
 
-export default function CommunityPostsCard({ posts, filterClick, setLocation, setStartTime, setEndTime }) {
+export default function CommunityPostsCard({ filterClick, filteredPosts, setLocation, setStartTime, setEndTime, setDate }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         const place = document.getElementById('location').value
         console.log(place)
         setLocation(place);
+    }
+
+    const handleDateChange = (e) => {
+        setDate(e.target.value);
     }
 
     const handleStartChange = (e) => {
@@ -52,10 +56,22 @@ export default function CommunityPostsCard({ posts, filterClick, setLocation, se
                             </Center>
                         )
                     }
+                    {
+                        filterClick === "date" && (
+                            <Center>
+                                <Box>
+                                    <FormControl>
+                                        <FormLabel htmlFor='date'>Date:</FormLabel>
+                                        <Input onChange={handleDateChange} type='date' id='date' name='date' />
+                                    </FormControl>
+                                </Box>
+                            </Center>
+                        )
+                    }
                 </Box>
                 <Box w='80%' h={'full'} p={4} overflowY={"scroll"}>
                     <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))' className="p-[1rem]">
-                        {posts.map((post) => (
+                        {filteredPosts.map((post) => (
                             <ul overflow="scroll" key={post.id}>
                                 <PostCard post={post} />
                             </ul>
