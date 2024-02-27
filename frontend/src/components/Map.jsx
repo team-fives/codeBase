@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
 import { GoogleMap, Marker, Autocomplete, InfoWindowF, InfoWindow } from '@react-google-maps/api';
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, useFormControlStyles } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, useFormControlStyles, InputGroup, InputRightElement } from "@chakra-ui/react";
 import {
   setKey,
   setDefaults,
@@ -83,30 +83,30 @@ export default function Map() {
 
       <Box w='30%' h='80%' background='grey' overflow='auto'>
         <Flex justifyContent='space-between'>
-        <Heading size='lg'>Events</Heading>
-        <CreatePostForm posts={allPostInfo} setPosts={setAllPostInfo}/>
+          <Heading size='lg'>Events</Heading>
+          <CreatePostForm posts={allPostInfo} setPosts={setAllPostInfo} />
         </Flex>
         {
           allPostInfo.map((post, index) => {
             return <Box p='10px'>
               <NavLink to={`/posts/${post.id}`}>
-              <Card key={index} direction={'row'} h='25%'>
-                <Image src={post.image} alt="post image" boxSize='40%' />
-                <Flex flexDirection='column'>
-                  <CardHeader>
-                    <Heading size='sm'>{post.title}</Heading>
-                    <Text>{post.location}</Text>
-                  </CardHeader>
-                  <CardBody >
-                    <Text className="">Start: {post.start_time}</Text>
-                    <Text className="">End: {post.end_time}</Text>
-                  </CardBody>
-                  {/* <CardFooter className="text-gray-500 flex flex-col">
+                <Card key={index} direction={'row'} h='25%'>
+                  <Image src={post.image} alt="post image" boxSize='40%' />
+                  <Flex flexDirection='column'>
+                    <CardHeader>
+                      <Heading size='sm'>{post.title}</Heading>
+                      <Text>{post.location}</Text>
+                    </CardHeader>
+                    <CardBody >
+                      <Text className="">Start: {post.start_time}</Text>
+                      <Text className="">End: {post.end_time}</Text>
+                    </CardBody>
+                    {/* <CardFooter className="text-gray-500 flex flex-col">
             <Text className="w-[6em]">Start: {post.start_time}</Text>
             <Text className="w-[6em]">End: {post.end_time}</Text>
           </CardFooter> */}
-                </Flex>
-              </Card>
+                  </Flex>
+                </Card>
               </NavLink>
             </Box>
           })
@@ -115,14 +115,20 @@ export default function Map() {
 
 
       <Box h='80%' w='60%' position='relative'>
-        <Flex position='absolute' zIndex='1' background='grey' w='60%' justifyContent='center'>
-          <Autocomplete>
-            <FormControl>
-              <Input name='search' id='search' type="text" placeholder="Search Location" />
-            </FormControl>
-          </Autocomplete>
-          <IconButton aria-label='Search Map' icon={<SearchIcon />} onClick={handleSubmit} />
-          <IconButton aria-label='Reset Map' icon={<RepeatClockIcon />} onClick={reset} />
+        <IconButton position='absolute' aria-label='Reset Map' icon={<RepeatClockIcon />} onClick={reset} />
+        <Flex position='absolute' zIndex='1' background='grey'  >
+          
+          <InputGroup>
+            <Autocomplete>
+              <FormControl>
+                <Input name='search' id='search' type="text" placeholder="Search Location" />
+              </FormControl>
+            </Autocomplete>
+            <InputRightElement>
+              <IconButton aria-label='Search Map' icon={<SearchIcon />} onClick={handleSubmit} />
+            </InputRightElement>
+          </InputGroup>
+
         </Flex>
         <GoogleMap
           onClick={ev => {
@@ -148,18 +154,18 @@ export default function Map() {
           }
           {marker && (
             <NavLink to={`/posts/${marker.id}`}>
-            <InfoWindow position={marker.cords} onCloseClick={() => setMarker('')}>
-              
-              <Flex flexDirection="column" alignItems='center'>
-                <Heading size='md'>{marker.title}</Heading>
-                <Image src={marker.image} boxSize='100'/>
-                <Text>{marker.description}</Text>
-                <Flex>
-                <Text><b>Start:</b> {marker.start_time}</Text>
-                <Text><b>End:</b> {marker.end_time}</Text>
+              <InfoWindow position={marker.cords} onCloseClick={() => setMarker('')}>
+
+                <Flex flexDirection="column" alignItems='center'>
+                  <Heading size='md'>{marker.title}</Heading>
+                  <Image src={marker.image} boxSize='100' />
+                  <Text>{marker.description}</Text>
+                  <Flex>
+                    <Text><b>Start:</b> {marker.start_time}</Text>
+                    <Text><b>End:</b> {marker.end_time}</Text>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </InfoWindow>
+              </InfoWindow>
             </NavLink>
           )}
 
