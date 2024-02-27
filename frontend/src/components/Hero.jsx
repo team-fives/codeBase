@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Card, CardBody, CardFooter, CardHeader, Heading, SimpleGrid, Text, Stack } from "@chakra-ui/react";
 import { FaMapLocationDot, FaPeopleGroup } from "react-icons/fa6";
+import { IoNewspaper } from "react-icons/io5";
 import { BsChatSquareTextFill } from "react-icons/bs";
 
 
@@ -9,10 +10,10 @@ import { BsChatSquareTextFill } from "react-icons/bs";
 export default function Hero() {
     return <>
         <section id="hero" className="flex flex-col justify-center items-center space-x-0 bg-[#E4E4E4] h-screen">
-            <div className='h-[30rem] w-[45rem] mr-[30rem] mt-[4rem] align-middle content-center items-center justify-center bg-fixed bg-community bg-fill' style={{borderRadius: "10px"}}>
+            <div className='h-[30rem] w-[45rem] mr-[30rem] mt-[4rem] align-middle content-center items-center justify-center bg-fixed bg-community bg-fill' style={{borderRadius: "10px", marginLeft: "4rem"}}>
                 <div className="h-[25rem] w-[40rem] ml-[30rem] mt-[2.5rem] align-middle content-center items-center justify-center" style={{ backgroundColor: "rgba(255, 255, 255, 0.5)", display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center", flexDirection: "column", borderRadius: "10px"}}>
                     <h1 className="text-5xl" style={{ fontWeight: "bold", fontSize: "5rem", display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center" }}>PureLink</h1>
-                    <p className="text-xl" style={{ display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center" }}>Find the best resources for your next adventure</p>
+                    <p className="text-xl" style={{ display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center", textAlign: "center", fontWeight: "bold", padding: "2rem" }}>Transforming Urban Spaces: Together for Health, Cleanliness, and Community.</p>
                 </div>
             </div>
 
@@ -22,7 +23,7 @@ export default function Hero() {
                         <Stack>
                             <FaMapLocationDot size={50} />
                             <Heading fontSize={'xl'} fontWeight={'bold'}>Maps</Heading>
-                            <Text fontSize={'sm'} noOfLines={2} fontWeight={'bold'} className="w-[16rem]">Explore a plethora of informative heat maps & destinations of interest!</Text>
+                            <Text fontSize={'sm'} noOfLines={2} fontWeight={'bold'} className="w-[16rem]">Explore a map of your destinations of interest!</Text>
                         </Stack>
                     </NavLink>
                     <NavLink to="/posts">
@@ -37,6 +38,13 @@ export default function Hero() {
                             <FaPeopleGroup size={50} />
                             <Heading fontSize={'xl'} fontWeight={'bold'}>About Us</Heading>
                             <Text fontSize={'sm'} noOfLines={2} fontWeight={'bold'} className="w-[16rem]">Learn about the team who brought this all together!</Text>
+                        </Stack>
+                    </NavLink>
+                    <NavLink to="/Articles">
+                        <Stack>
+                            <IoNewspaper size={50} />
+                            <Heading fontSize={'xl'} fontWeight={'bold'}>Articles</Heading>
+                            <Text fontSize={'sm'} noOfLines={2} fontWeight={'bold'} className="w-[16rem]">Discover articles on waste's impact and steps towards sustainability!</Text>
                         </Stack>
                     </NavLink>
                 </CardBody>
