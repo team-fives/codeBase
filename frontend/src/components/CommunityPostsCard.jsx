@@ -2,6 +2,7 @@ import { Checkbox, CheckboxGroup, SimpleGrid, Box, Flex, FormLabel, FormControl,
 import { useEffect, useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import PostCard from "./PostCard";
+import Map from "../components/Map";
 
 export default function CommunityPostsCard({ filterClick, filteredPosts, setLocation, setStartTime, setEndTime, setDate }) {
     const handleSubmit = (e) => {
@@ -70,15 +71,7 @@ export default function CommunityPostsCard({ filterClick, filteredPosts, setLoca
                             )
                         }
                     </Box>
-                    <Box w='100%' h={'full'}  overflowY={"scroll"}>
-                        <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))' className="p-[1rem]">
-                            {filteredPosts.map((post) => (
-                                <ul overflow="scroll" key={post.id}>
-                                    <PostCard post={post} />
-                                </ul>
-                            ))}
-                        </SimpleGrid>
-                    </Box>
+                    <Map posts={filteredPosts} />
                 </Card>
             </div>
         </>

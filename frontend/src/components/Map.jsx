@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
 import { GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, SimpleGrid } from "@chakra-ui/react";
 import {
   setKey,
   setDefaults,
@@ -18,6 +18,7 @@ import { googleApi, geoCode } from "../googleApi";
 import { getAllPosts } from "../adapters/post-adapter";
 import CreatePostForm from "./CreatePostForm";
 import { NavLink } from "react-router-dom";
+import PostCard from "./PostCard";
 
 const containerStyle = {
   width: '100%',
@@ -30,26 +31,26 @@ const center = {
 };
 
 
-export default function Map() {
+export default function Map({ posts }) {
 
   const [map, setMap] = useState(/** @type google.maps.Map */)
   const [marker, setMarker] = useState(/** @type google.maps.Marker */)
-  const [allPostInfo, setAllPostInfo] = useState([])
+  // const [allPostInfo, setAllPostInfo] = useState([])
   const [zoom, setZoom] = useState(10)
   const { isLoaded } = googleApi()
   geoCode()
 
-  useEffect(() => {
-    const getPostsCords = async () => {
-      const allPosts = await getAllPosts()
-      setAllPostInfo(allPosts)
-    }
-    getPostsCords()
-  }, [map])
+  // useEffect(() => {
+  //   const getPostsCords = async () => {
+  //     const allPosts = await getAllPosts()
+  //     setAllPostInfo(allPosts)
+  //   }
+  //   getPostsCords()
+  // }, [map])
 
-  if (!isLoaded) {
-    return <SkeletonText />
-  }
+  // if (!isLoaded) {
+  //   return <SkeletonText />
+  // }
 
   const handleSubmit = async e => {
     try {
@@ -90,25 +91,35 @@ export default function Map() {
     <Flex h='100vh' w='100%' alignItems='center' justifyContent='center'>
 
 
-    <Box w='30%' h='80%' background='grey' overflow='scroll'>
-    {
-      allPostInfo.map((post, index) => {
-        return <Card key={index} direction={'row'}>
-          <Image src={post.image} alt="post image" />
-          <CardHeader>
-            <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
-          </CardHeader>
-          <CardBody >
-            
-            <Text className="h-[60%]">{post.description}</Text>
-          </CardBody>
-          <CardFooter className="text-gray-500 flex flex-col">
-            <Text className="w-[6em]">Start: {post.start_time}</Text>
-            <Text className="w-[6em]">End: {post.end_time}</Text>
-          </CardFooter>
-        </Card>
-      })
+      <Box w='30%' h='80%' background='grey' overflow='scroll'>
+        {
+          // posts.map((post, index) => {
+          //   return <Card key={index} direction={'row'}>
+          //     <Image src={post.image} alt="post image" />
+          //     <CardHeader>
+          //       <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
+          //     </CardHeader>
+          //     <CardBody >
+
+          //       <Text className="h-[60%]">{post.description}</Text>
+          //     </CardBody>
+          //     <CardFooter className="text-gray-500 flex flex-col">
+          //       <Text className="w-[6em]">Start: {post.start_time}</Text>
+          //       <Text className="w-[6em]">End: {post.end_time}</Text>
+          //     </CardFooter>
+          //   </Card>
+          // })
+
         }
+        <Box w='100%' h={'full'} overflowY={"scroll"}>
+          <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))' className="p-[1rem]">
+            {posts.map((post) => (
+              <ul overflow="scroll" key={post.id}>
+                <PostCard post={post} />
+              </ul>
+            ))}
+          </SimpleGrid>
+        </Box>
       </Box>
 
 
@@ -140,7 +151,7 @@ export default function Map() {
           onLoad={map => setMap(map)}
         >
           <Marker onLoad={marker => console.log(marker)} position={center} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
-          {allPostInfo.map(post => post.cords).map((cord, i) => {
+          {posts.map(post => post.cords).map((cord, i) => {
             return <Marker key={i} position={cord} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
           })
           }
