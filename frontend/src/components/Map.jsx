@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
-import { GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
-import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText } from "@chakra-ui/react";
+import { GoogleMap, Marker, Autocomplete, InfoWindowF, InfoWindow } from '@react-google-maps/api';
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, useFormControlStyles } from "@chakra-ui/react";
 import {
   setKey,
   setDefaults,
@@ -17,7 +17,7 @@ import {
 import { googleApi, geoCode } from "../googleApi";
 import { getAllPosts } from "../adapters/post-adapter";
 import CreatePostForm from "./CreatePostForm";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const containerStyle = {
   width: '100%',
@@ -31,9 +31,9 @@ const center = {
 
 
 export default function Map() {
-
+  const navigate = useNavigate()
   const [map, setMap] = useState(/** @type google.maps.Map */)
-  const [marker, setMarker] = useState(/** @type google.maps.Marker */)
+  const [marker, setMarker] = useState('')
   const [allPostInfo, setAllPostInfo] = useState([])
   const [zoom, setZoom] = useState(10)
   const { isLoaded } = googleApi()
@@ -72,15 +72,6 @@ export default function Map() {
     }
   }
 
-  const visibleHandler = e => {
-    console.log('marker', e)
-  }
-
-  const markerClick = e => {
-    console.log(e.domEvent.target)
-    marker.visible = false
-  }
-
   const reset = () => {
     map.panTo(center)
     setZoom(10)
@@ -90,24 +81,35 @@ export default function Map() {
     <Flex h='100vh' w='100%' alignItems='center' justifyContent='center'>
 
 
-    <Box w='30%' h='80%' background='grey' overflow='scroll'>
-    {
-      allPostInfo.map((post, index) => {
-        return <Card key={index} direction={'row'}>
-          <Image src={post.image} alt="post image" />
-          <CardHeader>
-            <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
-          </CardHeader>
-          <CardBody >
-            
-            <Text className="h-[60%]">{post.description}</Text>
-          </CardBody>
-          <CardFooter className="text-gray-500 flex flex-col">
+      <Box w='30%' h='80%' background='grey' overflow='auto'>
+        <Flex justifyContent='space-between'>
+        <Heading size='lg'>Events</Heading>
+        <CreatePostForm posts={allPostInfo} setPosts={setAllPostInfo}/>
+        </Flex>
+        {
+          allPostInfo.map((post, index) => {
+            return <Box p='10px'>
+              <NavLink to={`/posts/${post.id}`}>
+              <Card key={index} direction={'row'} h='25%'>
+                <Image src={post.image} alt="post image" boxSize='40%' />
+                <Flex flexDirection='column'>
+                  <CardHeader>
+                    <Heading size='sm'>{post.title}</Heading>
+                    <Text>{post.location}</Text>
+                  </CardHeader>
+                  <CardBody >
+                    <Text className="">Start: {post.start_time}</Text>
+                    <Text className="">End: {post.end_time}</Text>
+                  </CardBody>
+                  {/* <CardFooter className="text-gray-500 flex flex-col">
             <Text className="w-[6em]">Start: {post.start_time}</Text>
             <Text className="w-[6em]">End: {post.end_time}</Text>
-          </CardFooter>
-        </Card>
-      })
+          </CardFooter> */}
+                </Flex>
+              </Card>
+              </NavLink>
+            </Box>
+          })
         }
       </Box>
 
@@ -138,13 +140,28 @@ export default function Map() {
             fullscreenControl: false,
           }}
           onLoad={map => setMap(map)}
+          onMouseOut={() => setMarker('')}
         >
-          <Marker onLoad={marker => console.log(marker)} position={center} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
-          {allPostInfo.map(post => post.cords).map((cord, i) => {
-            return <Marker key={i} position={cord} onClick={markerClick} onVisibleChanged={marker => console.log(marker)} />
+          {allPostInfo.map(post => {
+            return <Marker key={post.id} onLoad={marker => console.log(marker)} position={post.cords} onMouseOver={() => setMarker(post)} />
           })
           }
-
+          {marker && (
+            <NavLink to={`/posts/${marker.id}`}>
+            <InfoWindow position={marker.cords} onCloseClick={() => setMarker('')}>
+              
+              <Flex flexDirection="column" alignItems='center'>
+                <Heading size='md'>{marker.title}</Heading>
+                <Image src={marker.image} boxSize='100'/>
+                <Text>{marker.description}</Text>
+                <Flex>
+                <Text><b>Start:</b> {marker.start_time}</Text>
+                <Text><b>End:</b> {marker.end_time}</Text>
+                </Flex>
+              </Flex>
+            </InfoWindow>
+            </NavLink>
+          )}
 
         </GoogleMap>
       </Box>
