@@ -18,33 +18,6 @@ exports.seed = async (knex) => {
     { username: 'default-user', password_hash: await hashPassword('1234') },
   ]);
 
-  // await knex.table('posts').insert([
-  //   {user_id: 1, title: 'Plastic bottle hunt', description: 'Picking up plastic bottles that are laying around and putting them in our trash bags', location: 'Central Park', image: 'https://reinventsouthafrica.files.wordpress.com/2014/12/20141206_083933.jpg?w=640' },
-  //   {user_id: 2, title: 'Community Garden Day', description: 'Helping maintain the community garden and planting new flowers.', location: 'Community Garden', image: 'https://live.staticflickr.com/8636/28251733106_198e86680c.jpg' },
-  //   {user_id: 3, title: 'Beach Cleanup', description: 'Cleaning up litter on the beach for a cleaner environment.', location: 'Ocean Beach', image: 'https://response.restoration.noaa.gov/sites/default/files/images/%5Buid%5D/20160413_NOAA_CREP_003_0.JPG' },
-  //   {user_id: 4, title: 'test 1', description: 'test 1', location: 'test 1'}, 
-  //   {user_id: 4, title: 'test 2', description: 'test 2', location: 'test 2' },
-  //   {user_id: 4, title: 'test 3', description: 'test 3', location: 'test 3' },
-  //   {user_id: 4, title: 'test 4', description: 'test 4', location: 'test 4' },
-  //   {user_id: 4, title: 'test 5', description: 'test 5', location: 'test 5' },
-  //   {user_id: 4, title: 'test 6', description: 'test 6', location: 'test 6' },
-  //   {user_id: 4, title: 'test 7', description: 'test 7', location: 'test 7' },
-  //   {user_id: 4, title: 'test 8', description: 'test 8', location: 'test 8' },
-  //   {user_id: 4, title: 'test 9', description: 'test 9', location: 'test 9' },
-  //   {user_id: 4, title: 'test 10', description: 'test 10', location: 'test 10' },
-  // ]);
-
-  // await knex.table('comments').insert([
-  //   { user_id: 2, post_id: 1, content: 'This is an amazing post!'},
-  //   { user_id: 3, post_id: 1, content: 'I also agree that this is amazing!'},
-  //   { user_id: 1, post_id: 1, content: 'This is my post!'},
-  //   { user_id: 4, post_id: 2, content: 'test 1'},
-  //   { user_id: 4, post_id: 2, content: 'test 2' },
-  //   { user_id: 4, post_id: 2, content: 'test 3' },
-  //   { user_id: 4, post_id: 2, content: 'test 4' },
-  //   { user_id: 4, post_id: 2, content: 'test 5' },
-  // ]);
-
   await knex.table('posts').insert([
   { user_id: 1, title: 'Eco-Friendly DIY Workshop', description: 'Hosting a workshop on creating eco-friendly crafts from recycled materials.', location: 'Local Community Center', image: 'https://lollibox.sg/wp-content/uploads/2021/02/Completed-DIY-Soccer-Table.jpg', start_time: '1:00', end_time: '2:00', date_of_event: '2024-05-01'  },
   { user_id: 2, title: 'Upcycled Fashion Show', description: 'Showcasing fashionable outfits made entirely from upcycled materials.', location: 'Downtown Theater', image: 'https://www.ls3p.com/wp-content/uploads/2019/06/MicrosoftTeams-image-7.jpg', start_time: '3:30', end_time: '5:30', date_of_event: '2024-05-15' },
@@ -64,13 +37,12 @@ await knex.table('comments').insert([
   { user_id: 1, post_id: 4, content: 'Excited to see our community come together for this important project.'},
 ]);
 
-
   await knex.table('likes').insert([
-    {user_id: 2, post_id: 1, likes_amount: 1 },
-    {user_id: 3, post_id: 1, likes_amount: 1 },
-    {user_id: 4, post_id: 1, likes_amount: 1 },
-    {user_id: 1, post_id: 2, likes_amount: 1 },
-    {user_id: 3, post_id: 2, likes_amount: 1 },
+  {user_id: 2, post_id: 1, likes_amount: 1 },
+  {user_id: 3, post_id: 1, likes_amount: 1 },
+  {user_id: 4, post_id: 1, likes_amount: 1 },
+  {user_id: 1, post_id: 2, likes_amount: 1 },
+  {user_id: 3, post_id: 2, likes_amount: 1 },
   ]);
 
 };
