@@ -68,7 +68,7 @@ export default function SiteHeadingAndNav() {
               <li><NavLink className={`p-4 ${textColor}, font-weight: 500`} to='/login'>Login</NavLink></li>
               <li><NavLink
                   style={{ backgroundColor: "#45885f", borderRadius: "10px" }}
-                  className={`p-4 ${textColor}, font-bold`}
+                  className={`p-4 ${textColor}, font-weight: 500`}
                   to='/sign-up'>
                   Sign Up
                 </NavLink></li>
