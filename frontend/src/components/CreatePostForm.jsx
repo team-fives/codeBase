@@ -45,27 +45,27 @@ export default function CreatePostForm({ posts, setPosts, hovered }) {
 
   // if(!currentUser) return <Navigate to='/login'/>
   const handleSubmit = async (event) => {
-    try{
-    event.preventDefault();
-    const user_id = currentUser.id
-    const location = document.getElementById('location').value
-    const { results } = await fromAddress(location)
-    const cords = results[0].geometry.location
-    document.getElementById('location').value = ''
-    setTitle('')
-    setPicture('') //resets/clears input
-    setdescription('')
-    setEndTime('')
+    try {
+      event.preventDefault();
+      const user_id = currentUser.id
+      const location = document.getElementById('location').value
+      const { results } = await fromAddress(location)
+      const cords = results[0].geometry.location
+      document.getElementById('location').value = ''
+      setTitle('')
+      setPicture('') //resets/clears input
+      setdescription('')
+      setEndTime('')
       setDateOfEvent('');
-    setStartTime('')
+      setStartTime('')
 
 
 
-    const [post, error] = await createPost({ user_id, title, image, location, cords, description, start_time: startTime, end_time: endTime,  date_of_event: dateOfEvent }); //post data into db
-    if (error) return setErrorText(error.message);
-    console.log(cords)
-    setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
-    onClose()
+      const [post, error] = await createPost({ user_id, title, image, location, cords, description, start_time: startTime, end_time: endTime, date_of_event: dateOfEvent }); //post data into db
+      if (error) return setErrorText(error.message);
+      console.log(cords)
+      setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
+      onClose()
     }
     catch (error) {
       setTimeout(() => {
@@ -83,7 +83,7 @@ export default function CreatePostForm({ posts, setPosts, hovered }) {
     if (name === 'startTime') setStartTime(value);
     if (name === 'endTime') setEndTime(value)
     if (name === 'description') setdescription(value);
-    if (name === 'dateOfEvent') setDateOfEvent(value); 
+    if (name === 'dateOfEvent') setDateOfEvent(value);
   };
 
   const checkUserLogin = () => { //checks if theres a user logged in when create post button is clicked
@@ -92,8 +92,12 @@ export default function CreatePostForm({ posts, setPosts, hovered }) {
   }
 
   return <>
-    <MdOutlinePostAdd size={50} onClick={checkUserLogin} className='cursor-pointer'/>
-
+    <Box className="flex flex-col justify-center items-center">
+      <MdOutlinePostAdd size={50} onClick={checkUserLogin} className='cursor-pointer' />
+      {
+        hovered && <h2 onClick={checkUserLogin} className='cursor-pointer'>Create a Post!</h2>
+      }
+    </Box>
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>

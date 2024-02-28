@@ -32,17 +32,17 @@ export default function CommunityPosts() {
     useEffect(() => {
         let updatedPosts = [...posts];
         console.log(date)
-        if (filterClick && startTime && endTime) {
+        if (location) {
+            updatedPosts = updatedPosts.filter(post => {
+                return post.location === location;
+            });
+        } else if (filterClick && startTime && endTime) {
             updatedPosts = updatedPosts.filter(post => {
                 return post.start_time >= startTime && post.end_time <= endTime;
             });
         } else if (filterClick && date) {
             updatedPosts = updatedPosts.filter(post => {
                 return post.date_of_event === date;
-            });
-        } else if (filterClick && location) {
-            updatedPosts = updatedPosts.filter(post => {
-                return post.location === location;
             });
         }
 
@@ -53,18 +53,19 @@ export default function CommunityPosts() {
 
     return (
         <>
-            <div className="w-full bg-[#D9D9D9]">
+            <div className="w-full h-full">
                 <CreatePostAndFilterBar
                     setSortClick={setSortClick}
                     setFilterClick={setFilterClick}
                     posts={posts}
                     setPosts={setPosts}
+                    setLocation={setLocation}
                 />
                 <CommunityPostsCard
+                    setPosts={setPosts}
                     filteredPosts={filteredPosts}
                     filterClick={filterClick}
                     setFilteredPosts={setFilteredPosts}
-                    setLocation={setLocation}
                     setDate={setDate}
                     setStartTime={setStartTime}
                     setEndTime={setEndTime}

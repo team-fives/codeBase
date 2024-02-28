@@ -1,13 +1,18 @@
-import { useContext, useEffect, useState } from "react";
 
-import { GoogleMap, useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
-import { Button, FormControl, Input, SimpleGrid } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
+import { GoogleMap, Marker, Autocomplete, InfoWindow } from '@react-google-maps/api';
+import { Box, Card, CardBody, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid } from "@chakra-ui/react";
+import { fromAddress } from "react-geocode";
 import { googleApi, geoCode } from "../googleApi";
+import { getAllPosts } from "../adapters/post-adapter";
+import CreatePostForm from "./CreatePostForm";
+import { NavLink, useNavigate } from "react-router-dom";
 import PostCard from "./PostCard";
 
 const containerStyle = {
-  width: '400px',
-  height: '400px'
+  width: '100%',
+  height: '100%'
 };
 
 const center = {
@@ -18,13 +23,17 @@ const center = {
 
 
 
-export default function Map({ posts }) {
-
+export default function Map({ posts, setPosts }) {
+  const [hovered, setHovered] = useState(false);
   const [map, setMap] = useState(/** @type google.maps.Map */)
   const [marker, setMarker] = useState(/** @type google.maps.Marker */)
   const [zoom, setZoom] = useState(10)
   const { isLoaded } = googleApi()
   geoCode()
+
+  if (!isLoaded) {
+    return <SkeletonText />
+  }
 
   const handleSubmit = async e => {
     try {
@@ -53,20 +62,53 @@ export default function Map({ posts }) {
 
   return <>
     <Flex h='100vh' w='100%' alignItems='center' justifyContent='center'>
-      <Box w='30%' h='80%' background='grey' overflow='scroll'>
-        <Box w='100%' h={'full'} overflowY={"scroll"}>
-          <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))' className="p-[1rem]">
-            {posts.map((post) => (
+      <Box w='35%' h='85%' background='grey' className="rounded-lg">
+        <Card className="h-[5rem] w-full bg-white hover:bg-gray-300 items-end" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+          <Flex className="w-full flex justify-between flex-row">
+            <CardHeader className="w-[65%]">
+              <h1 className="w-[75%]">Community Posts: </h1>
+            </CardHeader>
+            <CardBody>
+              <CreatePostForm posts={posts} setPosts={setPosts} hovered={hovered} className="w-[25%]"/>
+            </CardBody>
+          </Flex>
+        </Card>
+        <Box w='100%' h={'87%'} overflowY={"scroll"}>
+          <Flex flexDir={'column'} className="p-[1rem]">
+            {posts.map((post, index) => (
               <ul overflow="scroll" key={post.id}>
-                <PostCard post={post} />
+                <Card key={index} direction={'row'} className="w-full" >
+                  <CardHeader>
+                    <Image src={post.image} alt="post image" className="w-[10em] h-[6em]" />
+                    <Text className="mt-[1em] text-gray-500">Location: {post.location}</Text>
+                  </CardHeader>
+                  <CardBody className="text-gray-500 flex flex-col w-[100%]">
+                    <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
+                    {/* <Text className="h-[60%]">{post.description}</Text> */}
+                    <Text className="w-[6em]">Date: {post.date_of_event}</Text>
+                    <Text className="w-[6em]">Start: {post.start_time}</Text>
+                    <Text className="w-[6em]">End: {post.end_time}</Text>
+                  </CardBody>
+                  <CardFooter className="text-gray-500 flex flex-row">
+                    {/* {!!isCurrentUserProfile &&
+                      (
+                        <ButtonGroup spacing='2' colorScheme='green' className="bottom-0">
+                          <Button onClick={() => handleDelete(post.id)} variant='ghost' colorScheme='green'>
+                            Delete
+                          </Button>
+                        </ButtonGroup>
+                      )
+                    } */}
+                  </CardFooter>
+                </Card>
               </ul>
             ))}
-          </SimpleGrid>
+          </Flex>
         </Box>
       </Box>
 
 
-      <Box h='80%' w='60%' position='relative'>
+      <Box h='85%' w='60%' position='relative'>
         <IconButton position='absolute' aria-label='Reset Map' icon={<RepeatClockIcon />} onClick={reset} zIndex='1' />
         <Flex position='absolute' zIndex='1' background='grey' right={0} top={0}>
 

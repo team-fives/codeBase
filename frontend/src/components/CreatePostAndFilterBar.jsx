@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"
-import CreatePostForm from "./CreatePostForm";
-import { Select, Card } from "@chakra-ui/react";
+import { Checkbox, CheckboxGroup, SimpleGrid, Box, Flex, FormLabel, FormControl, Input, Center, Stack, Button, Select, Card } from '@chakra-ui/react'
+import { Autocomplete } from "@react-google-maps/api";
+import { geoCode, googleApi } from "../googleApi";
 
-export default function CreatePostAndFilterBar({ posts, setPosts, setSortClick, setFilterClick }) {
-    const [hovered, setHovered] = useState(false);
+export default function CreatePostAndFilterBar({ posts, setPosts, setLocation, setSortClick, setFilterClick }) {
+    const { isLoaded } = googleApi()
     const handleSortClick = (event) => {
         setSortClick(event.target.value);
     }
@@ -12,6 +13,13 @@ export default function CreatePostAndFilterBar({ posts, setPosts, setSortClick, 
         setFilterClick(event.target.value);
     }
 
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const place = document.getElementById('location').value
+        console.log(place)
+        setLocation(place);
+    }
 
     return <>
         <div className={`h-[15rem] w-full bg-community z-0 bg-cover bg-start flex align-middle content-center justify-center items-end overflow-visible`}>
@@ -22,12 +30,25 @@ export default function CreatePostAndFilterBar({ posts, setPosts, setSortClick, 
                         <option value="oldest">Oldest</option>
                     </Select>
                 </Card>
-                <Card onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} className="basis-1/4 h-[5rem] bg-white flex flex-col justify-center items-center hover:bg-gray-300">
-                    <CreatePostForm posts={posts} setPosts={setPosts} hovered={hovered}/>
+                <Card className="basis-2/4 h-[5rem] bg-white hover:bg-gray-300 p-4">
+
+                    <Center>
+                        <FormControl>
+                            {isLoaded && (
+                                <Center>
+                                    <FormControl>
+                                        <Autocomplete>
+                                            <Input name='location' id='location' type="text" placeholder="Location" className='w-full' />
+                                        </Autocomplete>
+                                    </FormControl>
+                                    <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                                </Center>
+                            )}
+                        </FormControl>
+                    </Center>
                 </Card>
                 <Card className="basis-1/4 h-[5rem] bg-white hover:bg-gray-300 p-4">
                     <Select placeholder="Filter By:" onChange={handleFilterClick} className='cursor-pointer'>
-                        <option value="location">Location</option>
                         <option value="date">Date</option>
                         <option value="time">Start/End Time</option>
                     </Select>
