@@ -32,7 +32,7 @@ export default function SiteHeadingAndNav() {
   return (
     <header
       style={{ backgroundColor: `rgb(68,137,96, ${calculatedOpacity})`, zIndex: '10', alignItems: "center", height: "4.5rem" }}
-      className={`${textColor} md:flex md:justify-between md:items-center ${position} top-0 sm:px-12 px-4 py-2 w-full height-64`}>
+      className={`${textColor} md:flex md:justify-between md:items-center ${position} top-0 sm:px-12 px-4 py-2 w-full height-64 z-10`}>
         <Flex align="center" className="PureLink">
           <a href="/" className="flex items-center">
             <img src={logo} className="h-10 mr-2" alt="logo" />

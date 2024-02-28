@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getAllPosts } from "../adapters/post-adapter";
-import CreatePostAndFilterBar from "../components/CreatePostAndFilterBar";
+import CreatePostAndFilterBar from "../components/SearchPostAndFilterBar";
 import CommunityPostsCard from "../components/CommunityPostsCard";
+import Map from "../components/Map";
 
 export default function CommunityPosts() {
     const [posts, setPosts] = useState([]);
@@ -12,6 +13,18 @@ export default function CommunityPosts() {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
+
+    const handleDateChange = (e) => {
+        setDate(e.target.value);
+    }
+
+    const handleStartChange = (e) => {
+        setStartTime(e.target.value);
+    };
+
+    const handleEndChange = (e) => {
+        setEndTime(e.target.value);
+    };
 
     useEffect(() => {
         const getPosts = async () => {
@@ -54,14 +67,14 @@ export default function CommunityPosts() {
     return (
         <>
             <div className="w-full h-full">
-                <CreatePostAndFilterBar
+                {/* <CreatePostAndFilterBar
                     setSortClick={setSortClick}
                     setFilterClick={setFilterClick}
                     posts={posts}
                     setPosts={setPosts}
                     setLocation={setLocation}
-                />
-                <CommunityPostsCard
+                /> */}
+                {/* <CommunityPostsCard
                     setPosts={setPosts}
                     filteredPosts={filteredPosts}
                     filterClick={filterClick}
@@ -69,7 +82,41 @@ export default function CommunityPosts() {
                     setDate={setDate}
                     setStartTime={setStartTime}
                     setEndTime={setEndTime}
-                />
+                /> */}
+                {
+                        filterClick === "time" && (
+                            <Center>
+                                <FormControl className="mt-[5rem]">
+                                    <Flex direction="row" gap="4">
+                                        <FormLabel htmlFor='startTime'>Start:</FormLabel>
+                                        <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' />
+                                        <FormLabel htmlFor='endTime'>End:</FormLabel>
+                                        <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' />
+                                    </Flex>
+                                </FormControl>
+                            </Center>
+                        )
+                    }
+                    {
+                        filterClick === "date" && (
+                            <Center>
+                                <FormControl className="mt-[5rem]">
+                                    <FormLabel htmlFor='date'>Date:</FormLabel>
+                                    <Input onChange={handleDateChange} type='date' id='date' name='date' />
+                                </FormControl>
+                            </Center>
+                        )
+                    }
+                    <Map 
+                    posts={filteredPosts} 
+                    setPosts={setPosts}
+                    filteredPosts={filteredPosts}
+                    filterClick={filterClick}
+                    setFilteredPosts={setFilteredPosts}
+                    setDate={setDate}
+                    setStartTime={setStartTime}
+                    setEndTime={setEndTime}
+                     />
             </div>
         </>
     );

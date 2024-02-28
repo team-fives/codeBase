@@ -22,30 +22,27 @@ export default function CreatePostAndFilterBar({ posts, setPosts, setLocation, s
     }
 
     return <>
-        <div className={`h-[15rem] w-full bg-community z-0 bg-cover bg-start flex align-middle content-center justify-center items-end overflow-visible`}>
-            <div className="w-[75%] flex flex-row justify-center items-center mt-2 pt-4 space-x-[2rem] absolute translate-y-[45%]">
+        <div className="w-[75%] flex flex-col justify-center items-center mt-2 pt-4 space-x-[2rem] absolute translate-y-[45%] z-9">
+            <Center>
+                <FormControl>
+                    {isLoaded && (
+                        <Center>
+                            <FormControl>
+                                <Autocomplete>
+                                    <Input name='location' id='location' type="text" placeholder="Location" className='w-full' />
+                                </Autocomplete>
+                            </FormControl>
+                            <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                        </Center>
+                    )}
+                </FormControl>
+            </Center>
+            <Center>
                 <Card className="basis-1/4 h-[5rem] bg-white hover:bg-gray-300 p-4">
-                    <Select placeholder="Sort By:" onChange={handleSortClick} className='cursor-pointer'>
+                    <Select placeholder="Sort By:" defaultValue={"latest"} onChange={handleSortClick} className='cursor-pointer'>
                         <option value="latest">Latest</option>
                         <option value="oldest">Oldest</option>
                     </Select>
-                </Card>
-                <Card className="basis-2/4 h-[5rem] bg-white hover:bg-gray-300 p-4">
-
-                    <Center>
-                        <FormControl>
-                            {isLoaded && (
-                                <Center>
-                                    <FormControl>
-                                        <Autocomplete>
-                                            <Input name='location' id='location' type="text" placeholder="Location" className='w-full' />
-                                        </Autocomplete>
-                                    </FormControl>
-                                    <Button type="submit" onClick={handleSubmit}>Submit</Button>
-                                </Center>
-                            )}
-                        </FormControl>
-                    </Center>
                 </Card>
                 <Card className="basis-1/4 h-[5rem] bg-white hover:bg-gray-300 p-4">
                     <Select placeholder="Filter By:" onChange={handleFilterClick} className='cursor-pointer'>
@@ -53,8 +50,7 @@ export default function CreatePostAndFilterBar({ posts, setPosts, setLocation, s
                         <option value="time">Start/End Time</option>
                     </Select>
                 </Card>
-            </div>
-
+            </Center>
         </div>
     </>
 }

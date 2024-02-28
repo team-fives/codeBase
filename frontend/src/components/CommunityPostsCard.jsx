@@ -26,13 +26,13 @@ export default function CommunityPostsCard({ filterClick, filteredPosts, setStar
 
     return (
         <>
-            <Box position="relative" zIndex="1" className='h-[100%] w-[100%] flex flex-col justify-center items-center mt-[1rem]'>
+            <Box position="relative" zIndex="1" className='h-[100%] w-[100%] flex flex-col justify-center items-center'>
                 {/* className='h-full w-full bg-[#D9D9D9] flex flex-col justify-center items-center p-[4rem]' */}
 
                     {
                         filterClick === "time" && (
                             <Center>
-                                <FormControl>
+                                <FormControl className="mt-[5rem]">
                                     <Flex direction="row" gap="4">
                                         <FormLabel htmlFor='startTime'>Start:</FormLabel>
                                         <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' />
@@ -46,7 +46,7 @@ export default function CommunityPostsCard({ filterClick, filteredPosts, setStar
                     {
                         filterClick === "date" && (
                             <Center>
-                                <FormControl>
+                                <FormControl className="mt-[5rem]">
                                     <FormLabel htmlFor='date'>Date:</FormLabel>
                                     <Input onChange={handleDateChange} type='date' id='date' name='date' />
                                 </FormControl>

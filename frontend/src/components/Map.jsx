@@ -9,6 +9,7 @@ import { getAllPosts } from "../adapters/post-adapter";
 import CreatePostForm from "./CreatePostForm";
 import { NavLink, useNavigate } from "react-router-dom";
 import PostCard from "./PostCard";
+import SearchPostAndFilterBar from "./SearchPostAndFilterBar";
 
 const containerStyle = {
   width: '100%',
@@ -55,21 +56,37 @@ export default function Map({ posts, setPosts }) {
     }
   }
 
+  const handleSortClick = (event) => {
+    setSortClick(event.target.value);
+  }
+
+  const handleFilterClick = (event) => {
+    setFilterClick(event.target.value);
+  }
+
+
+  const handleFilterSubmit = (e) => {
+    e.preventDefault()
+    const place = document.getElementById('location').value
+    console.log(place)
+    setLocation(place);
+  }
+
   const reset = () => {
     map.panTo(center)
     setZoom(10)
   }
 
   return <>
-    <Flex h='100vh' w='100%' alignItems='center' justifyContent='center'>
+    <Flex h='100vh' w='100%' alignItems='center' justifyContent='center' className="z-8">
       <Box w='35%' h='85%' background='grey' className="rounded-lg">
-        <Card className="h-[5rem] w-full bg-white hover:bg-gray-300 items-end" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-          <Flex className="w-full flex justify-between flex-row">
+        <Card className="h-[10rem] w-full bg-white hover:bg-gray-300 items-end" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+          <Flex className="w-full row">
             <CardHeader className="w-[65%]">
-              <h1 className="w-[75%]">Community Posts: </h1>
+              <SearchPostAndFilterBar />
             </CardHeader>
             <CardBody>
-              <CreatePostForm posts={posts} setPosts={setPosts} hovered={hovered} className="w-[25%]"/>
+              <CreatePostForm posts={posts} setPosts={setPosts} hovered={hovered} className="w-[25%]" />
             </CardBody>
           </Flex>
         </Card>
