@@ -1,8 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import { createPost } from "../adapters/post-adapter";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { Navigate, useNavigate } from "react-router-dom";
+import { Autocomplete } from "@react-google-maps/api";
+import { geoCode, googleApi } from "../googleApi";
+import { fromAddress } from "react-geocode";
+import UploadcareComponent from "./UploadCareClient";
 import {
   Modal,
   ModalOverlay,
@@ -19,10 +23,6 @@ import {
   Box,
   Flex,
 } from '@chakra-ui/react'
-import { Autocomplete } from "@react-google-maps/api";
-import { geoCode, googleApi } from "../googleApi";
-import { fromAddress } from "react-geocode";
-import UploadcareComponent from "./UploadCareClient";
 
 export default function CreatePostForm({ posts, setPosts, hovered }) {
   const { isLoaded } = googleApi()
@@ -102,42 +102,41 @@ export default function CreatePostForm({ posts, setPosts, hovered }) {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Post</ModalHeader>
+        <ModalHeader style={{ color: '#45885f', fontWeight: 'bold', fontSize: '2rem', marginTop: '1rem' }}>Create an Event!</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl isRequired>
-            <FormLabel>Title</FormLabel>
-            <Input onChange={handleChange} value={title} type="text" id="title" name="title" />
+          <FormControl>
+            <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '-1rem' }}>Title</FormLabel>
+            <Input onChange={handleChange} value={title} type="text" id="title" name="title" placeholder="Title" focusBorderColor="#45885f"  />
 
-            <FormLabel>Picture</FormLabel>
+            <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '0.5rem' }}>Picture</FormLabel>
             <UploadcareComponent onUploadFinish={handleUploadFinish} />
 
-            <FormLabel>Date of Event</FormLabel>
-            <Input onChange={handleChange} value={dateOfEvent} type="date" name="dateOfEvent" />
+            <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '0.5rem' }}>Date of Event</FormLabel>
+            <Input onChange={handleChange} value={dateOfEvent} type="date" name="dateOfEvent" focusBorderColor="#45885f"/>
 
-            <FormLabel>Description</FormLabel>
-            <Input onChange={handleChange} value={description} type='text' id='description' name='description' placeholder="Description" />
-          </FormControl>
-          <FormLabel>Location</FormLabel>
+            <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '0.5rem' }}>Description</FormLabel>
+            <Input onChange={handleChange} value={description} type='text' id='description' name='description' placeholder="Description" focusBorderColor="#45885f"/>
+            <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '0.5rem' }}>Location</FormLabel>
           {isLoaded && (
             <Autocomplete>
-              <Input name='location' id='location' type="text" onChange={handleChange} placeholder="Location" />
+              <Input name='location' id='location' type="text" onChange={handleChange} placeholder="Location" focusBorderColor="#45885f"/>
             </Autocomplete>
           )}
-          <Box>
+            <Box>
             <Flex>
-              <FormLabel>Start</FormLabel>
-              <Input onChange={handleChange} value={startTime} type='time' id='startTime' name='startTime' />
-              <FormLabel>End</FormLabel>
-              <Input onChange={handleChange} value={endTime} type='time' id='endTime' name='endTime' />
+              <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '1rem' }}>Start</FormLabel>
+              <Input onChange={handleChange} value={startTime} type='time' id='startTime' name='startTime' style={{marginTop: '1rem', marginLeft: '-0.5rem'}} focusBorderColor="#45885f"/>
+              <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '1rem', marginLeft: '0.5rem' }}>End</FormLabel>
+              <Input onChange={handleChange} value={endTime} type='time' id='endTime' name='endTime' style={{marginTop: '1rem', marginLeft: '-0.5rem'}} focusBorderColor="#45885f"/>
             </Flex>
           </Box>
-
+          </FormControl>
 
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme='blue' mr={3} onClick={onClose}>
+          <Button backgroundColor={'#45885f'} mr={3} onClick={onClose} colorScheme="green">
             Close
           </Button>
           <Button onClick={handleSubmit} variant='ghost'>Upload</Button>

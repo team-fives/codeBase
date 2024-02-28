@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import CurrentUserContext from "../contexts/current-user-context";
 import logo from "../imgs/logo.png"
 import { Flex } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
 export default function SiteHeadingAndNav() {
   const { currentUser } = useContext(CurrentUserContext);
@@ -39,43 +40,51 @@ export default function SiteHeadingAndNav() {
             {!isHomepage && <span style={{ fontWeight: 500 }}>PureLink</span>}
           </a>
         </Flex>
-      <nav>
-        <ul className={`md:flex md:space-x-1 md:items-center`}>
-          <div className="relative flex flex-col items-center">
-            {
-              !isHomepage &&
-              <button onClick={() => setIsOpen(!isOpen)} className={`p-4 ${textColor}, font-weight: 500`}>
+        <nav>
+          <ul className="md:flex md:space-x-1 md:items-center">
+            <div className="relative flex flex-col items-center">
+              <button onClick={() => setIsOpen(!isOpen)} className="p-4 text-black font-weight-500">
                 Services
-                {
-                  isOpen && <div style={{ backgroundColor: `rgba(68,137,96, ${calculatedOpacity})` }} className={`${textColor} absolute top-[4rem] z-50`}>
-                    {
-                      <ul className={`m-2 w-20`}>
-                        <li><NavLink className='mb-1' to='/map'>Data Maps</NavLink></li>
-                        <li><NavLink className='mb-1' to='/posts'>Posts</NavLink></li>
-                        <li className="mb-1"><a href="/About-us">About Us</a></li>
-                        <li><NavLink className='mb-1' to='/Articles'>Articles</NavLink></li>
-                      </ul>
-                    }
-                  </div>
-                }
+                {isOpen && (
+                  <motion.div
+                    className="absolute top-14 right-0 z-50"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ul className="m-2 w-20">
+                      <motion.li whileHover={{ scale: 1.1, backgroundColor: '#45885f'}} whileTap={{ scale: 0.9 }}> 
+                        <NavLink className="block py-1" to="/map">Data Maps</NavLink>
+                      </motion.li>
+                      <motion.li whileHover={{ scale: 1.1, backgroundColor: '#45885f'}} whileTap={{ scale: 0.9 }}>
+                        <NavLink className="block py-1" to="/posts">Posts</NavLink>
+                      </motion.li>
+                      <motion.li whileHover={{ scale: 1.1, backgroundColor: '#45885f' }} whileTap={{ scale: 0.9 }}>
+                        <NavLink className="block py-1" to="/about-us">About Us</NavLink>
+                      </motion.li>
+                      <motion.li whileHover={{ scale: 1.1, backgroundColor: '#45885f' }} whileTap={{ scale: 0.9 }}>
+                        <NavLink className="block py-1" to="/Articles">Articles</NavLink>
+                      </motion.li>
+                    </ul>
+                  </motion.div>
+                )}
               </button>
-
-            }
-          </div>
-          {currentUser
-            ? <li><NavLink className={`p-4 ${textColor}, font-weight: 500`} to={`/users/${currentUser.id}`}>{currentUser.username}</NavLink></li>
-            : <>
-              <li><NavLink className={`p-4 ${textColor}, font-weight: 500`} to='/login'>Login</NavLink></li>
-              <li><NavLink
-                  style={{ backgroundColor: "#45885f", borderRadius: "10px" }}
-                  className={`p-4 ${textColor}, font-weight: 500`}
-                  to='/sign-up'>
-                  Sign Up
-                </NavLink></li>
-            </>
-          }
-        </ul>
-      </nav>
+            </div>
+            {currentUser
+                ? <li><NavLink className={`p-4 ${textColor}, font-weight: 500`} to={`/users/${currentUser.id}`}>{currentUser.username}</NavLink></li>
+                : <>
+                  <li><NavLink className={`p-4 ${textColor}, font-weight: 500`} to='/login'>Login</NavLink></li>
+                  <li><NavLink
+                      style={{ backgroundColor: "#45885f", borderRadius: "10px" }}
+                      className={`p-4 ${textColor}, font-weight: 500`}
+                      to='/sign-up'>
+                      Sign Up
+                    </NavLink></li>
+                </>
+              }
+          </ul>
+        </nav>
     </header>
   );
 }
