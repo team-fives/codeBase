@@ -4,6 +4,7 @@ import 'react-multi-carousel/lib/styles.css';
 import CarouselCard from './CarouselCards';
 import { Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { motion } from 'framer-motion';
 
 export default function ArticlesCarousel() {
     const responsive = {
@@ -58,19 +59,33 @@ export default function ArticlesCarousel() {
         fetchData();
     }, [filter]);
 
-    return (
-        <div className='articlesCarousel' style={{ position: 'relative', padding: '0 8rem', marginLeft: '1rem', marginTop: '2rem', marginBottom: '5rem' }}>
-            <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '2rem', textAlign: 'center' }}>Learn More</h1>
-            <Carousel
-                responsive={responsive}
-                arrows={false}
-                renderButtonGroupOutside={true}
-                customButtonGroup={<CustomButtonGroup />}
-            >
-                {articles.map((article, index) => (
-                    <CarouselCard key={index} article={article} />
-                ))}
-            </Carousel>
-        </div>
-    );
+    const variants = {
+      hidden: { opacity: 0, x: -100 },
+      visible: { opacity: 1, x: 0 }
+  };
+
+  return (
+      <div className='articlesCarousel' style={{ position: 'relative', padding: '0 8rem', marginLeft: '1rem', marginTop: '2rem', marginBottom: '5rem' }}>
+          <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '2rem', textAlign: 'center' }}>Learn More</h1>
+          <Carousel
+              responsive={responsive}
+              arrows={false}
+              renderButtonGroupOutside={true}
+              customButtonGroup={<CustomButtonGroup />}
+          >
+              {articles.map((article, index) => (
+                  <motion.div 
+                    key={index}
+                    initial="hidden"
+                    whileInView="visible"
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    variants={variants}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                      <CarouselCard article={article} />
+                  </motion.div>
+              ))}
+          </Carousel>
+      </div>
+  );
 }
