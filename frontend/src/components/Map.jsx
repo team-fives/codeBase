@@ -11,7 +11,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import PostCard from "./PostCard";
 import SearchPostAndFilterBar from "./SearchPostAndFilterBar";
 import CommunityPostsCard from "./CommunityPostsCard";
-import { googleApi } from "../googleApi";
 
 const containerStyle = {
   width: '100%',
@@ -25,7 +24,7 @@ const center = {
 
 
 
-export default function Map() {
+export default function Map({ posts, setPosts, setLocation, sortClick, setSortClick, filterClick, setFilterClick, setFilteredPosts, setDate, setStartTime, setEndTime }) {
   const navigate = useNavigate()
   const [map, setMap] = useState(/** @type google.maps.Map */)
   const [marker, setMarker] = useState(/** @type google.maps.Marker */)
