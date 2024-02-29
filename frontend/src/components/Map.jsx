@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
 import { GoogleMap, Marker, Autocomplete, InfoWindow } from '@react-google-maps/api';
-import { Box, Card, CardBody, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, Button } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardHeader, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup} from "@chakra-ui/react";
 import { fromAddress } from "react-geocode";
 import { googleApi, geoCode } from "../googleApi";
 import { getAllPosts } from "../adapters/post-adapter";
@@ -104,7 +104,7 @@ export default function Map() {
           <InputGroup>
             <Autocomplete>
               <FormControl>
-                <Input name='search' id='search' type="text" placeholder="Search Location"  pr='4rem'/>
+                <Input name='search' id='search' type="text" placeholder="Search Location"  pr='4rem' focusBorderColor="#45885f"/>
               </FormControl>
             </Autocomplete>
               <IconButton aria-label='Search Map' icon={<SearchIcon />} onClick={handleSubmit} background='white'/>
@@ -129,9 +129,10 @@ export default function Map() {
             fullscreenControl: false,
           }}
           onLoad={map => setMap(map)}
-          // onMouseOut={() => setMarker('')}
+          onMouseOut={() => setMarker('')}
         >
           {allPostInfo.map(post => {
+            console.log(post.title, post.cords)
             return <Marker key={post.id} onLoad={marker => console.log(marker)} position={post.cords} onMouseOver={() => setMarker(post)} />
           })
           }
@@ -146,14 +147,3 @@ export default function Map() {
     </Flex>
   </>
 }
-
-{/* <Box h='100%' w='50%'>
-              <Autocomplete>
-                <FormControl>
-                  <Input name='search' id='search' type="text" placeholder="Search Location" />
-                </FormControl>
-              </Autocomplete>
-              <Button type="submit" onClick={handleSubmit}>Submit</Button>
-              <Button onClick={reset}>Reset Map</Button>
-              <CreatePostForm posts={allPostInfo} setPosts={setAllPostInfo} />
-</Box> */}

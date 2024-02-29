@@ -5,10 +5,6 @@ import { IoIosTime } from "react-icons/io";
 import { TbArrowBack, TbArrowForwardUpDouble } from "react-icons/tb";
 
 export default function PostCard({ post, setMarker }) {
-    const caseTitle = (title) => {
-        console.log(title.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' '))
-        return title.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
-    }
     return (
         <>
             <NavLink to={`/posts/${post.id}`}>
@@ -17,7 +13,7 @@ export default function PostCard({ post, setMarker }) {
                         <Image src={post.image} h='100%' w='100%' objectFit={'cover'} maxH={200} />
                     </Box>
                     <Box p={'4% 0 7% 4%'}>
-                        <Heading size='md' textAlign={'left'} textColor={'black'}><i>{caseTitle(post.title)}</i></Heading>
+                        <Heading size='md' textAlign={'left'} textColor={'black'}><i>{post.title}</i></Heading>
                         <Flex pt={2}>
                             <MdEvent />
                             <Text fontWeight={500} pl={1} width={'95%'}>{post.date_of_event}</Text>

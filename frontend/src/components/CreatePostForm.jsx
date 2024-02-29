@@ -48,6 +48,7 @@ export default function CreatePostForm({ posts, setPosts }) {
     try{
     event.preventDefault();
     const user_id = currentUser.id
+    const titleCap = title.toLowerCase().split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
     const location = document.getElementById('location').value
     const { results } = await fromAddress(location)
     const cords = results[0].geometry.location
@@ -61,7 +62,7 @@ export default function CreatePostForm({ posts, setPosts }) {
 
 
 
-    const [post, error] = await createPost({ user_id, title, image, location, cords, description, start_time: startTime, end_time: endTime,  date_of_event: dateOfEvent }); //post data into db
+    const [post, error] = await createPost({ user_id, titleCap, image, location, cords, description, start_time: startTime, end_time: endTime,  date_of_event: dateOfEvent }); //post data into db
     if (error) return setErrorText(error.message);
     console.log(cords)
     setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
