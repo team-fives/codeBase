@@ -7,6 +7,7 @@ import { getAllUserPosts } from "../adapters/post-adapter";
 import { getAllUserLikes } from "../adapters/like-adapter";
 import { getPost } from "../adapters/post-adapter";
 import { deletePost } from "../adapters/post-adapter";
+import CommunityPostsCard from "./CommunityPostsCard";
 
 const UserProfileTabs = ({ username, id, bio, isCurrentUserProfile }) => {
     const [userPosts, setUserPosts] = useState([]);
@@ -57,33 +58,35 @@ const UserProfileTabs = ({ username, id, bio, isCurrentUserProfile }) => {
                         userPosts.length > 0 ?
                             userPosts.map((post, index) => {
                                 return (
-                                    <Card key={index} direction={'row'}>
-                                        <CardHeader>
-                                            <Image src={post.image} alt="post image" />
-                                            <Text className="mt-[1em] text-gray-500">Location: {post.location}</Text>
-                                        </CardHeader>
-                                        <CardBody >
-                                            <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
-                                            <Text className="h-[60%]">{post.description}</Text>
-                                            {!!isCurrentUserProfile &&
-                                                (
-                                                    <ButtonGroup spacing='2' colorScheme='green' className="bottom-0">
-                                                        <Button onClick={() => handleDelete(post.id)} variant='ghost' colorScheme='green'>
-                                                            Delete
-                                                        </Button>
-                                                    </ButtonGroup>
-                                                )
-                                            }
-                                        </CardBody>
-                                        <CardFooter className="text-gray-500 flex flex-col">
-                                            <Text className="w-[6em]">Start: {post.start_time}</Text>
-                                            <Text className="w-[6em]">End: {post.end_time}</Text>
-                                        </CardFooter>
-                                    </Card>
+                                    // <Card key={index} direction={'row'}>
+                                    //     <CardHeader>
+                                    //         <Image src={post.image} alt="post image" />
+                                    //         <Text className="mt-[1em] text-gray-500">Location: {post.location}</Text>
+                                    //     </CardHeader>
+                                    //     <CardBody >
+                                    //         <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
+                                    //         <Text className="h-[60%]">{post.description}</Text>
+                                    //         {!!isCurrentUserProfile &&
+                                    //             (
+                                    //                 <ButtonGroup spacing='2' colorScheme='green' className="bottom-0">
+                                    //                     <Button onClick={() => handleDelete(post.id)} variant='ghost' colorScheme='green'>
+                                    //                         Delete
+                                    //                     </Button>
+                                    //                 </ButtonGroup>
+                                    //             )
+                                    //         }
+                                    //     </CardBody>
+                                    //     <CardFooter className="text-gray-500 flex flex-col">
+                                    //         <Text className="w-[6em]">Start: {post.start_time}</Text>
+                                    //         <Text className="w-[6em]">End: {post.end_time}</Text>
+                                    //     </CardFooter>
+                                    // </Card>
+                                    <CommunityPostsCard key={index} post={post} isCurrentUserProfile={isCurrentUserProfile}/>
                                 )
                             })
                             : <p>No posts yet</p>
                     }</ul>
+                
                 </TabPanel>
                 <TabPanel overflow={"auto"} className="h-[20rem] ">
                     <ul className="flex flex-col">{

@@ -4,15 +4,15 @@ import { MdEvent, MdLocationPin } from "react-icons/md";
 import { IoIosTime } from "react-icons/io";
 import { TbArrowBack, TbArrowForwardUpDouble } from "react-icons/tb";
 import { Autocomplete } from "@react-google-maps/api";
-import { Box, Card, CardBody, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid } from "@chakra-ui/react";
+import { Box, Card, ButtonGroup, Button, CardBody, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid } from "@chakra-ui/react";
 import PostCard from "./PostCard";
 import Map from "../components/Map";
 
-export default function CommunityPostsCard({ post, index }) {
+export default function CommunityPostsCard({ post, index, isCurrentUserProfile }) {
 
     return (
         <>
-            <Card key={index} direction={'row'}  className="w-full justify-center" >
+            <Card key={index} direction={'row'} className="w-full justify-center" >
                 <Box className="m-[1em]">
                     <Image src={post.image} alt="post image" className="w-[10em] h-[6em]" />
                     <Flex diretion={'row'} className="justify-center items-center mt-[1em] text-gray-500">
@@ -33,6 +33,15 @@ export default function CommunityPostsCard({ post, index }) {
                         <Text className="w-[6em] ml-[0.5em]">Ends: {post.end_time}</Text>
                     </Flex>
                 </Box>
+                {!!isCurrentUserProfile &&
+                    (
+                        <ButtonGroup spacing='2' colorScheme='green' className="bottom-0">
+                            <Button onClick={() => handleDelete(post.id)} variant='ghost' colorScheme='green'>
+                                Delete
+                            </Button>
+                        </ButtonGroup>
+                    )
+                }
             </Card>
         </>
     );
