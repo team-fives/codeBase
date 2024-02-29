@@ -5,50 +5,40 @@ import { logUserOut } from "../adapters/auth-adapter";
 import { getAllUserComments } from "../adapters/comment-adapter";
 import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Avatar, Button, ButtonGroup, Box, Card, CardHeader, CardBody } from '@chakra-ui/react';
 import UpdateUsernameForm from "./UpdateUsernameForm";
-import UploadcareComponent from "./UploadCareClient";
-import { updateProfileImage } from '../adapters/user-adapter';
-const UserProfileCard = ({ username, bio, profileimage, isCurrentUserProfile, onProfileImageUpdate, onUsernameUpdate }) => {
+
+const UserProfileCard = ({ username, bio, profileimage, isCurrentUserProfile, onUsernameUpdate }) => {
+  // Hooks and context
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { id } = useParams();
   const [userComments, setUserComments] = useState([]);
-  const [updatedProfileImage, setUpdatedProfileImage] = useState(profileimage); // Added state for the updated profile image
-  const [errorText, setErrorText] = useState(null); // State for handling errors
+  const [errorText, setErrorText] = useState(null);
+
+  // Event handlers
   const handleLogout = async () => {
     logUserOut();
     setCurrentUser(null);
     navigate('/');
   };
+
   const loadComments = async () => {
     const [result, error] = await getAllUserComments(id);
-    if (error) return setErrorText(error.text);
-    setUserComments(result);
-  }
-  const handleProfileImageUpload = async (profile_image) => {
-    console.log("id in profile user card", currentUser.id);
-    console.log("image:", profile_image);
-
-    if (currentUser) {
-      const updateResult = await updateProfileImage(currentUser.id, profile_image);
-      // Assuming updateProfileImage returns a success status or the updated URL directly
-      if (updateResult) {
-        const newImageUrl = profile_image; 
-        setUpdatedProfileImage(newImageUrl);
-        onProfileImageUpdate(newImageUrl); 
-      }
-    }
+    if (error) setErrorText(error.text);
+    else setUserComments(result);
   };
 
+  // Effects
   useEffect(() => {
     loadComments();
   }, [id]);
+
+  // JSX
   return (
     <Card background={'transparent'} border="0px" boxShadow="0">
       <CardHeader className="flex flex-col items-center space-y-[1rem] mb-[22.5rem]">
-        <Avatar size="2xl" width="10rem" height="10rem" fontSize="5.5rem" name={username} src={updatedProfileImage} />
+        <Avatar size="2xl" width="10rem" height="10rem" fontSize="5.5rem" name={username} src={profileimage} />
         {isCurrentUserProfile && (
           <ButtonGroup>
-            <UploadcareComponent onUploadFinish={handleProfileImageUpload} />
             <UpdateUsernameForm {...{ currentUser, setCurrentUser, onUsernameUpdate }} />
             <Button onClick={handleLogout} className="w-[5rem] h-[2rem] bg-[#989A99] rounded-lg z-0">Log Out</Button>
           </ButtonGroup>
@@ -77,4 +67,5 @@ const UserProfileCard = ({ username, bio, profileimage, isCurrentUserProfile, on
     </Card>
   );
 };
-export default UserProfileCard
+
+export default UserProfileCard;
