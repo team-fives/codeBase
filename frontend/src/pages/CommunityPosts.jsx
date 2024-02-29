@@ -14,17 +14,7 @@ export default function CommunityPosts() {
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
 
-    const handleDateChange = (e) => {
-        setDate(e.target.value);
-    }
 
-    const handleStartChange = (e) => {
-        setStartTime(e.target.value);
-    };
-
-    const handleEndChange = (e) => {
-        setEndTime(e.target.value);
-    };
 
     useEffect(() => {
         const getPosts = async () => {
@@ -67,56 +57,19 @@ export default function CommunityPosts() {
     return (
         <>
             <div className="w-full h-full">
-                {/* <CreatePostAndFilterBar
-                    setSortClick={setSortClick}
-                    setFilterClick={setFilterClick}
-                    posts={posts}
+                <Map
+                    posts={filteredPosts}
                     setPosts={setPosts}
                     setLocation={setLocation}
-                /> */}
-                {/* <CommunityPostsCard
-                    setPosts={setPosts}
-                    filteredPosts={filteredPosts}
+                    sortClick={sortClick}
+                    setSortClick={setSortClick}
                     filterClick={filterClick}
+                    setFilterClick={setFilterClick}
                     setFilteredPosts={setFilteredPosts}
                     setDate={setDate}
                     setStartTime={setStartTime}
                     setEndTime={setEndTime}
-                /> */}
-                {
-                        filterClick === "time" && (
-                            <Center>
-                                <FormControl className="mt-[5rem]">
-                                    <Flex direction="row" gap="4">
-                                        <FormLabel htmlFor='startTime'>Start:</FormLabel>
-                                        <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' />
-                                        <FormLabel htmlFor='endTime'>End:</FormLabel>
-                                        <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' />
-                                    </Flex>
-                                </FormControl>
-                            </Center>
-                        )
-                    }
-                    {
-                        filterClick === "date" && (
-                            <Center>
-                                <FormControl className="mt-[5rem]">
-                                    <FormLabel htmlFor='date'>Date:</FormLabel>
-                                    <Input onChange={handleDateChange} type='date' id='date' name='date' />
-                                </FormControl>
-                            </Center>
-                        )
-                    }
-                    <Map 
-                    posts={filteredPosts} 
-                    setPosts={setPosts}
-                    filteredPosts={filteredPosts}
-                    filterClick={filterClick}
-                    setFilteredPosts={setFilteredPosts}
-                    setDate={setDate}
-                    setStartTime={setStartTime}
-                    setEndTime={setEndTime}
-                     />
+                />
             </div>
         </>
     );

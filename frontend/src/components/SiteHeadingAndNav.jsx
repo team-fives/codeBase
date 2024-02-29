@@ -15,9 +15,9 @@ export default function SiteHeadingAndNav() {
   const isCommunityPage = location.pathname === '/posts';
   const isArticlesPage = location.pathname === '/Articles';
 
-  const position = (isHomepage || isCommunityPage || isArticlesPage) ? 'fixed' : 'relative';
+  const position = (isHomepage || isArticlesPage) ? 'fixed' : 'relative';
   const textColor = isCommunityPage ? 'black' : 'white';
-  const calculatedOpacity = (isHomepage || isCommunityPage || isArticlesPage) ? `${bgOpacity}` : '1';
+  const calculatedOpacity = (isHomepage || isArticlesPage) ? `${bgOpacity}` : '1';
 
   useEffect(() => {
     const handleScroll = () => {
