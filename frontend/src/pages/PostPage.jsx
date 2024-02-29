@@ -24,11 +24,13 @@ export default function PostPage() {
     }, [id])
 
     return <>
-    <div className="w-full bg-[#D9D9D9]">
-        <Flex alignContent={'center'} justifyContent={'center'}>
+    <div>
+        <Flex alignItems={'center'} justifyContent={'center'} flexDirection={"column"}>
             <Post id={id} comments={postComments} setComments={setPostComments} />
             {/*pass in all comments arr as prop to create comments form so any recently made comments also gets added and displayed */}
-            {/* <AddComment post_id={id} comments={postComments} setComments={setPostComments} /> */}
+            {/* <Flex alignContent={'center'}>
+            <AddComment post_id={id} comments={postComments} setComments={setPostComments} />
+            </Flex> */}
         </Flex>
     </div>
     </>

@@ -9,6 +9,7 @@ import { getAllPostLikes, getAllUserLikes, findUserLike, uploadLike, deleteLike 
 import { MdEvent, MdLocationPin } from "react-icons/md";
 import { IoIosTime } from "react-icons/io";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import AddComment from "./AddComment";
 
 export default function Post({ id, comments, setComments }) {
     const { currentUser } = useContext(CurrentUserContext);
@@ -72,9 +73,9 @@ export default function Post({ id, comments, setComments }) {
         };
 
         const onLoadLikeCheck = async () => {
-            if(!currentUser) return 
+            if (!currentUser) return
             let [likeCheck, error] = await findUserLike(id, currentUser.id);
-            if(likeCheck) setUserLiked(true)
+            if (likeCheck) setUserLiked(true)
             setlikeCheckId(likeCheck.id)
         }
 
@@ -94,52 +95,56 @@ export default function Post({ id, comments, setComments }) {
     }, [userPost.user_id]);
 
     return (<>
-        <Flex w={'90%'} h={'100vh'} flexDirection={'row'}>
-            {/* box with user, important info, maybe copy location button */}
-            <Box w={'20%'} justifyContent={'center'}>
-                <NavLink to={`/users/${userProfile.id}`}>
-                    <Flex flex='1' gap='4' alignItems='center'>
-                        <Avatar name={userProfile.username} src={userProfile.profile_image} />
-                        <Heading size='sm'>{userProfile.username}</Heading>
-                    </Flex>
-                </NavLink>
-                <Flex pt={2}>
-                    <MdEvent />
-                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.date_of_event}</Text>
-                </Flex>
-                <Flex pt={2}>
-                    <IoIosTime />
-                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.start_time}am-{userPost.end_time}pm</Text>
-                </Flex>
-                <Flex pt={2}>
-                    <MdLocationPin />
-                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.location}</Text>
-                </Flex>
-                <ButtonGroup>
-                    <Button _hover={'none'} onClick={handleLike} flex='1' variant='ghost' fontSize={40}>
-                    <Text position={'absolute'} fontSize={20} color={userLiked && 'white'}>{likes.total_likes}</Text>{!userLiked ? <FaRegHeart/> : <FaHeart/>}
-                    </Button>
-                    {
-                        !!isCurrentUserProfile && (
-                            <Button onClick={() => handleDelete(id)} variant='ghost' colorScheme='green'> Delete </Button>
-                        )
-                    }
-                </ButtonGroup>
-            </Box>
-
-            <Box w={'80%'} >
-                <Heading size={'lg'} textAlign={'center'} p={10}>{userPost.title}</Heading>
+        <Flex w={'80%'} h={'80%'} flexDirection={'row'}>
+            <Box w={'100%'} >
+                <Heading size={'lg'} textAlign={'center'} p={10}><i>{userPost.title}</i></Heading>
                 <Flex>
                     {/* box for img */}
-                    <Box w={'50%'}>
-                        <Image objectFit='cover' src={userPost.image} alt='No Pic' className="h-[10em] w-[20em] md:h-[20em] md:w-[35em] shrink-0" />
-                    </Box>
+                    <Flex w={'60%'} justifyContent={'center'}>
+                        <Image borderRadius={10} objectFit='cover' src={userPost.image} alt='No Pic' w={'90%'} h={'60%'} />
+                    </Flex>
                     {/* box for description/ABout the event */}
-                    <Box w={'50%'}>
-                        <Text fontSize={50}>Learn More</Text>
-                        <Text>{userPost.description}</Text>
+                    <Box w={'40%'}>
+                        <Flex justifyContent={'center'}>
+                            <Box background={'grey'} borderRadius={30} padding={'1rem'}>
+                                <NavLink to={`/users/${userProfile.id}`}>
+                                    <Flex flex='1' gap='4' alignItems='center'>
+                                        <Avatar name={userProfile.username} src={userProfile.profile_image} />
+                                        <Heading size='sm'>{userProfile.username}</Heading>
+                                    </Flex>
+                                </NavLink>
+                                <Flex flexDirection={'row'} fontSize={19}>
+                                <Flex pt={2} justifyContent={'center'}>
+                                    <MdEvent />
+                                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.date_of_event}</Text>
+                                </Flex>
+                                <Flex pt={2}>
+                                    <IoIosTime />
+                                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.start_time}am-{userPost.end_time}pm</Text>
+                                </Flex>
+                                <Flex pt={2}>
+                                    <MdLocationPin />
+                                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.location}</Text>
+                                </Flex>
+                                </Flex>
+                                <Flex justifyContent={!!isCurrentUserProfile ? 'space-between' : 'end'} m={'10% -12% 0 -12%'}>
+                                    {
+                                        !!isCurrentUserProfile && (
+                                            <Button _hover={'none'} onClick={() => handleDelete(id)} variant='ghost' colorScheme='green'> Delete </Button>
+                                        )
+                                    }
+                                    <Button _hover={'none'} onClick={handleLike} variant='ghost' fontSize={40}>
+                                        <Text position={'absolute'} fontSize={20} color={userLiked && 'white'}>{likes.total_likes}</Text>{!userLiked ? <FaRegHeart /> : <FaHeart />}
+                                    </Button>
+                                </Flex>
+                            </Box>
+                        </Flex>
+                        <Text fontSize={50}>Details</Text>
+                        <Text py={'5%'}>{userPost.description}</Text>
+                        <AddComment post_id={id} comments={comments} setComments={setComments} />
                     </Box>
                 </Flex>
+
             </Box>
 
         </Flex>
