@@ -1,84 +1,27 @@
-import { Checkbox, CheckboxGroup, SimpleGrid, Box, Flex, FormLabel, FormControl, Input, Center, Stack, Button } from '@chakra-ui/react'
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Autocomplete } from "@react-google-maps/api";
+import { Box, Card, CardBody, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid } from "@chakra-ui/react";
 import PostCard from "./PostCard";
+import Map from "../components/Map";
 
-export default function CommunityPostsCard({ filterClick, filteredPosts, setLocation, setStartTime, setEndTime, setDate }) {
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const place = document.getElementById('location').value
-        console.log(place)
-        setLocation(place);
-    }
-
-    const handleDateChange = (e) => {
-        setDate(e.target.value);
-    }
-
-    const handleStartChange = (e) => {
-        setStartTime(e.target.value);
-    };
-
-    const handleEndChange = (e) => {
-        setEndTime(e.target.value);
-    };
+export default function CommunityPostsCard({ post, index }) {
 
     return (
         <>
-            <div className='h-screen w-full bg-[#D9D9D9] flex flex-col justify-center items-center p-[4rem]'>
-                <Box className="w-full m-[1em]">
-                    {
-                        filterClick === "location" &&
-                        (
-                            <Center>
-                                <FormControl>
-                                    <Autocomplete>
-                                        <Input name='location' id='location' type="text" placeholder="Location" className='w-full' />
-                                    </Autocomplete>
-                                </FormControl>
-                                <Button type="submit" onClick={handleSubmit}>Submit</Button>
-                            </Center>
-                        )
-                    }
-                    {
-                        filterClick === "time" && (
-                            <Center>
-                                <Box>
-                                    <FormControl>
-                                        <Flex direction="row" gap="4">
-                                            <FormLabel htmlFor='startTime'>Start:</FormLabel>
-                                            <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' />
-                                            <FormLabel htmlFor='endTime'>End:</FormLabel>
-                                            <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' />
-                                        </Flex>
-                                    </FormControl>
-                                </Box>
-                            </Center>
-                        )
-                    }
-                    {
-                        filterClick === "date" && (
-                            <Center>
-                                <Box>
-                                    <FormControl>
-                                        <FormLabel htmlFor='date'>Date:</FormLabel>
-                                        <Input onChange={handleDateChange} type='date' id='date' name='date' />
-                                    </FormControl>
-                                </Box>
-                            </Center>
-                        )
-                    }
-                </Box>
-                <Box w='80%' h={'full'} p={4} overflowY={"scroll"}>
-                    <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))' className="p-[1rem]">
-                        {filteredPosts.map((post) => (
-                            <ul overflow="scroll" key={post.id}>
-                                <PostCard post={post} />
-                            </ul>
-                        ))}
-                    </SimpleGrid>
-                </Box>
-            </div>
+            <Card key={index} direction={'row'} className="w-full" >
+                <CardHeader>
+                    <Image src={post.image} alt="post image" className="w-[10em] h-[6em]" />
+                    <Text className="mt-[1em] text-gray-500">Location: {post.location}</Text>
+                </CardHeader>
+                <CardBody className="text-gray-500 flex flex-col w-[100%]">
+                    <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
+                    {/* <Text className="h-[60%]">{post.description}</Text> */}
+                    <Text className="w-[6em]">Date: {post.date_of_event}</Text>
+                    <Text className="w-[6em]">Start: {post.start_time}</Text>
+                    <Text className="w-[6em]">End: {post.end_time}</Text>
+                </CardBody>
+            </Card>
         </>
     );
 }

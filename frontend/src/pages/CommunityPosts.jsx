@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getAllPosts } from "../adapters/post-adapter";
-import CreatePostAndFilterBar from "../components/CreatePostAndFilterBar";
+import CreatePostAndFilterBar from "../components/SearchPostAndFilterBar";
 import CommunityPostsCard from "../components/CommunityPostsCard";
+import Map from "../components/Map";
 
 export default function CommunityPosts() {
     const [posts, setPosts] = useState([]);
@@ -12,6 +13,8 @@ export default function CommunityPosts() {
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
+
+
 
     useEffect(() => {
         const getPosts = async () => {
@@ -32,17 +35,17 @@ export default function CommunityPosts() {
     useEffect(() => {
         let updatedPosts = [...posts];
         console.log(date)
-        if (filterClick && startTime && endTime) {
+        if (location) {
+            updatedPosts = updatedPosts.filter(post => {
+                return post.location === location;
+            });
+        } else if (filterClick && startTime && endTime) {
             updatedPosts = updatedPosts.filter(post => {
                 return post.start_time >= startTime && post.end_time <= endTime;
             });
         } else if (filterClick && date) {
             updatedPosts = updatedPosts.filter(post => {
                 return post.date_of_event === date;
-            });
-        } else if (filterClick && location) {
-            updatedPosts = updatedPosts.filter(post => {
-                return post.location === location;
             });
         }
 
@@ -53,18 +56,16 @@ export default function CommunityPosts() {
 
     return (
         <>
-            <div className="w-full bg-[#D9D9D9]">
-                <CreatePostAndFilterBar
-                    setSortClick={setSortClick}
-                    setFilterClick={setFilterClick}
-                    posts={posts}
+            <div className="w-full h-full">
+                <Map
+                    posts={filteredPosts}
                     setPosts={setPosts}
-                />
-                <CommunityPostsCard
-                    filteredPosts={filteredPosts}
-                    filterClick={filterClick}
-                    setFilteredPosts={setFilteredPosts}
                     setLocation={setLocation}
+                    sortClick={sortClick}
+                    setSortClick={setSortClick}
+                    filterClick={filterClick}
+                    setFilterClick={setFilterClick}
+                    setFilteredPosts={setFilteredPosts}
                     setDate={setDate}
                     setStartTime={setStartTime}
                     setEndTime={setEndTime}
