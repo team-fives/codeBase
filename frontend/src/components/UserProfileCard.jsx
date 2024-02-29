@@ -44,7 +44,7 @@ const UserProfileCard = ({ username, bio, profileimage, isCurrentUserProfile, on
   }, [id]);
   return (
     <Card background={'transparent'} border="0px" boxShadow="0">
-      <CardHeader className="flex flex-col items-center space-y-[1rem]">
+      <CardHeader className="flex flex-col items-center space-y-[1rem] mb-[22.5rem]">
         <Avatar size="2xl" width="10rem" height="10rem" fontSize="5.5rem" name={username} src={updatedProfileImage} />
         {isCurrentUserProfile && (
           <ButtonGroup>
@@ -57,7 +57,7 @@ const UserProfileCard = ({ username, bio, profileimage, isCurrentUserProfile, on
       <CardBody>
         {errorText && <p>Error: {errorText}</p>}
         <Accordion defaultIndex={[0]}>
-          <AccordionItem>
+          <AccordionItem style={{marginTop: '-24rem'}}>
             <h2>
               <AccordionButton>
                 <Box flex='1' textAlign='left'>
