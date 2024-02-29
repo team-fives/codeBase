@@ -57,7 +57,7 @@ export default function CreatePostForm({ posts, setPosts }) {
     setPicture('') //resets/clears input
     setdescription('')
     setEndTime('')
-      setDateOfEvent('');
+    setDateOfEvent('');
     setStartTime('')
 
 
