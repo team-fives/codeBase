@@ -24,7 +24,7 @@ export default function CommunityPostsCard({ post, index }) {
                     <Heading size='md' className="hover:text-[#448960] w-full mb-[0.17em]"><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
                     <Flex diretion={'row'} className="justify-start items-center text-gray-500">
                         <MdLocationPin />
-                        <Text className="w-full text-gray-500 truncate ml-[0.3em]">{post.location}</Text>
+                        <Text className="w-[12em] text-gray-500 ml-[0.3em] truncate">{post.location}</Text>
                     </Flex>
                     <Text className="h-[3.3em] w-full line-clamp-2 text-black-600 mt-[0.25em] mb-[0.16em]">{post.description}</Text>
                     <Flex diretion={'row'} className="justify-start items-center text-gray-500">

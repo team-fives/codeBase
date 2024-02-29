@@ -23,34 +23,30 @@ export default function CreatePostAndFilterBar({ posts, hovered, setHovered, set
     }
 
     return <>
-        <div className="w-full flex flex-col justify-center items-center relative">
-            <Center className="w-full mt-[1em] m-[1em]">
+        <div className="h-[8em] w-full flex flex-row justify-around items-center">
+            <Box className="flex flex-col">
                 {isLoaded && (
-                    <Center className="w-[95%] flex justify-center items-center">
+                    <Center className="w-full flex justify-center items-center">
                         <FormControl className="w-full">
-                            <Autocomplete className="w-full">
-                                <Input name='location' id='location' type="text" placeholder="Location" className='w-full' />
+                            <Autocomplete className="w-full mb-[1em]">
+                                <Input name='location' id='location' type="text" placeholder="Location" className='w-full'/>
                             </Autocomplete>
                         </FormControl>
-                        <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                        <Button type="submit" onClick={handleSubmit} className="mb-[1em]">Submit</Button>
                     </Center>
                 )}
-            </Center>
-            <Center className="w-full">
-                <Card className="bg-white hover:bg-gray-300">
+                <Box className="flex flex-row">
                     <Select placeholder="Sort By:" defaultValue={"latest"} onChange={handleSortClick} className='cursor-pointer'>
                         <option value="latest">Latest</option>
                         <option value="oldest">Oldest</option>
                     </Select>
-                </Card>
-                <Card className="bg-white hover:bg-gray-300" >
                     <Select placeholder="Filter By:" onChange={handleFilterClick} className='cursor-pointer'>
                         <option value="date">Date</option>
                         <option value="time">Start/End Time</option>
                     </Select>
-                </Card>
-                <CreatePostForm posts={posts} setPosts={setPosts} hovered={hovered} className="w-[25%]" />
-            </Center>
+                </Box>
+            </Box>
+            <CreatePostForm posts={posts} setPosts={setPosts} hovered={hovered} />
         </div>
     </>
 }

@@ -94,7 +94,7 @@ export default function CreatePostForm({ posts, setPosts, hovered }) {
 
   return <>
     <Box className="flex flex-col justify-center items-center">
-      <MdOutlinePostAdd size={50} onClick={checkUserLogin} className='cursor-pointer' />
+      <MdOutlinePostAdd onClick={checkUserLogin} className='cursor-pointer h-[5em] w-[5em]' />
       {
         hovered && <h2 onClick={checkUserLogin} className='cursor-pointer '>Create a Post!</h2>
       }
