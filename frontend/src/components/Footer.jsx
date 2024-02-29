@@ -13,7 +13,7 @@ export default function Footer() {
                     </a>
                   </div>
               </h1>
-              <ul style={{ display: "flex", textAlign: "center", justifyContent: "space-between", alignContent: "center", flexDirection: "row", marginBottom: "1rem" }}>
+              <ul style={{ display: "flex", textAlign: "center", justifyContent: "space-between", alignContent: "center", flexDirection: "row" }}>
                   <li><NavLink className="mr-10" to='/About-us'>About Us</NavLink></li>
                   <li><NavLink className="mr-10" to='/Articles'>Learn More</NavLink></li>
                   <li><NavLink className="mr-10" to='/posts'>Community Posts</NavLink></li>
@@ -21,7 +21,7 @@ export default function Footer() {
               </ul>
           </div>
           <div>
-              <ul className="text-white" style={{ display: "flex", textAlign: "center", justifyContent: "space-between", alignContent: "center", flexDirection: "row", marginLeft: "5rem", marginRight: "5rem" }}>
+              <ul className="text-white" style={{ display: "flex", textAlign: "center", justifyContent: "space-between", alignContent: "center", flexDirection: "row", marginLeft: "5rem", marginRight: "5rem", marginTop: "1rem", marginBottom: "0.5rem" }}>
                   <li className="mb-4 mr-2">© 2022 PureLink. All rights reserved.</li>
                   <li className="mb-4 ml-2">Terms · Privacy Policy</li>
               </ul>
