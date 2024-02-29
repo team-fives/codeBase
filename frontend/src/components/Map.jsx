@@ -1,8 +1,8 @@
 
-import { useEffect, useState } from "react";
+import { useContext,useEffect, useState } from "react";
 import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
-import { GoogleMap, Marker, Autocomplete, InfoWindow } from '@react-google-maps/api';
-import { Box, Card, CardBody, Center, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid, FormLabel } from "@chakra-ui/react";
+import { GoogleMap, Marker, Autocomplete, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
+import { Box, Card, CardBody, Center, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid, FormLabel, Button } from "@chakra-ui/react";
 import { fromAddress } from "react-geocode";
 import { googleApi, geoCode } from "../googleApi";
 import { getAllPosts } from "../adapters/post-adapter";
@@ -11,6 +11,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import PostCard from "./PostCard";
 import SearchPostAndFilterBar from "./SearchPostAndFilterBar";
 import CommunityPostsCard from "./CommunityPostsCard";
+import { googleApi } from "../googleApi";
 
 const containerStyle = {
   width: '100%',
@@ -24,8 +25,8 @@ const center = {
 
 
 
-
-export default function Map({ posts, setPosts, sortClick, setSortClick, filterClick, setFilterClick, setDate, setStartTime, setEndTime, setLocation }) {
+export default function Map() {
+  const navigate = useNavigate()
   const [map, setMap] = useState(/** @type google.maps.Map */)
   const [marker, setMarker] = useState(/** @type google.maps.Marker */)
   const [hovered, setHovered] = useState(false);
@@ -46,7 +47,6 @@ export default function Map({ posts, setPosts, sortClick, setSortClick, filterCl
       const cord = results[0].geometry.location
       map.panTo(cord)
       setZoom(12)
-      //setCords([...cords, cord])
       document.getElementById('search').value = ''//last think done
     }
     catch (error) {
@@ -120,21 +120,18 @@ export default function Map({ posts, setPosts, sortClick, setSortClick, filterCl
 
 
       <Box h='85%' w='60%' position='relative'>
-        <IconButton position='absolute' aria-label='Reset Map' icon={<RepeatClockIcon />} onClick={reset} zIndex='1' />
-        <Flex position='absolute' zIndex='1' background='grey' right={0} top={0}>
-
+        <Flex position='absolute' zIndex='1' background='white' right={5} top={5} borderRadius={5}>
           <InputGroup>
             <Autocomplete>
               <FormControl>
-                <Input name='search' id='search' type="text" placeholder="Search Location" />
+                <Input name='search' id='search' type="text" placeholder="Search Location" pr='4rem' focusBorderColor="#45885F" />
               </FormControl>
             </Autocomplete>
-            <InputRightElement>
-              <IconButton aria-label='Search Map' icon={<SearchIcon />} onClick={handleSubmit} />
-            </InputRightElement>
+            <IconButton aria-label='Search Map' icon={<SearchIcon />} onClick={handleSubmit} background='white' />
+            <IconButton aria-label='Reset Map' icon={<RepeatClockIcon />} onClick={reset} background='white' />
           </InputGroup>
-
         </Flex>
+
         <GoogleMap
           onClick={ev => {
             console.log(ev)
@@ -153,39 +150,20 @@ export default function Map({ posts, setPosts, sortClick, setSortClick, filterCl
           onLoad={map => setMap(map)}
           onMouseOut={() => setMarker('')}
         >
-          {posts.map(post => {
-            return <Marker key={post.id} onLoad={marker => console.log(marker)} position={post.cords} onMouseOver={() => setMarker(post)} />
-          })
+          {
+            posts.map(post => {
+              return <Marker key={post.id} onLoad={marker => console.log(marker)} position={post.cords} onMouseOver={() => setMarker(post)} />
+            })
           }
-          {marker && (
-            <NavLink to={`/posts/${marker.id}`}>
+          {
+            marker && (
               <InfoWindow position={marker.cords} onCloseClick={() => setMarker('')}>
-
-                <Flex flexDirection="column" alignItems='center'>
-                  <Heading size='md'>{marker.title}</Heading>
-                  <Image src={marker.image} boxSize='100' />
-                  <Text>{marker.description}</Text>
-                  <Flex>
-                    <Text><b>Start:</b> {marker.start_time}</Text>
-                    <Text><b>End:</b> {marker.end_time}</Text>
-                  </Flex>
-                </Flex>
+                <PostCard post={marker} setMarker={setMarker} />
               </InfoWindow>
-            </NavLink>
-          )}
+            )
+          }
         </GoogleMap>
-      </Box>
-    </Flex>
+      </Box >
+    </Flex >
   </>
 }
-
-{/* <Box h='100%' w='50%'>
-              <Autocomplete>
-                <FormControl>
-                  <Input name='search' id='search' type="text" placeholder="Search Location" />
-                </FormControl>
-              </Autocomplete>
-              <Button type="submit" onClick={handleSubmit}>Submit</Button>
-              <Button onClick={reset}>Reset Map</Button>
-              <CreatePostForm posts={allPostInfo} setPosts={setAllPostInfo} />
-</Box> */}

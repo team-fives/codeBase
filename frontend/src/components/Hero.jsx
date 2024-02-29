@@ -66,7 +66,8 @@ export default function Hero() {
                         key={index}
                         initial={{ x: -200, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.8, delay: index * 0.5 }}
+                        transition={{ duration: 0.8, delay: index * 0.2 }}
+                        whileHover={{ scale: 1.1 }}
                         >
                         <NavLink to={link.to}>
                         <Stack>

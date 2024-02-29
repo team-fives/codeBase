@@ -55,7 +55,7 @@ export default function AddComment({ post_id, comments, setComments }) {
           <FormControl>
             <Input value={content} onClick={checkUserLogin} onChange={handleChange} placeholder='Add Comment' />
           </FormControl>
-          <Button onClick={handleSubmit} colorScheme='green' size='md'>Post</Button>
+          <Button onClick={handleSubmit} colorScheme='green' size='md' style={{ marginBottom: '1rem' }}>Post</Button>
         </CardFooter>
       </Card>
     </>
