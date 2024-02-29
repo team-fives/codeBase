@@ -6,6 +6,7 @@ import joseph from '../imgs/joseph.jpg';
 import david from '../imgs/david.jpg';
 import gonzalo from '../imgs/gonzalo.jpg';
 import { motion } from 'framer-motion';
+import litterClear from '../imgs/litterClear.png';
 
 export default function AboutUsPage() {
   
@@ -84,7 +85,7 @@ export default function AboutUsPage() {
         </Box>
       </Flex>
 
-      <Box align="center" justify="center" flexDirection="column" mt="20" bg="white">
+      <Box align="center" justify="center" flexDirection="column" mt="20" bg="white" overflow={"hidden"}>
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
           <h1 style={{ fontSize: '3rem', marginBottom: '1rem', marginTop: '-1rem', fontWeight: 'bold' }}>
             Meet The Team

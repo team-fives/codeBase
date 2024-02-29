@@ -103,17 +103,17 @@ export default function Post({ id, comments, setComments }) {
                 </Flex>
             </CardHeader>
             <CardBody>
-                <Box className="flex flex-row justify-between">
+                <Box className="flex flex-row justify-between flex-direction-row mr-[1em]">
                     <Heading size='lg'>{userPost.title}</Heading>
                     <Box className="flex flex-row w-[5em] space-x-[1em] mr-[1.5em]">
-                        <Text>Start: {userPost.start_time}</Text>
-                        <Text>End: {userPost.end_time}</Text>
+                        <Text style={{ fontWeight: 'bold'}}>Start: {userPost.start_time}</Text>
+                        <Text style={{ fontWeight: 'bold' }}>End: {userPost.end_time}</Text>
                     </Box>
                 </Box>
-                <Text className="text-gray-600">{userPost.location}</Text>
+                <Text className="text-gray-600" style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>{userPost.location}</Text>
                 <Image objectFit='fill' src={userPost.image} alt='No Pic' className="h-[10em] w-[20em] sm:h-[10em] sm:w-[20em] md:h-[20em] md:w-[35em] shrink-0" />
                 <Box className="flex flex-row">
-                    <Text fontSize='md' className="h-[6em] w-[75%] md:h-[5em] md:w-[75%]m-[1em] overflow-y-scroll">{userPost.description}</Text>
+                    <Text fontSize='md' className="h-[6em] w-[75%] md:h-[5em] md:w-[75%]m-[1em] overflow-y-scroll" style={{ fontWeight: 'bold', marginTop: '1rem' }}>{userPost.description}</Text>
                 </Box>
             </CardBody>
 
@@ -127,10 +127,10 @@ export default function Post({ id, comments, setComments }) {
                 }}
             >
                 <ButtonGroup>
-                    <Button onClick={handleLike} flex='1' variant='ghost'> Like: {likes.total_likes}</Button>
+                    <Button onClick={handleLike} flex='1' variant='ghost' style={{ marginTop: '-2rem', marginBottom: '1rem' }}> Like: {likes.total_likes}</Button>
                     {
                         !!isCurrentUserProfile && (
-                            <Button onClick={() => handleDelete(id)} variant='ghost' colorScheme='green'> Delete </Button>
+                            <Button onClick={() => handleDelete(id)} variant='ghost' colorScheme='green' style={{ marginTop: '-2rem', marginBottom: '1rem' }}> Delete </Button>
                         )
                     }
                 </ButtonGroup>
