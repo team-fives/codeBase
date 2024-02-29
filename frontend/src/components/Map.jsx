@@ -83,11 +83,11 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
             {
               filterClick === "time" && (
                 <Center>
-                  <FormControl className="mt-[5rem]">
+                  <FormControl className="mb-[1em]">
                     <Flex direction="row" gap="4">
-                      <FormLabel htmlFor='startTime'>Start:</FormLabel>
+                      <FormLabel htmlFor='startTime'>From:</FormLabel>
                       <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' />
-                      <FormLabel htmlFor='endTime'>End:</FormLabel>
+                      <FormLabel htmlFor='endTime'>Until:</FormLabel>
                       <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' />
                     </Flex>
                   </FormControl>
@@ -97,7 +97,7 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
             {
               filterClick === "date" && (
                 <Center>
-                  <FormControl className="mt-[5rem]">
+                  <FormControl className="mb-[1em]">
                     <FormLabel htmlFor='date'>Date:</FormLabel>
                     <Input onChange={handleDateChange} type='date' id='date' name='date' />
                   </FormControl>
