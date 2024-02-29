@@ -40,10 +40,10 @@ class Post {
     return posts;
   }
 
-  static async createPost(user_id, title, description, location, image, start_time, end_time, date_of_event, cords) {
+  static async createPost(user_id, titleCap, description, location, image, start_time, end_time, date_of_event, cords) {
     const query = `INSERT INTO posts (user_id, title, description, location, image, end_time, start_time, date_of_event, cords)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING *`;
-    const args = [user_id, title, description, location, image, start_time, end_time, date_of_event, cords];
+    const args = [user_id, titleCap, description, location, image, start_time, end_time, date_of_event, cords];
     const { rows } = await knex.raw(query, args);
     const post = rows[0];
     return new Post(post);

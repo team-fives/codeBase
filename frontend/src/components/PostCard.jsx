@@ -1,24 +1,40 @@
-import { Card, CardHeader, CardBody, CardFooter, Flex, Avatar, Box, Heading, Text, Image, Button, ButtonGroup } from '@chakra-ui/react'
+import { Flex, Box, Heading, Text, Image, Button} from '@chakra-ui/react'
 import { NavLink } from "react-router-dom";
+import { MdEvent, MdLocationPin } from "react-icons/md";
+import { IoIosTime } from "react-icons/io";
+import { TbArrowBack, TbArrowForwardUpDouble } from "react-icons/tb";
 
-export default function PostCard({ post }) {
-    // console.log(post)
+export default function PostCard({ post, setMarker }) {
     return (
         <>
-            <Card key={post.id} className="h-[20em] w-[15em]">
-                <CardHeader>
-                    <Image src={post.image} height="7em" width="15em"/>
-                </CardHeader>
-                <CardBody>
-                    <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
-                    <Text>{post.location}</Text>
-                    <Box className="flex flex-row w-[5em] space-x-[1em] mr-[1.5em]">
-                        <Text>Start: {post.start_time}</Text>
-                        <Text>End: {post.end_time}</Text>
-                        <Text>Date: {post.date_of_event}</Text>
+            <NavLink to={`/posts/${post.id}`}>
+                <Flex w={215} flexDirection='column'>
+                    <Box>
+                        <Image src={post.image} h='100%' w='100%' objectFit={'cover'} maxH={200} />
                     </Box>
-                </CardBody>
-            </Card>
+                    <Box p={'4% 0 7% 4%'}>
+                        <Heading size='md' textAlign={'left'} textColor={'black'}><i>{post.title}</i></Heading>
+                        <Flex pt={2}>
+                            <MdEvent />
+                            <Text fontWeight={500} pl={1} width={'95%'}>{post.date_of_event}</Text>
+                        </Flex>
+                        <Flex pt={2}>
+                            <IoIosTime />
+                            <Text fontWeight={500} pl={1} width={'95%'}>{post.start_time}am-{post.end_time}pm</Text>
+                        </Flex>
+                        <Flex pt={2}>
+                            <MdLocationPin />
+                            <Text fontWeight={500} pl={1} width={'80%'}>{post.location}</Text>
+                        </Flex>
+                    </Box>
+                </Flex>
+                </NavLink>
+                <Flex m={'0 -6% -3% -6%'}justifyContent={'space-between'}>
+                    
+                    <Button background={'none'} onClick={() => {setMarker('')}} fontSize={'20'}><TbArrowBack color="black"/></Button>
+                    <NavLink to={`/posts/${post.id}`}><Button background={'none'} fontSize={'20'}><TbArrowForwardUpDouble color={'#448960'}/></Button></NavLink>
+                </Flex>
+            
         </>
     )
 }

@@ -6,6 +6,10 @@ import CurrentUserContext from "../contexts/current-user-context";
 import { getUser } from "../adapters/user-adapter";
 import { getPost, deletePost } from "../adapters/post-adapter";
 import { getAllPostLikes, getAllUserLikes, findUserLike, uploadLike, deleteLike } from "../adapters/like-adapter";
+import { MdEvent, MdLocationPin } from "react-icons/md";
+import { IoIosTime } from "react-icons/io";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+
 export default function Post({ id, comments, setComments }) {
     const { currentUser } = useContext(CurrentUserContext);
     const navigate = useNavigate();
@@ -14,7 +18,8 @@ export default function Post({ id, comments, setComments }) {
     const isCurrentUserProfile = currentUser && currentUser.id === userPost.user_id;
     const [errorText, setErrorText] = useState(null);
     const [likes, setLikes] = useState([]);
-    const [userLiked, setUserLiked] = useState({});
+    const [userLiked, setUserLiked] = useState(false);
+    const [likeCheckId, setlikeCheckId] = useState()
 
     const handleLike = async () => {
         // Ensure there's a logged-in user
@@ -23,16 +28,15 @@ export default function Post({ id, comments, setComments }) {
             return;
         }
         try {
-            let [likeCheck, error] = await findUserLike(userPost.id, currentUser.id);
-            console.log(likes);
-
-            if (likeCheck === undefined || likeCheck === null) {
+            if (!userLiked) {
                 await uploadLike(userPost.id, currentUser.id);
                 setLikes(prev => ({ ...prev, total_likes: Number(prev.total_likes) + 1 }))
+                setUserLiked(true)
                 console.log('Like uploaded successfully!');
             } else {
-                await deleteLike(userPost.id, currentUser.id, likeCheck.id);
+                await deleteLike(userPost.id, currentUser.id, likeCheckId);
                 setLikes(prev => ({ ...prev, total_likes: Number(prev.total_likes) - 1 }));
+                setUserLiked(false)
                 console.log('Like removed successfully!');
             }
 
@@ -66,18 +70,18 @@ export default function Post({ id, comments, setComments }) {
                 setLikes(response);
             }
         };
-        const loadUserLiked = async () => {
-            try {
-                const userLikes = await getAllUserLikes(currentUser.id);
-                setUserLiked(userLikes); // Assuming userLikes is an array of liked items
-            } catch (error) {
-                setErrorText(error.message);
-            }
+
+        const onLoadLikeCheck = async () => {
+            if(!currentUser) return 
+            let [likeCheck, error] = await findUserLike(id, currentUser.id);
+            if(likeCheck) setUserLiked(true)
+            setlikeCheckId(likeCheck.id)
         }
+
+        onLoadLikeCheck()
         loadPost();
         loadLikes();
-        loadUserLiked();
-    }, [id]);
+    }, []);
 
 
     useEffect(() => {
@@ -90,7 +94,56 @@ export default function Post({ id, comments, setComments }) {
     }, [userPost.user_id]);
 
     return (<>
-        <Card className='w-full h-[75%] sm:w-[50%] md:w-[40%] lg:w-[40%] mt-[2em] mb-[2em]' >
+        <Flex w={'90%'} h={'100vh'} flexDirection={'row'}>
+            {/* box with user, important info, maybe copy location button */}
+            <Box w={'20%'} justifyContent={'center'}>
+                <NavLink to={`/users/${userProfile.id}`}>
+                    <Flex flex='1' gap='4' alignItems='center'>
+                        <Avatar name={userProfile.username} src={userProfile.profile_image} />
+                        <Heading size='sm'>{userProfile.username}</Heading>
+                    </Flex>
+                </NavLink>
+                <Flex pt={2}>
+                    <MdEvent />
+                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.date_of_event}</Text>
+                </Flex>
+                <Flex pt={2}>
+                    <IoIosTime />
+                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.start_time}am-{userPost.end_time}pm</Text>
+                </Flex>
+                <Flex pt={2}>
+                    <MdLocationPin />
+                    <Text fontWeight={500} pl={1} width={'95%'}>{userPost.location}</Text>
+                </Flex>
+                <ButtonGroup>
+                    <Button _hover={'none'} onClick={handleLike} flex='1' variant='ghost' fontSize={40}>
+                    <Text position={'absolute'} fontSize={20} color={userLiked && 'white'}>{likes.total_likes}</Text>{!userLiked ? <FaRegHeart/> : <FaHeart/>}
+                    </Button>
+                    {
+                        !!isCurrentUserProfile && (
+                            <Button onClick={() => handleDelete(id)} variant='ghost' colorScheme='green'> Delete </Button>
+                        )
+                    }
+                </ButtonGroup>
+            </Box>
+
+            <Box w={'80%'} >
+                <Heading size={'lg'} textAlign={'center'} p={10}>{userPost.title}</Heading>
+                <Flex>
+                    {/* box for img */}
+                    <Box w={'50%'}>
+                        <Image objectFit='cover' src={userPost.image} alt='No Pic' className="h-[10em] w-[20em] md:h-[20em] md:w-[35em] shrink-0" />
+                    </Box>
+                    {/* box for description/ABout the event */}
+                    <Box w={'50%'}>
+                        <Text fontSize={50}>Learn More</Text>
+                        <Text>{userPost.description}</Text>
+                    </Box>
+                </Flex>
+            </Box>
+
+        </Flex>
+        {/* <Card className='w-full h-[75%] sm:w-[50%] md:w-[40%] lg:w-[40%] mt-[2em] mb-[2em]' >
             <CardHeader>
                 <Flex spacing='4'>
                     <NavLink to={`/users/${userProfile.id}`}>
@@ -135,6 +188,6 @@ export default function Post({ id, comments, setComments }) {
                     }
                 </ButtonGroup>
             </CardFooter>
-        </Card>
+        </Card> */}
     </>)
 }
