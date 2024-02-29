@@ -28,11 +28,11 @@ export default function CreatePostAndFilterBar({ posts, hovered, setHovered, set
                 {isLoaded && (
                     <Center className="w-full flex justify-center items-center">
                         <FormControl className="w-full">
-                            <Autocomplete className="w-full">
-                                <Input name='location' id='location' type="text" placeholder="Location" className='w-full' />
+                            <Autocomplete className="w-full mb-[1em]">
+                                <Input name='location' id='location' type="text" placeholder="Location" className='w-full'/>
                             </Autocomplete>
                         </FormControl>
-                        <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                        <Button type="submit" onClick={handleSubmit} className="mb-[1em]">Submit</Button>
                     </Center>
                 )}
                 <Box className="flex flex-row">

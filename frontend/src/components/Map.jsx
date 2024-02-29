@@ -1,4 +1,3 @@
-
 import { useContext, useEffect, useState } from "react";
 import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
 import { GoogleMap, Marker, Autocomplete, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
@@ -76,8 +75,8 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
 
   return <>
     <Flex flexDir={'row'} h='100vh' w='100%' alignItems='center' justifyContent='center' className="z-8">
-      <Box w='35%' h='85%' background='grey' className="rounded-lg">
-        <Card className=" w-full bg-white hover:bg-gray-300" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+      <Box w='35%' h='85%' background='#45885f' className="rounded-lg">
+        <Card className=" w-full bg-white hover:bg-white" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
           <SearchPostAndFilterBar posts={posts} setPosts={setPosts} setLocation={setLocation} setSortClick={setSortClick} setFilterClick={setFilterClick} setDate={setDate} hovered={hovered} setStartTime={setStartTime} setEndTime={setEndTime} />
           <Box>
             {
@@ -85,10 +84,10 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
                 <Center>
                   <FormControl className="mb-[1em]">
                     <Flex direction="row" gap="4">
-                      <FormLabel htmlFor='startTime'>From:</FormLabel>
-                      <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' />
-                      <FormLabel htmlFor='endTime'>Until:</FormLabel>
-                      <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' />
+                      <FormLabel htmlFor='startTime' style={{marginLeft: "0.5rem", marginTop: "0.75rem"}}>Start:</FormLabel>
+                      <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' style={{marginLeft: "-1.25rem", marginTop: "0.25rem"}} />
+                      <FormLabel htmlFor='endTime' style={{marginLeft: "-0.5rem", marginTop: "0.75rem"}}>End:</FormLabel>
+                      <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' style={{marginLeft: "-1.25rem", marginTop: "0.25rem", marginRight: "0.5rem"}} />
                     </Flex>
                   </FormControl>
                 </Center>
@@ -97,9 +96,9 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
             {
               filterClick === "date" && (
                 <Center>
-                  <FormControl className="mb-[1em]">
-                    <FormLabel htmlFor='date'>Date:</FormLabel>
-                    <Input onChange={handleDateChange} type='date' id='date' name='date' />
+                  <FormControl className="mb-[1em] flex">
+                    <FormLabel htmlFor='date' style={{marginLeft: "2rem", marginRight: "-0.75rem", marginTop: "0.5rem"}}>Date:</FormLabel>
+                    <Input onChange={handleDateChange} type='date' id='date' name='date' style={{marginLeft: "1.25rem", width: "16rem"}} />
                   </FormControl>
                 </Center>
               )
