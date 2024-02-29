@@ -42,7 +42,7 @@ export default function AddComment({ post_id, comments, setComments }) {
         <CardHeader className="flex flex-col items-start">
           <Heading>Voice Your Thoughts!</Heading>
         </CardHeader>
-        <CardBody overflowY="auto">
+        <CardBody overflowY={'auto'} maxH={'30rem'}>
           {
             comments.length > 0 ?
               comments.map((comment) => { //maps through all comments arrs and displays

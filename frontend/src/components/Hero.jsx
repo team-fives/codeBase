@@ -13,7 +13,6 @@ export default function Hero() {
     const MotionFlex = motion(Flex);
 
     const navLinks = [
-        { to: "/map", icon: FaMapLocationDot, title: "Maps", description: "Explore a map of your destinations of interest!" },
         { to: "/posts", icon: BsChatSquareTextFill, title: "Community Posts", description: "Explore our community uploads & find an event that speaks to you!" },
         { to: "/About-us", icon: FaPeopleGroup, title: "About Us", description: "Learn about the team who brought this all together!" },
         { to: "/Articles", icon: IoNewspaper, title: "Articles", description: "Discover articles on waste's impact and steps towards sustainability!" },
