@@ -37,13 +37,13 @@ export default function CreatePostAndFilterBar({ posts, hovered, setHovered, set
                 )}
             </Center>
             <Center className="w-full">
-                <Card className="mt-[1em] bg-white hover:bg-gray-300">
+                <Card className="bg-white hover:bg-gray-300">
                     <Select placeholder="Sort By:" defaultValue={"latest"} onChange={handleSortClick} className='cursor-pointer'>
                         <option value="latest">Latest</option>
                         <option value="oldest">Oldest</option>
                     </Select>
                 </Card>
-                <Card className="mt-[1em] bg-white hover:bg-gray-300" >
+                <Card className="bg-white hover:bg-gray-300" >
                     <Select placeholder="Filter By:" onChange={handleFilterClick} className='cursor-pointer'>
                         <option value="date">Date</option>
                         <option value="time">Start/End Time</option>
