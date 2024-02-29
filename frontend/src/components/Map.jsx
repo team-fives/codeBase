@@ -1,8 +1,8 @@
 
-import { useContext,useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
 import { GoogleMap, Marker, Autocomplete, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
-import { Box, Card, CardBody, Center, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid, FormLabel, Button } from "@chakra-ui/react";
+import { Box, Card, CardBody, Center, VStack, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid, FormLabel, Button } from "@chakra-ui/react";
 import { fromAddress } from "react-geocode";
 import { googleApi, geoCode } from "../googleApi";
 import { getAllPosts } from "../adapters/post-adapter";
@@ -83,11 +83,11 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
             {
               filterClick === "time" && (
                 <Center>
-                  <FormControl className="mt-[5rem]">
+                  <FormControl className="mb-[1em]">
                     <Flex direction="row" gap="4">
-                      <FormLabel htmlFor='startTime'>Start:</FormLabel>
+                      <FormLabel htmlFor='startTime'>From:</FormLabel>
                       <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' />
-                      <FormLabel htmlFor='endTime'>End:</FormLabel>
+                      <FormLabel htmlFor='endTime'>Until:</FormLabel>
                       <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' />
                     </Flex>
                   </FormControl>
@@ -97,7 +97,7 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
             {
               filterClick === "date" && (
                 <Center>
-                  <FormControl className="mt-[5rem]">
+                  <FormControl className="mb-[1em]">
                     <FormLabel htmlFor='date'>Date:</FormLabel>
                     <Input onChange={handleDateChange} type='date' id='date' name='date' />
                   </FormControl>
@@ -106,14 +106,10 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
             }
           </Box>
         </Card>
-        <Box w='100%' h={'77%'} overflowY={"scroll"}>
-          <Flex flexDir={'column'} className="p-[1rem]">
-            {posts.map((post, index) => (
-              <ul overflow="scroll" key={post.id}>
-                <CommunityPostsCard post={post} index={index} />
-              </ul>
-            ))}
-          </Flex>
+        <Box w='100%' h={'76%'} overflowY="scroll" className="mt-[1rem] pl-[1rem] pr-[1rem]">
+          <VStack spacing={3}> {/* This applies the spacing between each child component */}
+            {posts.map((post, index) => <CommunityPostsCard key={index} post={post} index={index} />)}
+          </VStack>
         </Box>
       </Box>
 
