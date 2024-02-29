@@ -29,7 +29,7 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
   const [map, setMap] = useState(/** @type google.maps.Map */)
   const [marker, setMarker] = useState(/** @type google.maps.Marker */)
   const [hovered, setHovered] = useState(false);
-  const [hoverHeight, setHoverHeight] = useState(0);
+  // const [hoverHeight, setHoverHeight] = useState(0);
   const [zoom, setZoom] = useState(10)
   const { isLoaded } = googleApi()
   geoCode()
