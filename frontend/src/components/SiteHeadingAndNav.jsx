@@ -54,9 +54,6 @@ export default function SiteHeadingAndNav() {
                     transition={{ duration: 0.2 }}
                   >
                     <ul className="m-2 w-20">
-                      <motion.li whileHover={{ scale: 1.1, backgroundColor: '#45885f', borderRadius: '5px'}} whileTap={{ scale: 0.9 }}> 
-                        <NavLink className="block py-1" to="/map">Data Maps</NavLink>
-                      </motion.li>
                       <motion.li whileHover={{ scale: 1.1, backgroundColor: '#45885f', borderRadius: '5px'}} whileTap={{ scale: 0.9 }}>
                         <NavLink className="block py-1" to="/posts">Posts</NavLink>
                       </motion.li>
