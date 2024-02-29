@@ -24,7 +24,7 @@ import {
   Flex,
 } from '@chakra-ui/react'
 
-export default function CreatePostForm({ posts, setPosts }) {
+export default function CreatePostForm({ posts, setPosts, hovered }) {
   const { isLoaded } = googleApi()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate();
@@ -45,28 +45,28 @@ export default function CreatePostForm({ posts, setPosts }) {
 
   // if(!currentUser) return <Navigate to='/login'/>
   const handleSubmit = async (event) => {
-    try{
-    event.preventDefault();
-    const user_id = currentUser.id
-    const titleCap = title.toLowerCase().split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
-    const location = document.getElementById('location').value
-    const { results } = await fromAddress(location)
-    const cords = results[0].geometry.location
-    document.getElementById('location').value = ''
-    setTitle('')
-    setPicture('') //resets/clears input
-    setdescription('')
-    setEndTime('')
-    setDateOfEvent('');
-    setStartTime('')
+    try {
+      event.preventDefault();
+      const user_id = currentUser.id
+      const titleCap = title.toLowerCase().split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
+      const location = document.getElementById('newLocation').value
+      const { results } = await fromAddress(location)
+      const cords = results[0].geometry.location
+      document.getElementById('newLocation').value = ''
+      setTitle('')
+      setPicture('') //resets/clears input
+      setdescription('')
+      setEndTime('')
+      setDateOfEvent('');
+      setStartTime('')
 
 
 
-    const [post, error] = await createPost({ user_id, titleCap, image, location, cords, description, start_time: startTime, end_time: endTime,  date_of_event: dateOfEvent }); //post data into db
-    if (error) return setErrorText(error.message);
-    console.log(cords)
-    setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
-    onClose()
+      const [post, error] = await createPost({ user_id, titleCap, image, location, cords, description, start_time: startTime, end_time: endTime, date_of_event: dateOfEvent }); //post data into db
+      if (error) return setErrorText(error.message);
+      console.log(cords)
+      setPosts([post, ...posts]); //spreads all current post in db and adds the recently made one first
+      onClose()
     }
     catch (error) {
       setTimeout(() => {
@@ -84,7 +84,7 @@ export default function CreatePostForm({ posts, setPosts }) {
     if (name === 'startTime') setStartTime(value);
     if (name === 'endTime') setEndTime(value)
     if (name === 'description') setdescription(value);
-    if (name === 'dateOfEvent') setDateOfEvent(value); 
+    if (name === 'dateOfEvent') setDateOfEvent(value);
   };
 
   const checkUserLogin = () => { //checks if theres a user logged in when create post button is clicked
@@ -93,7 +93,12 @@ export default function CreatePostForm({ posts, setPosts }) {
   }
 
   return <>
-    <MdOutlinePostAdd size={50} onClick={checkUserLogin} />
+    <Box className="flex flex-col justify-center items-center">
+      <MdOutlinePostAdd size={50} onClick={checkUserLogin} className='cursor-pointer' />
+      {
+        hovered && <h2 onClick={checkUserLogin} className='cursor-pointer '>Create a Post!</h2>
+      }
+    </Box>
 
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -103,30 +108,30 @@ export default function CreatePostForm({ posts, setPosts }) {
         <ModalBody>
           <FormControl>
             <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '-1rem' }}>Title</FormLabel>
-            <Input onChange={handleChange} value={title} type="text" id="title" name="title" placeholder="Title" focusBorderColor="#45885f"  />
+            <Input onChange={handleChange} value={title} type="text" id="title" name="title" placeholder="Title" focusBorderColor="#45885f" />
 
             <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '0.5rem' }}>Picture</FormLabel>
             <UploadcareComponent onUploadFinish={handleUploadFinish} />
 
             <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '0.5rem' }}>Date of Event</FormLabel>
-            <Input onChange={handleChange} value={dateOfEvent} type="date" name="dateOfEvent" focusBorderColor="#45885f"/>
+            <Input onChange={handleChange} value={dateOfEvent} type="date" name="dateOfEvent" focusBorderColor="#45885f" />
 
             <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '0.5rem' }}>Description</FormLabel>
-            <Input onChange={handleChange} value={description} type='text' id='description' name='description' placeholder="Description" focusBorderColor="#45885f"/>
+            <Input onChange={handleChange} value={description} type='text' id='description' name='description' placeholder="Description" focusBorderColor="#45885f" />
             <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '0.5rem' }}>Location</FormLabel>
-          {isLoaded && (
-            <Autocomplete>
-              <Input name='location' id='location' type="text" onChange={handleChange} placeholder="Location" focusBorderColor="#45885f"/>
-            </Autocomplete>
-          )}
+            {isLoaded && (
+              <Autocomplete>
+                <Input name='location' id='newLocation' type="text" onChange={handleChange} placeholder="Location" focusBorderColor="#45885f" />
+              </Autocomplete>
+            )}
             <Box>
-            <Flex>
-              <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '1rem' }}>Start</FormLabel>
-              <Input onChange={handleChange} value={startTime} type='time' id='startTime' name='startTime' style={{marginTop: '1rem', marginLeft: '-0.5rem'}} focusBorderColor="#45885f"/>
-              <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '1rem', marginLeft: '0.5rem' }}>End</FormLabel>
-              <Input onChange={handleChange} value={endTime} type='time' id='endTime' name='endTime' style={{marginTop: '1rem', marginLeft: '-0.5rem'}} focusBorderColor="#45885f"/>
-            </Flex>
-          </Box>
+              <Flex>
+                <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '1rem' }}>Start</FormLabel>
+                <Input onChange={handleChange} value={startTime} type='time' id='startTime' name='startTime' style={{ marginTop: '1rem', marginLeft: '-0.5rem' }} focusBorderColor="#45885f" />
+                <FormLabel style={{ color: '#45885f', fontWeight: '600', fontSize: '1.5rem', marginBottom: '-0.25rem', marginTop: '1rem', marginLeft: '0.5rem' }}>End</FormLabel>
+                <Input onChange={handleChange} value={endTime} type='time' id='endTime' name='endTime' style={{ marginTop: '1rem', marginLeft: '-0.5rem' }} focusBorderColor="#45885f" />
+              </Flex>
+            </Box>
           </FormControl>
 
         </ModalBody>
