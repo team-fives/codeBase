@@ -6,7 +6,6 @@ import joseph from '../imgs/joseph.jpg';
 import david from '../imgs/david.jpg';
 import gonzalo from '../imgs/gonzalo.jpg';
 import { motion } from 'framer-motion';
-import litterClear from '../imgs/litterClear.png';
 
 export default function AboutUsPage() {
   
