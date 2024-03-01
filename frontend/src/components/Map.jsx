@@ -84,9 +84,9 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
                 <Center>
                   <FormControl className="mb-[1em]">
                     <Flex direction="row" gap="4">
-                      <FormLabel htmlFor='startTime' style={{marginLeft: "0.5rem", marginTop: "0.75rem"}}>Start:</FormLabel>
+                      <FormLabel htmlFor='startTime' style={{marginLeft: "0.5rem", marginTop: "0.75rem"}}>From:</FormLabel>
                       <Input onChange={handleStartChange} type='time' id='startTime' name='startTime' style={{marginLeft: "-1.25rem", marginTop: "0.25rem"}} />
-                      <FormLabel htmlFor='endTime' style={{marginLeft: "-0.5rem", marginTop: "0.75rem"}}>End:</FormLabel>
+                      <FormLabel htmlFor='endTime' style={{marginLeft: "-0.5rem", marginTop: "0.75rem"}}>Until:</FormLabel>
                       <Input onChange={handleEndChange} type='time' id='endTime' name='endTime' style={{marginLeft: "-1.25rem", marginTop: "0.25rem", marginRight: "0.5rem"}} />
                     </Flex>
                   </FormControl>
@@ -105,7 +105,7 @@ export default function Map({ posts, setPosts, setLocation, sortClick, setSortCl
             }
           </Box>
         </Card>
-        <Box w='100%' h={'76%'} overflowY="scroll" className="mt-[1rem] pl-[1rem] pr-[1rem]">
+        <Box w='100%' h={filterClick ? '66%' : '76%'} overflowY="scroll" className="mt-[1rem] pl-[1rem] pr-[1rem]">
           <VStack spacing={3}> {/* This applies the spacing between each child component */}
             {posts.map((post, index) => <CommunityPostsCard key={index} post={post} index={index} />)}
           </VStack>

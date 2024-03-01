@@ -29,18 +29,18 @@ export default function CreatePostAndFilterBar({ posts, hovered, setHovered, set
                     <Center className="w-full flex justify-center items-center">
                         <FormControl className="w-full">
                             <Autocomplete className="w-full mb-[1em]">
-                                <Input name='location' id='location' type="text" placeholder="Location" className='w-full'/>
+                                <Input name='location' id='location' type="text" placeholder="Filter by Location" className='w-full'/>
                             </Autocomplete>
                         </FormControl>
                         <Button type="submit" onClick={handleSubmit} className="mb-[1em]">Submit</Button>
                     </Center>
                 )}
                 <Box className="flex flex-row">
-                    <Select placeholder="Sort By:" defaultValue={"latest"} onChange={handleSortClick} className='cursor-pointer'>
-                        <option value="latest">Latest</option>
-                        <option value="oldest">Oldest</option>
+                    <Select onChange={handleSortClick} className='cursor-pointer'>
+                        <option value="latest">Latest Posts</option>
+                        <option value="oldest">Earlier Posts</option>
                     </Select>
-                    <Select placeholder="Filter By:" onChange={handleFilterClick} className='cursor-pointer'>
+                    <Select placeholder="No Filters" onChange={handleFilterClick} className='cursor-pointer'>
                         <option value="date">Date</option>
                         <option value="time">Start/End Time</option>
                     </Select>
