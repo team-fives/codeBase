@@ -5,6 +5,7 @@ import CarouselCard from './CarouselCards';
 import { Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { motion } from 'framer-motion';
+import { NavLink } from 'react-router-dom';
 
 export default function ArticlesCarousel() {
     const responsive = {
@@ -66,7 +67,7 @@ export default function ArticlesCarousel() {
 
   return (
       <div className='articlesCarousel' style={{ position: 'relative', padding: '0 8rem', marginLeft: '1rem', marginTop: '2rem', marginBottom: '5rem' }}>
-          <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '2rem', textAlign: 'center' }}>Learn More</h1>
+          <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '2rem', textAlign: 'center' }}><NavLink to={'/Articles'}>Learn More</NavLink></h1>
           <Carousel
               responsive={responsive}
               arrows={false}

@@ -30,13 +30,14 @@ export default function Post({ id, comments, setComments }) {
             return;
         }
         try {
-            if (!userLiked) {
+            let [likeCheck, error] = await findUserLike(id, currentUser.id)
+            if (!likeCheck || !userLiked) {
                 await uploadLike(userPost.id, currentUser.id);
                 setLikes(prev => ({ ...prev, total_likes: Number(prev.total_likes) + 1 }))
                 setUserLiked(true)
                 console.log('Like uploaded successfully!');
             } else {
-                await deleteLike(userPost.id, currentUser.id, likeCheckId);
+                await deleteLike(userPost.id, currentUser.id, likeCheck.id);
                 setLikes(prev => ({ ...prev, total_likes: Number(prev.total_likes) - 1 }));
                 setUserLiked(false)
                 console.log('Like removed successfully!');
@@ -83,7 +84,7 @@ export default function Post({ id, comments, setComments }) {
         onLoadLikeCheck()
         loadPost();
         loadLikes();
-    }, []);
+    }, [id]);
 
 
     useEffect(() => {

@@ -14,7 +14,7 @@ export default function CommunityPostsCard({ post, index }) {
         <>
             <Card key={index} direction={'row'}  className="w-full justify-center" >
                 <Box className="m-[1em]">
-                    <Image src={post.image} alt="post image" className="w-[10em] h-[6em]" />
+                    <Image src={post.image} alt="post image" className="w-[10em] h-[6em]" objectFit={'cover'}/>
                     <Flex diretion={'row'} className="justify-center items-center mt-[1em] text-gray-500">
                         <MdEvent />
                         <Text className="w-[10em] ml-[0.3em]">{post.date_of_event}</Text>
