@@ -1,12 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { SearchIcon, RepeatClockIcon } from '@chakra-ui/icons'
-import { GoogleMap, Marker, Autocomplete, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
-import { Box, Card, CardBody, Center, VStack, CardHeader, CardFooter, Flex, FormControl, Heading, Image, Text, IconButton, Input, SkeletonText, InputGroup, InputRightElement, SimpleGrid, FormLabel, Button } from "@chakra-ui/react";
+import { GoogleMap, Marker, Autocomplete, InfoWindow } from '@react-google-maps/api';
+import { Box, Card, Center, VStack, Flex, FormControl, IconButton, Input, SkeletonText, InputGroup, FormLabel } from "@chakra-ui/react";
 import { fromAddress } from "react-geocode";
 import { googleApi, geoCode } from "../googleApi";
-import { getAllPosts } from "../adapters/post-adapter";
-import CreatePostForm from "./CreatePostForm";
-import { NavLink, useNavigate } from "react-router-dom";
 import PostCard from "./PostCard";
 import SearchPostAndFilterBar from "./SearchPostAndFilterBar";
 import CommunityPostsCard from "./CommunityPostsCard";
@@ -23,12 +20,10 @@ const center = {
 
 
 
-export default function Map({ posts, setPosts, setLocation, sortClick, setSortClick, filterClick, setFilterClick, setFilteredPosts, setDate, setStartTime, setEndTime }) {
-  const navigate = useNavigate()
+export default function Map({ posts, setPosts, setLocation, setSortClick, filterClick, setFilterClick, setDate, setStartTime, setEndTime }) {
   const [map, setMap] = useState(/** @type google.maps.Map */)
   const [marker, setMarker] = useState(/** @type google.maps.Marker */)
   const [hovered, setHovered] = useState(false);
-  const [hoverHeight, setHoverHeight] = useState(0);
   const [zoom, setZoom] = useState(10)
   const { isLoaded } = googleApi()
   geoCode()
