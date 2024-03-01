@@ -18,13 +18,14 @@ export default function CommunityPosts() {
 
     useEffect(() => {
         const getPosts = async () => {
+            console.log(sortClick)
             const allPosts = await getAllPosts();
             let sortedPosts;
             if (sortClick === "latest") {
                 sortedPosts = allPosts.sort((a, b) => new Date(b.date_created) - new Date(a.date_created));
             } else if (sortClick === "oldest") {
                 sortedPosts = allPosts.sort((a, b) => new Date(a.date_created) - new Date(b.date_created));
-            }
+            } 
             setPosts(sortedPosts);
             setFilteredPosts(sortedPosts);
         };

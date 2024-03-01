@@ -47,13 +47,12 @@ const UserProfileCard = ({ username, bio, profileimage, isCurrentUserProfile, on
       <CardBody>
         {errorText && <p>Error: {errorText}</p>}
         <Accordion defaultIndex={[0]}>
-          <AccordionItem style={{marginTop: '-24rem'}}>
+          <AccordionItem style={{ marginTop: '-24rem' }}>
             <h2>
               <AccordionButton>
                 <Box flex='1' textAlign='left'>
-                  Comments Made
+                  Comments Made:
                 </Box>
-                <AccordionIcon />
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>

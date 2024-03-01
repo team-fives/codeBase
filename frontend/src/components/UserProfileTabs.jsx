@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, NavLink, useParams } from "react-router-dom";
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
-import { Wrap, WrapItem, Avatar, Button, ButtonGroup } from "@chakra-ui/react";
+import { Wrap, WrapItem, Avatar, Button, ButtonGroup, VStack } from "@chakra-ui/react";
 import { Image, Card, CardHeader, Heading, CardBody, CardFooter } from '@chakra-ui/react'
 import { getAllUserPosts } from "../adapters/post-adapter";
 import { getAllUserLikes } from "../adapters/like-adapter";
 import { getPost } from "../adapters/post-adapter";
 import { deletePost } from "../adapters/post-adapter";
+import CommunityPostsCard from "./CommunityPostsCard";
 
 const UserProfileTabs = ({ username, id, bio, isCurrentUserProfile }) => {
     const [userPosts, setUserPosts] = useState([]);
@@ -40,8 +41,8 @@ const UserProfileTabs = ({ username, id, bio, isCurrentUserProfile }) => {
         loadPosts();
         loadLikes(id);
     }, []);
-    // console.log(userPosts)
-    return <div className="h-full w-[40rem] flex flex-col space-y-0 left-0 pt-[5rem]" style={{marginRight: "10rem"}}>
+
+    return <div className="h-full w-[40rem] flex flex-col space-y-0 left-0 pt-[5rem]" style={{ marginRight: "10rem" }}>
         <div className="flex flex-col h-[13rem] w-full">
             <h1 className="text-3xl">{username}</h1>
             <h2 className="text-xl mt-[2rem]">{bio}</h2>
@@ -53,56 +54,31 @@ const UserProfileTabs = ({ username, id, bio, isCurrentUserProfile }) => {
             </TabList>
             <TabPanels>
                 <TabPanel overflow={"auto"} className="h-[20rem] ">
-                    <ul className="flex flex-col">{
-                        userPosts.length > 0 ?
-                            userPosts.map((post, index) => {
-                                return (
-                                    <Card key={index} direction={'row'}>
-                                        <CardHeader>
-                                            <Image src={post.image} alt="post image" />
-                                            <Text className="mt-[1em] text-gray-500">Location: {post.location}</Text>
-                                        </CardHeader>
-                                        <CardBody >
-                                            <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
-                                            <Text className="h-[60%]">{post.description}</Text>
-                                            {!!isCurrentUserProfile &&
-                                                (
-                                                    <ButtonGroup spacing='2' colorScheme='green' className="bottom-0">
-                                                        <Button onClick={() => handleDelete(post.id)} variant='ghost' colorScheme='green'>
-                                                            Delete
-                                                        </Button>
-                                                    </ButtonGroup>
-                                                )
-                                            }
-                                        </CardBody>
-                                        <CardFooter className="text-gray-500 flex flex-col">
-                                            <Text className="w-[6em]">Start: {post.start_time}</Text>
-                                            <Text className="w-[6em]">End: {post.end_time}</Text>
-                                        </CardFooter>
-                                    </Card>
-                                )
-                            })
-                            : <p>No posts yet</p>
-                    }</ul>
+                    <VStack spacing={2} >
+                        {
+                            userPosts.length > 0 ?
+                                userPosts.map((post, index) => {
+                                    return (
+                                        <CommunityPostsCard key={index} post={post} isCurrentUserProfile={isCurrentUserProfile} handleDelete={handleDelete} />
+                                    )
+                                })
+                                : <p>No posts yet</p>
+                        }
+                    </VStack>
+
                 </TabPanel>
                 <TabPanel overflow={"auto"} className="h-[20rem] ">
-                    <ul className="flex flex-col">{
-                        userLikes.length > 0 ?
-                            userLikes.map((post, index) => {
-                                return (
-                                    <Card key={index}>
-                                        <CardHeader>
-                                            <Text>Location: {post.location}</Text>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <Heading size='md'><NavLink to={`/posts/${post.id}`}>{post.title}</NavLink></Heading>
-                                            <Text>{post.description}</Text>
-                                        </CardBody>
-                                    </Card>
-                                )
-                            })
-                            : <p>No likes yet</p>
-                    }</ul>
+                    <VStack spacing={2} >
+                        {
+                            userLikes.length > 0 ?
+                                userLikes.map((post, index) => {
+                                    return (
+                                        <CommunityPostsCard key={index} post={post} isCurrentUserProfile={isCurrentUserProfile} handleDelete={handleDelete} />
+                                    )
+                                })
+                                : <p>No likes yet</p>
+                        }
+                    </VStack>
                 </TabPanel>
             </TabPanels>
         </Tabs>
