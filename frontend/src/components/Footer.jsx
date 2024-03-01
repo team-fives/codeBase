@@ -17,7 +17,6 @@ export default function Footer() {
                   <li><NavLink className="mr-10" to='/About-us'>About Us</NavLink></li>
                   <li><NavLink className="mr-10" to='/Articles'>Learn More</NavLink></li>
                   <li><NavLink className="mr-10" to='/posts'>Community Posts</NavLink></li>
-                  <li><NavLink className="mr-10" to='/map'>Maps</NavLink></li>
               </ul>
           </div>
           <div>
